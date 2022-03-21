@@ -1,23 +1,22 @@
 package com.app.model;
 
 import java.util.Calendar;
-import java.util.Date;
 
-public class Test implements Subscription{
+public class Monthly implements Subscription{
 
     private Calendar emission;
     private Calendar expiration;
     private int accessCounter;
-    private int validityCounter;
+    private final TypeOfMonthlySub type;
 
 
-    Test(Calendar emission, int validityCounter){
+    Monthly(Calendar emission, TypeOfMonthlySub type){
+        this.type = type;
         this.emission = emission;
         this.expiration = Calendar.getInstance();
         expiration.setLenient(true);
-        expiration.set(Calendar.DAY_OF_MONTH, emission.get(Calendar.DAY_OF_MONTH) + 14);
+        expiration.set(Calendar.MONTH, emission.get(Calendar.MONTH) + type.nMonth);
         this.accessCounter = 0;
-        this.validityCounter = validityCounter;
     }
 
 
@@ -30,6 +29,6 @@ public class Test implements Subscription{
 
     @Override
     public boolean isValid(Calendar actualDate) {
-        return accessCounter < validityCounter || !isExpired(actualDate);
+        return !isExpired(actualDate);
     }
 }
