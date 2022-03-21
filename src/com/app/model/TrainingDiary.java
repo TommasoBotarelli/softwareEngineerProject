@@ -6,10 +6,13 @@ public class TrainingDiary {
 
     private Costumer costumerRef;
     private ArrayList<TrainingCard> trainingCardsContainer;
+    private ArrayList<Evaluation> evaluationHistory;
 
 
     TrainingDiary(Costumer costumer){
         this.costumerRef = costumer;
+        trainingCardsContainer = new ArrayList<TrainingCard>();
+        evaluationHistory = new ArrayList<Evaluation>();
     }
 
 
@@ -18,8 +21,18 @@ public class TrainingDiary {
     }
 
 
+    public void addEvaluation(Evaluation evaluation){
+        evaluationHistory.add(evaluation);
+    }
+
+
     public ArrayList<TrainingCard> getTrainingCardsContainer() {
         return trainingCardsContainer;
+    }
+
+
+    public ArrayList<Evaluation> getEvaluationHistory() {
+        return evaluationHistory;
     }
 
 
