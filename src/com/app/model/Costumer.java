@@ -5,8 +5,8 @@ public class Costumer {
     private Badge myBadge;
     private TrainingDiary myTrainingDiary;
 
-    Costumer(String name, String surname, String email){
-        myInfo = new CostumerInfo(name, surname, email);
+    Costumer(CostumerInfo info){
+        myInfo = info;
     }
 
 

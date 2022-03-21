@@ -2,14 +2,12 @@ package com.app.model;
 
 import java.util.Calendar;
 
-public class Daily implements Subscription{
+public class Daily implements TypeOfAccess {
     private boolean used;
-    private Calendar dayOfUse;
 
 
-    Daily(Calendar dayOfUse){
+    Daily(){
         this.used = false;
-        this.dayOfUse = dayOfUse;
     }
 
 
