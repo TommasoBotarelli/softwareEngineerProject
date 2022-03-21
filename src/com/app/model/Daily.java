@@ -5,7 +5,6 @@ import java.util.Calendar;
 public class Daily implements TypeOfAccess {
     private boolean used;
 
-
     Daily(){
         this.used = false;
     }
@@ -13,13 +12,12 @@ public class Daily implements TypeOfAccess {
 
     @Override
     public boolean isValid(Calendar actualDate) {
-        boolean canAccess = true;
+        return !used;
+    }
 
-        if (!used)
-            used = true;
-        else
-            canAccess = false;
 
-        return canAccess;
+    @Override
+    public void addAccess() {
+        used = true;
     }
 }

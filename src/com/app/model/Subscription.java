@@ -39,4 +39,11 @@ public class Subscription implements TypeOfAccess {
 
         return isValid;
     }
+
+
+    @Override
+    public void addAccess() {
+        nAccess++;
+    }
+
 }
