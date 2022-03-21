@@ -4,8 +4,8 @@ import java.util.Calendar;
 
 public class Evaluation {
 
-    private Calendar date;
-    private Measurement measurement;
+    private final Calendar date;
+    private final Measurement measurement;
     private String comments;
     private int progressLevel;
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class TrainingDiary {
 
-    private Costumer costumerRef;
+    private final Costumer costumerRef;
     private ArrayList<TrainingCard> trainingCardsContainer;
     private ArrayList<Evaluation> evaluationHistory;
 

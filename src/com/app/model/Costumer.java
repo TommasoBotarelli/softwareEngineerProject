@@ -9,9 +9,11 @@ public class Costumer {
         myInfo = new CostumerInfo(name, surname, email);
     }
 
+
     public void setBadge(Badge badge){
         this.myBadge = badge;
     }
+
 
     public CostumerInfo getInfo(){
         return myInfo;
