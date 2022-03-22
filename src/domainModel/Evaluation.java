@@ -20,7 +20,6 @@ public class Evaluation {
         this.comments = comments;
     }
 
-
     public void setProgressLevel(int progressLevel) {
         this.progressLevel = progressLevel;
     }

@@ -13,7 +13,11 @@ public class Access {
         this.costumer = costumer;
         this.date = actualDate;
         accessValid = costumer.canAccess(actualDate);
-        costumer.setAccess(actualDate);
+        costumer.setAccess(actualDate);     //TODO maybe is better to put this logic in controller?
     }
 
+
+    public Costumer getCostumer() {
+        return costumer;
+    }
 }

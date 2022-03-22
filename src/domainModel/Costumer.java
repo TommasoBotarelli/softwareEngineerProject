@@ -3,7 +3,13 @@ package domainModel;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/*
+TODO la logica di accesso deve essere tolta dal Costumer e l'accesso viene controllato tramite il database
+ */
+
 public class Costumer {
+
+    private long id;
 
     private CostumerInfo myInfo;
     private Badge myBadge;
@@ -17,6 +23,14 @@ public class Costumer {
         myTypeOfAccess = new ArrayList<>();
     }
 
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public void setBadge(Badge badge){
         this.myBadge = badge;
@@ -33,22 +47,22 @@ public class Costumer {
     }
 
 
-    public boolean canAccess(Calendar actualeDate){
+    public boolean canAccess(Calendar actualDate){
         boolean canAccess = false;
 
         for (TypeOfAccess access : myTypeOfAccess){
-            canAccess = canAccess || access.isValid(actualeDate);
+            canAccess = canAccess || access.isValid(actualDate);
         }
 
         return canAccess;
     }
 
 
-    private ArrayList<TypeOfAccess> getMyValidAccess(Calendar actualdate){
+    private ArrayList<TypeOfAccess> getMyValidAccess(Calendar actualDate){
         ArrayList<TypeOfAccess> validAccessList = new ArrayList<>();
 
         for (TypeOfAccess access : this.myTypeOfAccess){
-            if (access.isValid(actualdate))
+            if (access.isValid(actualDate))
                 validAccessList.add(access);
         }
 
@@ -56,10 +70,10 @@ public class Costumer {
     }
 
 
-    public void setAccess(Calendar actualdate){
+    public void setAccess(Calendar actualDate){
         boolean setAccess = false;
 
-        ArrayList<TypeOfAccess> validAccessList = this.getMyValidAccess(actualdate);
+        ArrayList<TypeOfAccess> validAccessList = this.getMyValidAccess(actualDate);
 
         /*
         Il cliente potrebbe avere abbonamenti e accessi singoli, in questo caso

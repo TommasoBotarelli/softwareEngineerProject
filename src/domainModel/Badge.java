@@ -1,7 +1,7 @@
 package domainModel;
 
 public class Badge {
-    private Costumer costumer;
+    private final Costumer costumer;
 
     Badge(Costumer costumer){
         this.costumer = costumer;
