@@ -1,4 +1,4 @@
-package com.app.model;
+package domainModel;
 
 import java.util.Calendar;
 
@@ -13,6 +13,7 @@ public class Access {
         this.costumer = costumer;
         this.date = actualDate;
         accessValid = costumer.canAccess(actualDate);
+        costumer.setAccess(actualDate);
     }
 
 }

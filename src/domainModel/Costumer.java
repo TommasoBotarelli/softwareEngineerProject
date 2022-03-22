@@ -1,4 +1,4 @@
-package com.app.model;
+package domainModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,8 +12,8 @@ public class Costumer {
     private ArrayList<TypeOfAccess> myTypeOfAccess;
 
 
-    Costumer(CostumerInfo info){
-        myInfo = info;
+    Costumer(String name, String surname, String email){
+        myInfo = new CostumerInfo(name, surname, email);
         myTypeOfAccess = new ArrayList<>();
     }
 

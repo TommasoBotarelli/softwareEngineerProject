@@ -1,9 +1,18 @@
-package com.app.model;
+package domainModel;
 
 public class Turnstile {
 
     private boolean operative;
+    private boolean open;
 
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
 
     public boolean isOperative() {
         return operative;
@@ -13,6 +22,5 @@ public class Turnstile {
     public void setOperative(boolean operative) {
         this.operative = operative;
     }
-
 
 }

@@ -1,4 +1,4 @@
-package com.app.model;
+package domainModel;
 
 public class PersonalTrainer {
     private EmployeeInfo personalTrainerInfo;
