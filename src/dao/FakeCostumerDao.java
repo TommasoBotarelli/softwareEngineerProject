@@ -9,7 +9,7 @@ public class FakeCostumerDao implements CostumerDao{
     private ArrayList<Costumer> costumers;
 
 
-    FakeCostumerDao(){
+    public FakeCostumerDao(){
         costumers = new ArrayList<>();
     }
 
@@ -30,7 +30,8 @@ public class FakeCostumerDao implements CostumerDao{
     }
 
     @Override
-    public Costumer getFromId(long id) {
-        return (Costumer) costumers.stream().filter(costumer -> id == costumer.getId());
+    public Costumer getFromName(String name, String surname) {
+        return (Costumer) costumers.stream().filter(costumer ->  costumer.getInfo().name.equals(name) &&
+                costumer.getInfo().surname.equals(surname));
     }
 }

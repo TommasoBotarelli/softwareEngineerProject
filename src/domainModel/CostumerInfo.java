@@ -1,9 +1,9 @@
 package domainModel;
 
 public class CostumerInfo {
-    private String name;
-    private String surname;
-    private String email;
+    public String name;
+    public String surname;
+    public String email;
 
     CostumerInfo(String name, String surname, String email){
         this.name = name;

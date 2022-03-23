@@ -8,5 +8,5 @@ public interface CostumerDao {
     void add(Costumer costumer);
     void delete(Costumer costumer);
     ArrayList<Costumer> getAll();
-    Costumer getFromId(long id);
+    Costumer getFromName(String name, String surname);
 }
