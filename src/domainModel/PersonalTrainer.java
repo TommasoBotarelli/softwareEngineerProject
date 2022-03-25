@@ -3,7 +3,7 @@ package domainModel;
 public class PersonalTrainer {
     private EmployeeInfo personalTrainerInfo;
 
-    PersonalTrainer(String name, String surname, String phoneNumber){
+    public PersonalTrainer(String name, String surname, String phoneNumber){
         this.personalTrainerInfo = new EmployeeInfo(name, surname, phoneNumber);
     }
 

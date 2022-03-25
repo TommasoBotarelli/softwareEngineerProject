@@ -10,5 +10,5 @@ public interface TypeOfAccessDao {
     void delete(TypeOfAccess typeOfAccess);
     ArrayList<TypeOfAccess> getAll();
     ArrayList<TypeOfAccess> getFromCostumer(Costumer costumer);
-    ArrayList<TypeOfAccess> getFromDate(Calendar date);
+    void deleteAllTypeOfAccessFromCostumer(Costumer costumer);
 }

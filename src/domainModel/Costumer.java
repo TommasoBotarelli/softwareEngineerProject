@@ -78,7 +78,7 @@ public class Costumer {
         /*
         Il cliente potrebbe avere abbonamenti e accessi singoli, in questo caso
         se ha un abbonamento entra usando quello, altrimenti utilizza uno dei
-        daily che ha. Si rende necessatio l'utilizzo di instanceof.
+        daily che ha. Si rende necessario l'utilizzo di instanceof.
         */
 
         int index = 0;

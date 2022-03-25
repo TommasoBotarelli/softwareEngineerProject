@@ -10,7 +10,7 @@ public class FakeBilldao implements BillDao{
     ArrayList<Bill> bills;
 
 
-    FakeBilldao(){
+    public FakeBilldao(){
         bills = new ArrayList<>();
     }
 

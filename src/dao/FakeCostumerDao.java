@@ -30,8 +30,14 @@ public class FakeCostumerDao implements CostumerDao{
     }
 
     @Override
-    public Costumer getFromName(String name, String surname) {
-        return (Costumer) costumers.stream().filter(costumer ->  costumer.getInfo().name.equals(name) &&
-                costumer.getInfo().surname.equals(surname));
+    public ArrayList<Costumer> getFromName(String name, String surname) {
+        ArrayList<Costumer> returnArray = new ArrayList<>();
+
+        for (Costumer costumer : costumers){
+            if(costumer.getInfo().name.equals(name) && costumer.getInfo().surname.equals(surname))
+                returnArray.add(costumer);
+        }
+
+        return returnArray;
     }
 }

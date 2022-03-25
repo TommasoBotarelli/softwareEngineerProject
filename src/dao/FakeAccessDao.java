@@ -9,7 +9,7 @@ public class FakeAccessDao implements AccessDao{
 
     ArrayList<Access> acceses;
 
-    FakeAccessDao(){
+    public FakeAccessDao(){
         acceses = new ArrayList<>();
     }
 

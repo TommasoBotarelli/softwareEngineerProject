@@ -8,6 +8,7 @@ public class Subscription implements TypeOfAccess {
     private Calendar expiration;
     private final TypeOfSub type;
     private int nAccess;
+    private Costumer myCostumer;
 
 
     Subscription(Calendar emission, TypeOfSub type){
@@ -46,4 +47,13 @@ public class Subscription implements TypeOfAccess {
         nAccess++;
     }
 
+
+    @Override
+    public Costumer getCostumer() {
+        return myCostumer;
+    }
+
+    public void setCostumer(Costumer costumer) {
+        this.myCostumer = costumer;
+    }
 }
