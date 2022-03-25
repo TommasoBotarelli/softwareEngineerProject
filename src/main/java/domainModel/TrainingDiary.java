@@ -11,8 +11,8 @@ public class TrainingDiary {
 
     TrainingDiary(Costumer costumer){
         this.costumerRef = costumer;
-        trainingCardsContainer = new ArrayList<TrainingCard>();
-        evaluationHistory = new ArrayList<Evaluation>();
+        trainingCardsContainer = new ArrayList<>();
+        evaluationHistory = new ArrayList<>();
     }
 
 
@@ -37,7 +37,7 @@ public class TrainingDiary {
 
 
     public ArrayList<TrainingCard> getTrainingCardFromPT(PersonalTrainer pt){
-        ArrayList<TrainingCard> personalTrainerCards = new ArrayList<TrainingCard>();
+        ArrayList<TrainingCard> personalTrainerCards = new ArrayList<>();
 
         for (TrainingCard tCard : trainingCardsContainer){
             if (tCard.getPersonalTrainer() == pt)
