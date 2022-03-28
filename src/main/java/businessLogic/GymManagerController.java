@@ -28,9 +28,17 @@ public class GymManagerController {
         return personalTrainerDao.getAllPersonalTrainers();
     }
 
-    public void addPersonalTrainer(String name, String surname, String phoneNumber){
-        PersonalTrainer personalTrainer = new PersonalTrainer(name, surname, phoneNumber);
-        personalTrainerDao.add(personalTrainer);
+    public boolean addPersonalTrainer(String name, String surname, String phoneNumber){
+        boolean addComplete = false;
+
+        PersonalTrainer newPersonalTrainer = new PersonalTrainer(name, surname, phoneNumber);
+
+        if (!personalTrainerDao.getAllPersonalTrainers().contains(newPersonalTrainer)){
+            personalTrainerDao.add(newPersonalTrainer);
+            addComplete = true;
+        }
+
+        return addComplete;
     }
 
     public void deletePersonalTrainer(PersonalTrainer personalTrainer){

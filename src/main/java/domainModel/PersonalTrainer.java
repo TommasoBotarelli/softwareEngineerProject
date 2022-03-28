@@ -41,4 +41,9 @@ public class PersonalTrainer {
                 this.surname.equalsIgnoreCase(((PersonalTrainer)obj).getSurname()) &&
                 this.phoneNumber.equalsIgnoreCase(((PersonalTrainer)obj).getPhoneNumber());
     }
+
+    public boolean isEqualInInfo(String name, String surname, String phoneNumber){
+        return this.name.equalsIgnoreCase(name) && this.surname.equalsIgnoreCase(surname)
+                && this.phoneNumber.equalsIgnoreCase(phoneNumber);
+    }
 }
