@@ -62,8 +62,9 @@ public class GymManagerController {
         return costumerDao.getAll();
     }
 
-    public ArrayList<Costumer> searchCostumer(String name, String surname){
+    public ArrayList<Costumer> searchCostumerFromNameSurname(String name, String surname){
         return costumerDao.getFromNameSurname(name, surname);
     }
+
 
 }
