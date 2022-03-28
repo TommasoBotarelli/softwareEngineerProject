@@ -58,4 +58,9 @@ public class Daily implements TypeOfAccess {
     public void addAccess() {
         this.canAccess = false;
     }
+
+    @Override
+    public long getBillID() {
+        return this.billID;
+    }
 }

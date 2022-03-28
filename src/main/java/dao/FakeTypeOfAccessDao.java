@@ -45,7 +45,6 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao{
     @Override
     public void deleteAllTypeOfAccessFromCostumer(Costumer costumer) {
         typeOfAccesses.removeIf(typeOfAccess -> typeOfAccess.getCostumer().equals(costumer));
-
     }
 
 

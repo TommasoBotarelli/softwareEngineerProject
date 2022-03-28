@@ -67,4 +67,8 @@ public class GymManagerController {
     public ArrayList<TypeOfAccess> getSubOfCostumer(Costumer costumer){
         return typeOfAccessDao.getFromCostumer(costumer);
     }
+
+    public Bill getBillOfSub(TypeOfAccess typeOfAccess){
+        return billDao.getFromID(typeOfAccess.getBillID());
+    }
 }

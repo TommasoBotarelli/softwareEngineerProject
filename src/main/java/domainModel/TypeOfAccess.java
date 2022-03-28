@@ -11,4 +11,5 @@ public interface TypeOfAccess {
     void setEmission(LocalDate date);
     void setCostumer(Costumer costumer);
     void addAccess();
+    long getBillID();
 }

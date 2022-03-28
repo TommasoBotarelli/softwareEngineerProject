@@ -64,6 +64,11 @@ public class Subscription implements TypeOfAccess {
         this.nAccess++;
     }
 
+    @Override
+    public long getBillID() {
+        return this.billID;
+    }
+
     public TypeOfSub getType() {
         return type;
     }

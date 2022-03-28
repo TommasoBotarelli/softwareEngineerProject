@@ -38,4 +38,9 @@ public class FakeBilldao implements BillDao{
 
         return billOfDay;
     }
+
+    @Override
+    public Bill getFromID(long id) {
+        return (Bill)bills.stream().filter(bill -> bill.getId() == id);
+    }
 }
