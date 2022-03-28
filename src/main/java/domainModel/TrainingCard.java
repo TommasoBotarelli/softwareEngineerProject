@@ -1,17 +1,17 @@
 package domainModel;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class TrainingCard {
 
     private String exercises;
     private int level;
-    private Calendar emission;
-    private Calendar expiration;
+    private LocalDate emission;
+    private LocalDate expiration;
     private PersonalTrainer personalTrainer;
 
 
-    TrainingCard(String exercises, int level, Calendar emission, Calendar expiration, PersonalTrainer personalTrainer){
+    TrainingCard(String exercises, int level, LocalDate emission, LocalDate expiration, PersonalTrainer personalTrainer){
         this.exercises = exercises;
         this.level = level;
         this.emission = emission;
@@ -29,17 +29,23 @@ public class TrainingCard {
     }
 
 
-    public void setEmission(Calendar emission) {
+    public void setEmission(LocalDate emission) {
         this.emission = emission;
     }
 
-
-    public void setExpiration(Calendar expiration) {
+    public void setExpiration(LocalDate expiration) {
         this.expiration = expiration;
     }
 
-
     public PersonalTrainer getPersonalTrainer() {
         return personalTrainer;
+    }
+
+    public LocalDate getEmission() {
+        return emission;
+    }
+
+    public LocalDate getExpiration() {
+        return expiration;
     }
 }
