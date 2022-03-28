@@ -51,4 +51,9 @@ public class TrainingDiary {
     public Costumer getCostumerRef() {
         return costumerRef;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.costumerRef.equals(((TrainingDiary)obj).getCostumerRef());
+    }
 }
