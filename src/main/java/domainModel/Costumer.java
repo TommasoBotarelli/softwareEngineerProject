@@ -44,4 +44,11 @@ public class Costumer {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.name.equalsIgnoreCase(((Costumer)obj).getName()) &&
+                this.surname.equalsIgnoreCase(((Costumer)obj).getSurname()) &&
+                this.phoneNumber.equalsIgnoreCase(((Costumer)obj).getPhoneNumber());
+    }
 }

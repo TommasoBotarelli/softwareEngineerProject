@@ -15,7 +15,6 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao{
         typeOfAccesses = new ArrayList<>();
     }
 
-
     @Override
     public void add(TypeOfAccess typeOfAccess) {
         typeOfAccesses.add(typeOfAccess);
@@ -36,7 +35,7 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao{
         ArrayList<TypeOfAccess> returnArray = new ArrayList<>();
 
         for (TypeOfAccess typeOfAccess : typeOfAccesses){
-            if (typeOfAccess.getCostumer() == costumer)
+            if (typeOfAccess.getCostumer().equals(costumer))
                 returnArray.add(typeOfAccess);
         }
 
@@ -45,7 +44,7 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao{
 
     @Override
     public void deleteAllTypeOfAccessFromCostumer(Costumer costumer) {
-        typeOfAccesses.removeIf(typeOfAccess -> typeOfAccess.getCostumer() == costumer);
+        typeOfAccesses.removeIf(typeOfAccess -> typeOfAccess.getCostumer().equals(costumer));
 
     }
 

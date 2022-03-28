@@ -1,14 +1,10 @@
 package businessLogic;
 
 import dao.*;
-import domainModel.Access;
-import domainModel.Bill;
-import domainModel.Costumer;
-import domainModel.PersonalTrainer;
+import domainModel.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class GymManagerController {
 
@@ -16,12 +12,14 @@ public class GymManagerController {
     BillDao billDao;
     AccessDao accessDao;
     CostumerDao costumerDao;
+    TypeOfAccessDao typeOfAccessDao;
 
     public GymManagerController(){
         personalTrainerDao = new FakePersonalTrainerDao();
         billDao = new FakeBilldao();
         accessDao = new FakeAccessDao();
         costumerDao = new FakeCostumerDao();
+        typeOfAccessDao = new FakeTypeOfAccessDao();
     }
 
     public ArrayList<PersonalTrainer> getAllPersonalTrainer(){
@@ -66,5 +64,7 @@ public class GymManagerController {
         return costumerDao.getFromNameSurname(name, surname);
     }
 
-
+    public ArrayList<TypeOfAccess> getSubOfCostumer(Costumer costumer){
+        return typeOfAccessDao.getFromCostumer(costumer);
+    }
 }
