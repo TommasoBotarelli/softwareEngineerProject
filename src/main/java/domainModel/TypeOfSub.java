@@ -26,4 +26,15 @@ public enum TypeOfSub {
         this.cost = typeOfSub.cost;
     }
 
+    public int getnMonth() {
+        return nMonth;
+    }
+
+    public int getnDay() {
+        return nDay;
+    }
+
+    public float getCost() {
+        return cost;
+    }
 }

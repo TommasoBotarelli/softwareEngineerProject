@@ -85,18 +85,23 @@ public class ReceptionistController {
         if (type.equalsIgnoreCase("SUBSCRIPTION")){
             if (subscriptionType.equalsIgnoreCase("PROVA")){
                 TypeOfAccess sub = new Subscription(date, TypeOfSub.PROVA, costumer, billID);
+                sub.setExpiration(date.plusDays(TypeOfSub.PROVA.getnDay()));
             }
             else if (subscriptionType.equalsIgnoreCase("MENSILE")){
                 TypeOfAccess sub = new Subscription(date, TypeOfSub.MENSILE, costumer, billID);
+                sub.setExpiration(date.plusMonths(TypeOfSub.MENSILE.getnMonth()));
             }
             else if (subscriptionType.equalsIgnoreCase("TRIMESTRALE")){
                 TypeOfAccess sub = new Subscription(date, TypeOfSub.TRIMESTRALE, costumer, billID);
+                sub.setExpiration(date.plusMonths(TypeOfSub.TRIMESTRALE.getnMonth()));
             }
             else if (subscriptionType.equalsIgnoreCase("SEMESTRALE")){
                 TypeOfAccess sub = new Subscription(date, TypeOfSub.SEMESTRALE, costumer, billID);
+                sub.setExpiration(date.plusMonths(TypeOfSub.SEMESTRALE.getnMonth()));
             }
             else if (subscriptionType.equalsIgnoreCase("ANNUALE")){
                 TypeOfAccess sub = new Subscription(date, TypeOfSub.ANNUALE, costumer, billID);
+                sub.setExpiration(date.plusMonths(TypeOfSub.ANNUALE.getnMonth()));
             }
         }
         else if (type.equalsIgnoreCase("DAILY")) {
