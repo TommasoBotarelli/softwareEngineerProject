@@ -1,59 +1,74 @@
 package domainModel;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Subscription implements TypeOfAccess {
 
-    private Calendar emission;
-    private Calendar expiration;
-    private final TypeOfSub type;
-    private int nAccess;
+    private LocalDate emission;
+    private LocalDate expiration;
+    private TypeOfSub type;
     private Costumer myCostumer;
 
+    private int nAccess;
+    private long billID;
 
-    Subscription(Calendar emission, TypeOfSub type){
-        this.type = type;
+
+    public Subscription(LocalDate emission, TypeOfSub type, Costumer costumer, long billID){
         this.emission = emission;
-        this.expiration = Calendar.getInstance();
-        expiration.setLenient(true);
-
-        if (type == TypeOfSub.PROVA)
-            expiration.set(Calendar.DAY_OF_MONTH, emission.get(Calendar.DAY_OF_MONTH) + type.nDay);
-        else
-            expiration.set(Calendar.MONTH, emission.get(Calendar.MONTH) + type.nMonth);
+        this.type = type;
+        this.myCostumer = costumer;
+        this.nAccess = 0;
+        this.billID = billID;
     }
-
-
-    private boolean isExpired(Calendar actualDate){
-        return this.expiration.get(Calendar.MONTH) < actualDate.get(Calendar.MONTH) ||
-                (this.expiration.get(Calendar.MONTH) == actualDate.get(Calendar.MONTH) &&
-                        this.expiration.get(Calendar.DAY_OF_MONTH) < actualDate.get(Calendar.DAY_OF_MONTH));
-    }
-
 
     @Override
-    public boolean isValid(Calendar actualDate) {
-        boolean isValid = !isExpired(actualDate);
+    public boolean isValid(LocalDate actualDate) {
+        boolean canAccess = this.type != TypeOfSub.PROVA || this.nAccess < 3;
 
-        if(this.type == TypeOfSub.PROVA)
-            isValid = isValid && this.nAccess < 3;
-
-        return isValid;
+        return (this.emission.isBefore(actualDate) || this.emission.isEqual(actualDate)) &&
+                (this.expiration.isAfter(actualDate) || this.expiration.isEqual(actualDate)) && canAccess;
     }
-
-
-    @Override
-    public void addAccess() {
-        nAccess++;
-    }
-
 
     @Override
     public Costumer getCostumer() {
-        return myCostumer;
+        return null;
     }
 
+    @Override
+    public LocalDate getEmission() {
+        return null;
+    }
+
+    @Override
+    public LocalDate getExpiration() {
+        return null;
+    }
+
+    @Override
+    public void setExpiration(LocalDate date) {
+        this.expiration = date;
+    }
+
+    @Override
+    public void setEmission(LocalDate date) {
+        this.emission = date;
+    }
+
+    @Override
     public void setCostumer(Costumer costumer) {
         this.myCostumer = costumer;
+    }
+
+    @Override
+    public void addAccess() {
+        this.nAccess++;
+    }
+
+    public TypeOfSub getType() {
+        return type;
+    }
+
+    public void setType(TypeOfSub type) {
+        this.type = type;
     }
 }

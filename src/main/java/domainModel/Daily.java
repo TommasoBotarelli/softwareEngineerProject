@@ -1,25 +1,28 @@
 package domainModel;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Daily implements TypeOfAccess {
-    private boolean used;
+    private LocalDate emission;
+    private LocalDate expiration;
     private Costumer myCostumer;
 
-    Daily(){
-        this.used = false;
+    private boolean canAccess;
+    private long billID;
+
+    public Daily(LocalDate emission, long billID, Costumer costumer){
+        this.emission = emission;
+        this.expiration = LocalDate.MAX;
+        this.canAccess = true;
+        this.billID = billID;
+        this.myCostumer = costumer;
     }
 
 
     @Override
-    public boolean isValid(Calendar actualDate) {
-        return !used;
-    }
-
-
-    @Override
-    public void addAccess() {
-        used = true;
+    public boolean isValid(LocalDate actualDate) {
+        return (this.expiration.isAfter(actualDate) || this.expiration.isEqual(actualDate)) &&
+                (this.emission.isBefore(actualDate) || this.emission.isEqual(actualDate)) && this.canAccess;
     }
 
     @Override
@@ -27,7 +30,32 @@ public class Daily implements TypeOfAccess {
         return myCostumer;
     }
 
+    @Override
+    public LocalDate getEmission() {
+        return this.emission;
+    }
+
+    @Override
+    public LocalDate getExpiration() {
+        return this.expiration;
+    }
+
+    @Override
+    public void setExpiration(LocalDate date) {
+        this.expiration = date;
+    }
+
+    @Override
+    public void setEmission(LocalDate date) {
+        this.emission = date;
+    }
+
     public void setCostumer(Costumer costumer) {
         this.myCostumer = costumer;
+    }
+
+    @Override
+    public void addAccess() {
+        this.canAccess = false;
     }
 }

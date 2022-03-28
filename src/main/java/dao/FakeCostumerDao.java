@@ -13,7 +13,6 @@ public class FakeCostumerDao implements CostumerDao{
         costumers = new ArrayList<>();
     }
 
-
     @Override
     public void add(Costumer costumer) {
         costumers.add(costumer);
@@ -30,14 +29,20 @@ public class FakeCostumerDao implements CostumerDao{
     }
 
     @Override
-    public ArrayList<Costumer> getFromName(String name, String surname) {
+    public ArrayList<Costumer> getFromNameSurname(String name, String surname) {
         ArrayList<Costumer> returnArray = new ArrayList<>();
 
         for (Costumer costumer : costumers){
-            if(costumer.getInfo().name.equals(name) && costumer.getInfo().surname.equals(surname))
+            if(costumer.getName().equals(name) && costumer.getSurname().equals(surname))
                 returnArray.add(costumer);
         }
 
         return returnArray;
+    }
+
+    @Override
+    public Costumer getSelectedCostumer(String name, String surname, String phoneNumber) {
+        return (Costumer) costumers.stream().filter(costumer -> costumer.getName().equals(name) &&
+                costumer.getSurname().equals(surname) && costumer.getPhoneNumber().equals(phoneNumber));
     }
 }

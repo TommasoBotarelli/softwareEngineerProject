@@ -1,14 +1,14 @@
 package domainModel;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Bill {
 
     private float payment;
-    private Calendar date;
+    private LocalDate date;
 
 
-    Bill(float payment, Calendar date){
+    public Bill(float payment, LocalDate date){
         this.payment = payment;
         this.date = date;
     }
@@ -18,7 +18,7 @@ public class Bill {
         return payment;
     }
 
-    public Calendar getDate() {
+    public LocalDate getDate() {
         return date;
     }
 }

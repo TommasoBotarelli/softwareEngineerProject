@@ -20,4 +20,10 @@ public enum TypeOfSub {
         this.cost = cost;
     }
 
+    TypeOfSub(TypeOfSub typeOfSub){
+        this.nDay = typeOfSub.nDay;
+        this.nMonth = typeOfSub.nMonth;
+        this.cost = typeOfSub.cost;
+    }
+
 }

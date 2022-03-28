@@ -1,23 +1,29 @@
 package domainModel;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Access {
 
     private Costumer costumer;
-    private final boolean accessValid;
-    private Calendar date;
+    private boolean accessValid;
+    private LocalDate date;
 
 
-    Access(Costumer costumer, Calendar actualDate) {
+    public Access(Costumer costumer, LocalDate actualDate) {
         this.costumer = costumer;
         this.date = actualDate;
-        accessValid = costumer.canAccess(actualDate);
-        costumer.setAccess(actualDate);     //TODO maybe is better to put this logic in controller?
     }
 
 
     public Costumer getCostumer() {
         return costumer;
+    }
+
+    public boolean isAccessValid() {
+        return accessValid;
+    }
+
+    public void setAccessValid(boolean accessValid) {
+        this.accessValid = accessValid;
     }
 }

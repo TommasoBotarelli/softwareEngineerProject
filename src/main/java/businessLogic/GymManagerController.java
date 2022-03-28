@@ -6,6 +6,7 @@ import domainModel.Bill;
 import domainModel.Costumer;
 import domainModel.PersonalTrainer;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -41,11 +42,7 @@ public class GymManagerController {
     }
 
     public ArrayList<Bill> getBillsOfTheDay(int day, int month, int year){
-        Calendar date = Calendar.getInstance();
-        date.set(Calendar.DAY_OF_MONTH, day);
-        date.set(Calendar.MONTH, month);
-        date.set(Calendar.YEAR, year);
-
+        LocalDate date = LocalDate.of(year, month, day);
         return billDao.getFromDate(date);
     }
 
@@ -58,7 +55,7 @@ public class GymManagerController {
     }
 
     public ArrayList<Costumer> searchCostumer(String name, String surname){
-        return costumerDao.getFromName(name, surname);
+        return costumerDao.getFromNameSurname(name, surname);
     }
 
 }
