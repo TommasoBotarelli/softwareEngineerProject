@@ -12,6 +12,14 @@ public class ReceptionistController {
     TypeOfAccessDao typeOfAccessDao = new FakeTypeOfAccessDao();
     AccessDao accessDao = new FakeAccessDao();
     BillDao billDao = new FakeBilldao();
+    ReceptionistDao receptionistDao = new FakeReceptionistDao();
+
+    Receptionist thisReceptionist;
+
+    public boolean setCurrentReceptionist(String name, String surname, String phoneNumber){
+        thisReceptionist = receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);
+        return thisReceptionist != null;
+    }
 
     public void addCostumer(String name, String surname, String email) {
         Costumer newCostumer = new Costumer(name, surname, email);
