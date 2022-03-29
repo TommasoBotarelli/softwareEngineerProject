@@ -12,7 +12,7 @@ public class TrainingCard {
     private boolean standard;
 
 
-    TrainingCard(String exercises, int level, LocalDate emission, LocalDate expiration, boolean standard, PersonalTrainer personalTrainer){
+    public TrainingCard(String exercises, int level, LocalDate emission, LocalDate expiration, boolean standard, PersonalTrainer personalTrainer){
         this.exercises = exercises;
         this.level = level;
         this.emission = emission;

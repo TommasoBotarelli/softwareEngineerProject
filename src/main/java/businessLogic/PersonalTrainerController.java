@@ -1,12 +1,12 @@
 package businessLogic;
 
-import dao.FakePersonalTrainerDao;
-import dao.FakeTrainingDiaryDao;
-import dao.PersonalTrainerDao;
-import dao.TrainingDiaryDao;
+import dao.*;
+import domainModel.Costumer;
 import domainModel.PersonalTrainer;
 import domainModel.TrainingCard;
+import domainModel.TrainingDiary;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PersonalTrainerController {
@@ -14,6 +14,7 @@ public class PersonalTrainerController {
 
     PersonalTrainerDao personalTrainerDao = new FakePersonalTrainerDao();
     TrainingDiaryDao trainingDiaryDao = new FakeTrainingDiaryDao();
+    CostumerDao costumerDao = new FakeCostumerDao();
 
     public boolean setThisPersonalTrainer(String name, String surname, String phoneNumber){
         thisPersonalTrainer = personalTrainerDao.getPersonalTrainer(name, surname, phoneNumber);
@@ -29,6 +30,21 @@ public class PersonalTrainerController {
         }
 
         return myStandardTrainingCards;
+    }
+
+    public void addTrainingCard(Costumer costumer, String exercises, int level, int emissionDay, int emissionMonth, int
+                                emissionYear, int expirationDay, int expirationMonth, int expirationYear, boolean standard){
+        TrainingCard trainingCard = new TrainingCard(exercises, level, LocalDate.of(emissionYear, emissionMonth, emissionDay),
+                LocalDate.of(expirationYear, expirationMonth, expirationDay), standard, thisPersonalTrainer);
+        trainingDiaryDao.addTrainingCard(trainingCard, costumer);
+    }
+
+    public ArrayList<Costumer> getAllCostumer(){
+        return costumerDao.getAll();
+    }
+
+    public TrainingDiary getTrainingDiaryOfCostumer(Costumer selectedCostumer){
+        return trainingDiaryDao.getTrainingDiaryFromCostumer(selectedCostumer);
     }
 
 }
