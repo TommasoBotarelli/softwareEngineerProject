@@ -15,4 +15,19 @@ public class Measurement {
         this.fatMass = fatMass;
     }
 
+    public float getHeight() {
+        return height;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public float getLeanMass() {
+        return leanMass;
+    }
+
+    public float getFatMass() {
+        return fatMass;
+    }
 }

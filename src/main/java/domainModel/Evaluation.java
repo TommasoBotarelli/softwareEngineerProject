@@ -1,16 +1,16 @@
 package domainModel;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 public class Evaluation {
 
-    private final Calendar date;
+    private final LocalDate date;
     private final Measurement measurement;
     private String comments;
     private int progressLevel;
 
 
-    public Evaluation(Calendar date, Measurement measurement) {
+    public Evaluation(LocalDate date, Measurement measurement) {
         this.date = date;
         this.measurement = measurement;
     }
@@ -24,7 +24,7 @@ public class Evaluation {
         this.progressLevel = progressLevel;
     }
 
-    public Calendar getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

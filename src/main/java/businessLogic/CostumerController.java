@@ -4,6 +4,7 @@ import dao.*;
 import domainModel.*;
 
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CostumerController {
@@ -58,5 +59,55 @@ public class CostumerController {
         }
         else
             throw new FileNotFoundException("Nessuna scheda da visualizzare");
+    }
+
+    public ArrayList<LocalDate> getXCoordinateForGraph(){
+        ArrayList<LocalDate> xCoordinate = new ArrayList<>();
+
+        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+            xCoordinate.add(evaluation.getDate());
+        }
+
+        return xCoordinate;
+    }
+
+    public ArrayList<Float> getWeightForGraph(){
+        ArrayList<Float> weightCoordinate = new ArrayList<>();
+
+        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+            weightCoordinate.add(evaluation.getMeasurement().getWeight());
+        }
+
+        return weightCoordinate;
+    }
+
+    public ArrayList<Float> getHeightForGraph(){
+        ArrayList<Float> heightCoordinate = new ArrayList<>();
+
+        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+            heightCoordinate.add(evaluation.getMeasurement().getHeight());
+        }
+
+        return heightCoordinate;
+    }
+
+    public ArrayList<Float> getLeanMassForGraph(){
+        ArrayList<Float> leanMassCoordinate = new ArrayList<>();
+
+        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+            leanMassCoordinate.add(evaluation.getMeasurement().getLeanMass());
+        }
+
+        return leanMassCoordinate;
+    }
+
+    public ArrayList<Float> getFatMassForGraph(){
+        ArrayList<Float> fatMassCoordinate = new ArrayList<>();
+
+        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+            fatMassCoordinate.add(evaluation.getMeasurement().getFatMass());
+        }
+
+        return fatMassCoordinate;
     }
 }
