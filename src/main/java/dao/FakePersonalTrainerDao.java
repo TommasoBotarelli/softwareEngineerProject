@@ -26,4 +26,9 @@ public class FakePersonalTrainerDao implements PersonalTrainerDao{
     public ArrayList<PersonalTrainer> getAllPersonalTrainers() {
         return personalTrainers;
     }
+
+    @Override
+    public PersonalTrainer getPersonalTrainer(String name, String surname, String phoneNumber) {
+        return (PersonalTrainer) personalTrainers.stream().filter(personalTrainer -> personalTrainer.equals(new PersonalTrainer(name, surname, phoneNumber)));
+    }
 }

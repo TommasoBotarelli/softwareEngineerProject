@@ -9,14 +9,16 @@ public class TrainingCard {
     private LocalDate emission;
     private LocalDate expiration;
     private PersonalTrainer personalTrainer;
+    private boolean standard;
 
 
-    TrainingCard(String exercises, int level, LocalDate emission, LocalDate expiration, PersonalTrainer personalTrainer){
+    TrainingCard(String exercises, int level, LocalDate emission, LocalDate expiration, boolean standard, PersonalTrainer personalTrainer){
         this.exercises = exercises;
         this.level = level;
         this.emission = emission;
         this.expiration = expiration;
         this.personalTrainer = personalTrainer;
+        this.standard = standard;
     }
 
 
@@ -47,5 +49,9 @@ public class TrainingCard {
 
     public LocalDate getExpiration() {
         return expiration;
+    }
+
+    public boolean isStandard() {
+        return standard;
     }
 }

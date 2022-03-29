@@ -15,7 +15,7 @@ public class CostumerController {
 
     Costumer thisCostumer;
 
-    public boolean fakeLogin(String name, String surname, String phoneNumber){
+    public boolean setCurrentUser(String name, String surname, String phoneNumber){
         this.thisCostumer = costumerDao.getSelectedCostumer(name, surname, phoneNumber);
         return thisCostumer != null;
     }
@@ -64,7 +64,7 @@ public class CostumerController {
     public ArrayList<LocalDate> getXCoordinateForGraph(){
         ArrayList<LocalDate> xCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
             xCoordinate.add(evaluation.getDate());
         }
 
@@ -74,7 +74,7 @@ public class CostumerController {
     public ArrayList<Float> getWeightForGraph(){
         ArrayList<Float> weightCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
             weightCoordinate.add(evaluation.getMeasurement().getWeight());
         }
 
@@ -84,7 +84,7 @@ public class CostumerController {
     public ArrayList<Float> getHeightForGraph(){
         ArrayList<Float> heightCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
             heightCoordinate.add(evaluation.getMeasurement().getHeight());
         }
 
@@ -94,7 +94,7 @@ public class CostumerController {
     public ArrayList<Float> getLeanMassForGraph(){
         ArrayList<Float> leanMassCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
             leanMassCoordinate.add(evaluation.getMeasurement().getLeanMass());
         }
 
@@ -104,7 +104,7 @@ public class CostumerController {
     public ArrayList<Float> getFatMassForGraph(){
         ArrayList<Float> fatMassCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory()){
+        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
             fatMassCoordinate.add(evaluation.getMeasurement().getFatMass());
         }
 

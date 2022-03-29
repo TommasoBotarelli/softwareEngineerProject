@@ -9,4 +9,7 @@ public interface TrainingDiaryDao {
     void addTrainingCard(TrainingCard trainingCard, Costumer costumer);
     void addTrainingDiary(TrainingDiary trainingDiary);
     TrainingDiary getTrainingDiaryFromCostumer(Costumer costumer);
+    ArrayList<TrainingCard> getTrainingCardFromCostumer(Costumer costumer);
+    ArrayList<Evaluation> getEvaluationOfCostumer(Costumer costumer);
+    ArrayList<TrainingCard> getTrainingCardFromPersonalTrainer(PersonalTrainer personalTrainer);
 }

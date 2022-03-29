@@ -30,4 +30,28 @@ public class FakeTrainingDiaryDao implements TrainingDiaryDao{
     public TrainingDiary getTrainingDiaryFromCostumer(Costumer costumer) {
         return (TrainingDiary)(trainingDiaries.stream().filter(trainingDiary -> trainingDiary.getCostumerRef().equals(costumer)));
     }
+
+    @Override
+    public ArrayList<TrainingCard> getTrainingCardFromCostumer(Costumer costumer) {
+        return getTrainingDiaryFromCostumer(costumer).getTrainingCardsContainer();
+    }
+
+    @Override
+    public ArrayList<Evaluation> getEvaluationOfCostumer(Costumer costumer) {
+        return getTrainingDiaryFromCostumer(costumer).getEvaluationHistory();
+    }
+
+    @Override
+    public ArrayList<TrainingCard> getTrainingCardFromPersonalTrainer(PersonalTrainer personalTrainer) {
+        ArrayList<TrainingCard> trainingCardsOfPersonalTrainer = new ArrayList<>();
+
+        for(TrainingDiary trainingDiary : trainingDiaries){
+            for (TrainingCard trainingCard : trainingDiary.getTrainingCardsContainer()){
+                if (trainingCard.getPersonalTrainer().equals(personalTrainer))
+                    trainingCardsOfPersonalTrainer.add(trainingCard);
+            }
+        }
+
+        return trainingCardsOfPersonalTrainer;
+    }
 }
