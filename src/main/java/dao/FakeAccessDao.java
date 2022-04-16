@@ -13,11 +13,6 @@ public class FakeAccessDao implements AccessDao{
         acceses = new ArrayList<>();
     }
 
-    /*
-    TODO mettere un metodo che crea un accesso e lo rende come parametro di ritorno, oppure inserirlo nella business logic?
-     */
-
-
     @Override
     public void add(Access access) {
         acceses.add(access);

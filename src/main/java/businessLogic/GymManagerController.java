@@ -13,6 +13,7 @@ public class GymManagerController {
     AccessDao accessDao;
     CostumerDao costumerDao;
     TypeOfAccessDao typeOfAccessDao;
+    ReceptionistDao receptionistDao;
 
     public GymManagerController(){
         personalTrainerDao = new FakePersonalTrainerDao();
@@ -20,6 +21,7 @@ public class GymManagerController {
         accessDao = new FakeAccessDao();
         costumerDao = new FakeCostumerDao();
         typeOfAccessDao = new FakeTypeOfAccessDao();
+        receptionistDao = new FakeReceptionistDao();
     }
 
     public ArrayList<PersonalTrainer> getAllPersonalTrainer(){
@@ -70,5 +72,13 @@ public class GymManagerController {
 
     public Bill getBillOfSub(TypeOfAccess typeOfAccess){
         return billDao.getFromID(typeOfAccess.getBillID());
+    }
+
+    public ArrayList<Receptionist> getAllReceptionist(){
+        return receptionistDao.getAllReceptionist();
+    }
+
+    public void addReceptionist(String name, String surname, String phoneNumber){
+        receptionistDao.addReceptionist(new Receptionist(name, surname, phoneNumber));
     }
 }

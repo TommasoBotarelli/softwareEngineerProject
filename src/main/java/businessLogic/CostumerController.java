@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class CostumerController {
     TypeOfAccessDao typeOfAccessDao = new FakeTypeOfAccessDao();
     CostumerDao costumerDao = new FakeCostumerDao();
-    BillDao billDao = new FakeBilldao();
     TrainingDiaryDao trainingDiaryDao = new FakeTrainingDiaryDao();
 
     Costumer thisCostumer;

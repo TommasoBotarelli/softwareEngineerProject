@@ -21,4 +21,13 @@ public class FakeReceptionistDao implements ReceptionistDao{
     public Receptionist getReceptionistFromNameSurnamePhoneNumber(String name, String surname, String phoneNumber) {
         return (Receptionist) receptionists.stream().filter(receptionist -> receptionist.equals(new Receptionist(name, surname, phoneNumber)));
     }
+
+    /*
+    TODO evitare di introdurre receptionist che sono già stati introdotti (controllo sulla lista)
+     */
+
+    @Override
+    public void addReceptionist(Receptionist receptionist) {
+        receptionists.add(receptionist);
+    }
 }
