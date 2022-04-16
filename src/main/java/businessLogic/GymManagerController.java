@@ -81,4 +81,8 @@ public class GymManagerController {
     public void addReceptionist(String name, String surname, String phoneNumber){
         receptionistDao.addReceptionist(new Receptionist(name, surname, phoneNumber));
     }
+
+    public void deleteReceptionist(Receptionist receptionist){
+
+    }
 }

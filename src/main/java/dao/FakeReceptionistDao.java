@@ -23,11 +23,15 @@ public class FakeReceptionistDao implements ReceptionistDao{
     }
 
     /*
-    TODO evitare di introdurre receptionist che sono già stati introdotti (controllo sulla lista)
+    TODO evitare di introdurre receptionist che sono già stati introdotti (controllo sulla lista) anche delete
      */
 
     @Override
     public void addReceptionist(Receptionist receptionist) {
         receptionists.add(receptionist);
+    }
+
+    public void deleteReceptionist(Receptionist receptionist){
+        receptionists.remove(receptionist);
     }
 }

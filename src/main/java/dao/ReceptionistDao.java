@@ -8,4 +8,5 @@ public interface ReceptionistDao {
     ArrayList<Receptionist> getAllReceptionist();
     Receptionist getReceptionistFromNameSurnamePhoneNumber(String name, String surname, String phoneNumber);
     void addReceptionist(Receptionist receptionist);
+    void deleteReceptionist(Receptionist receptionist);
 }
