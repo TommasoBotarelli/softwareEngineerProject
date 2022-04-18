@@ -9,9 +9,10 @@ public class Access {
     private LocalDate date;
 
 
-    public Access(Costumer costumer, LocalDate actualDate) {
+    public Access(Costumer costumer, LocalDate actualDate, boolean valid) {
         this.costumer = costumer;
         this.date = actualDate;
+        this.accessValid = valid;
     }
 
 

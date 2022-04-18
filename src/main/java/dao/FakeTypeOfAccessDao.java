@@ -4,6 +4,7 @@ import domainModel.Costumer;
 import domainModel.TypeOfAccess;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -45,6 +46,11 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao{
     @Override
     public void deleteAllTypeOfAccessFromCostumer(Costumer costumer) {
         typeOfAccesses.removeIf(typeOfAccess -> typeOfAccess.getCostumer().equals(costumer));
+    }
+
+    @Override
+    public TypeOfAccess getValidTypeOfAccessFromCostumer(Costumer costumer, LocalDate date) {
+        return (TypeOfAccess) this.getFromCostumer(costumer).stream().filter(returnCostumer -> returnCostumer.isValid(date));
     }
 
 

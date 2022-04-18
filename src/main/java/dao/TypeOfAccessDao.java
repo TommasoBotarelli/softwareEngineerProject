@@ -2,6 +2,8 @@ package dao;
 
 import domainModel.Costumer;
 import domainModel.TypeOfAccess;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -11,4 +13,5 @@ public interface TypeOfAccessDao {
     ArrayList<TypeOfAccess> getAll();
     ArrayList<TypeOfAccess> getFromCostumer(Costumer costumer);
     void deleteAllTypeOfAccessFromCostumer(Costumer costumer);
+    TypeOfAccess getValidTypeOfAccessFromCostumer(Costumer costumer, LocalDate date);
 }

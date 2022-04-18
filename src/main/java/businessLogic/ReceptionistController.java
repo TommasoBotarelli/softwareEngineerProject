@@ -61,8 +61,7 @@ public class ReceptionistController {
 
         LocalDate date = LocalDate.of(year, month, day);
 
-        Access access = new Access(costumer, date);
-        access.setAccessValid(false);
+        Access access = new Access(costumer, date, false);
 
         ArrayList<TypeOfAccess> typeOfAccessesOfCostumer = typeOfAccessDao.getFromCostumer(costumer);
 

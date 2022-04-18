@@ -2,10 +2,13 @@ package domainModel;
 
 public class Badge {
     private final Costumer costumer;
-    public final String id;
+    public int id;
 
-    Badge(Costumer costumer, String id){
+    Badge(Costumer costumer){
         this.costumer = costumer;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
