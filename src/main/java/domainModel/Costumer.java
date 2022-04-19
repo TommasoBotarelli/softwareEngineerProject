@@ -7,18 +7,11 @@ public class Costumer {
     private String surname;
     private String phoneNumber;
 
-    private Badge myBadge;
-
 
     public Costumer(String name, String surname, String phoneNumber){
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-    }
-
-
-    public void setBadge(Badge badge){
-        this.myBadge = badge;
     }
 
     public String getName() {

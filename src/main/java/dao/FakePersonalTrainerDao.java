@@ -6,10 +6,18 @@ import java.util.ArrayList;
 
 public class FakePersonalTrainerDao implements PersonalTrainerDao{
 
-    ArrayList<PersonalTrainer> personalTrainers;
+    private ArrayList<PersonalTrainer> personalTrainers;
+    private static FakePersonalTrainerDao instance = null;
 
-    public FakePersonalTrainerDao(){
+    private FakePersonalTrainerDao(){
         personalTrainers = new ArrayList<>();
+    }
+
+    public static FakePersonalTrainerDao getInstance(){
+        if (instance == null){
+            instance = new FakePersonalTrainerDao();
+        }
+        return instance;
     }
 
     @Override

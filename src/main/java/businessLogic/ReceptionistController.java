@@ -11,7 +11,7 @@ public class ReceptionistController {
     CostumerDao costumerDao = new FakeCostumerDao();
     TypeOfAccessDao typeOfAccessDao = new FakeTypeOfAccessDao();
     AccessDao accessDao = new FakeAccessDao();
-    BillDao billDao = new FakeBilldao();
+    BillDao billDao = new FakeBillDao();
     ReceptionistDao receptionistDao = new FakeReceptionistDao();
 
     Receptionist thisReceptionist;

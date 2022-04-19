@@ -10,10 +10,18 @@ import java.util.Calendar;
 
 public class FakeTypeOfAccessDao implements TypeOfAccessDao{
 
-    ArrayList<TypeOfAccess> typeOfAccesses;
+    private ArrayList<TypeOfAccess> typeOfAccesses;
+    private static FakeTypeOfAccessDao instance = null;
 
-    public FakeTypeOfAccessDao(){
+    private FakeTypeOfAccessDao(){
         typeOfAccesses = new ArrayList<>();
+    }
+
+    public static FakeTypeOfAccessDao getInstance(){
+        if (instance == null){
+            instance = new FakeTypeOfAccessDao();
+        }
+        return instance;
     }
 
     @Override

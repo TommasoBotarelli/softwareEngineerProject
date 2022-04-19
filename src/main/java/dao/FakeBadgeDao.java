@@ -4,11 +4,24 @@ import domainModel.Badge;
 import domainModel.Costumer;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FakeBadgeDao implements BadgeDao{
 
     int count = 0;
-    ArrayList<Badge> badges = new ArrayList<>();
+    ArrayList<Badge> badges;
+    private static FakeBadgeDao instance = null;
+
+    private FakeBadgeDao(){
+        badges = new ArrayList<>();
+    }
+
+    public static FakeBadgeDao getInstance(){
+        if (instance == null){
+            instance = new FakeBadgeDao();
+        }
+        return instance;
+    }
 
     @Override
     public void addBadge(Badge badge) {

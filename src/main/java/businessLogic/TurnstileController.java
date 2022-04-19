@@ -4,7 +4,6 @@ import dao.*;
 import domainModel.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class TurnstileController {
     Turnstile thisTurnstile;
@@ -22,7 +21,6 @@ public class TurnstileController {
     public void addAccess(int id, int year, int month, int day){
         LocalDate date = LocalDate.of(year, month, day);
         Costumer costumer = badgeDao.searchCostumerFromId(id);
-        ArrayList<TypeOfAccess> typeOfAccesses = typeOfAccessDao.getFromCostumer(costumer);
         TypeOfAccess validTypeOfAccess = typeOfAccessDao.getValidTypeOfAccessFromCostumer(costumer, date);
         if (validTypeOfAccess != null){
             accessDao.add(new Access(costumer, date, true));

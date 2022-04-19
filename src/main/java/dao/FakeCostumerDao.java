@@ -3,13 +3,21 @@ package dao;
 import domainModel.Costumer;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FakeCostumerDao implements CostumerDao{
 
     private ArrayList<Costumer> costumers;
+    private static FakeCostumerDao instance = null;
 
+    public static FakeCostumerDao getInstance(){
+        if (instance == null){
+            instance = new FakeCostumerDao();
+        }
+        return instance;
+    }
 
-    public FakeCostumerDao(){
+    private FakeCostumerDao(){
         costumers = new ArrayList<>();
     }
 

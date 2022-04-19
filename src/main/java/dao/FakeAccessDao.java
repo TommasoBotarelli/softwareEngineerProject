@@ -4,13 +4,22 @@ import domainModel.Access;
 import domainModel.Costumer;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FakeAccessDao implements AccessDao{
 
     ArrayList<Access> acceses;
+    private static FakeAccessDao instance = null;
 
-    public FakeAccessDao(){
+    private FakeAccessDao(){
         acceses = new ArrayList<>();
+    }
+
+    public static FakeAccessDao getInstance(){
+        if (instance == null){
+            instance = new FakeAccessDao();
+        }
+        return instance;
     }
 
     @Override

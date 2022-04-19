@@ -5,7 +5,19 @@ import domainModel.*;
 import java.util.ArrayList;
 
 public class FakeTrainingDiaryDao implements TrainingDiaryDao{
-    ArrayList<TrainingDiary> trainingDiaries;
+    private ArrayList<TrainingDiary> trainingDiaries;
+    private static FakeTrainingDiaryDao instance = null;
+
+    private FakeTrainingDiaryDao(){
+        trainingDiaries = new ArrayList<>();
+    }
+
+    public static FakeTrainingDiaryDao getInstance(){
+        if (instance == null){
+            instance = new FakeTrainingDiaryDao();
+        }
+        return instance;
+    }
 
     @Override
     public void addEvaluation(Evaluation evaluation, Costumer costumer) {

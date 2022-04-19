@@ -3,18 +3,25 @@ package dao;
 import domainModel.Bill;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class FakeBilldao implements BillDao{
+public class FakeBillDao implements BillDao{
 
     ArrayList<Bill> bills;
     long counter;
+    private static FakeBillDao instance = null;
 
-
-    public FakeBilldao(){
+    private FakeBillDao(){
         bills = new ArrayList<>();
         this.counter = 0;
     }
 
+    public static FakeBillDao getInstance(){
+        if (instance == null){
+            instance = new FakeBillDao();
+        }
+        return instance;
+    }
 
     @Override
     public long add(Bill bill) {

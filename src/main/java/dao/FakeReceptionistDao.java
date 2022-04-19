@@ -7,9 +7,17 @@ import java.util.ArrayList;
 public class FakeReceptionistDao implements ReceptionistDao{
 
     ArrayList<Receptionist> receptionists;
+    private static FakeReceptionistDao instance = null;
 
-    public FakeReceptionistDao() {
+    private FakeReceptionistDao() {
         this.receptionists = new ArrayList<>();
+    }
+
+    public static FakeReceptionistDao getInstance(){
+        if (instance == null){
+            instance = new FakeReceptionistDao();
+        }
+        return instance;
     }
 
     @Override

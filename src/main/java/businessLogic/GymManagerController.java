@@ -17,7 +17,7 @@ public class GymManagerController {
 
     public GymManagerController(){
         personalTrainerDao = new FakePersonalTrainerDao();
-        billDao = new FakeBilldao();
+        billDao = new FakeBillDao();
         accessDao = new FakeAccessDao();
         costumerDao = new FakeCostumerDao();
         typeOfAccessDao = new FakeTypeOfAccessDao();
@@ -83,6 +83,6 @@ public class GymManagerController {
     }
 
     public void deleteReceptionist(Receptionist receptionist){
-
+        receptionistDao.deleteReceptionist(receptionist);
     }
 }
