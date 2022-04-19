@@ -6,16 +6,15 @@ import domainModel.*;
 import java.time.LocalDate;
 
 public class TurnstileController {
-    Turnstile thisTurnstile;
-    AccessDao accessDao;
-    BadgeDao badgeDao;
-    TypeOfAccessDao typeOfAccessDao;
+    private Turnstile thisTurnstile;
+    private AccessDao accessDao;
+    private BadgeDao badgeDao;
+    private TypeOfAccessDao typeOfAccessDao;
 
-    TurnstileController(boolean isOpen, boolean isOperative){
-        this.thisTurnstile = new Turnstile(isOperative, isOpen);
-        accessDao = new FakeAccessDao();
-        badgeDao = new FakeBadgeDao();
-        typeOfAccessDao = new FakeTypeOfAccessDao();
+    public TurnstileController(){
+        accessDao = FakeAccessDao.getInstance();
+        badgeDao = FakeBadgeDao.getInstance();
+        typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
     }
 
     public void addAccess(int id, int year, int month, int day){

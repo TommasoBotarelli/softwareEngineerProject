@@ -8,13 +8,21 @@ import java.util.ArrayList;
 
 public class ReceptionistController {
 
-    CostumerDao costumerDao = new FakeCostumerDao();
-    TypeOfAccessDao typeOfAccessDao = new FakeTypeOfAccessDao();
-    AccessDao accessDao = new FakeAccessDao();
-    BillDao billDao = new FakeBillDao();
-    ReceptionistDao receptionistDao = new FakeReceptionistDao();
+    private CostumerDao costumerDao;
+    private TypeOfAccessDao typeOfAccessDao;
+    private AccessDao accessDao;
+    private BillDao billDao;
+    private ReceptionistDao receptionistDao;
 
-    Receptionist thisReceptionist;
+    private Receptionist thisReceptionist;
+
+    public ReceptionistController(){
+        costumerDao = FakeCostumerDao.getInstance();
+        typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
+        accessDao = FakeAccessDao.getInstance();
+        billDao = FakeBillDao.getInstance();
+        receptionistDao = FakeReceptionistDao.getInstance();
+    }
 
     public boolean setCurrentReceptionist(String name, String surname, String phoneNumber){
         thisReceptionist = receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);

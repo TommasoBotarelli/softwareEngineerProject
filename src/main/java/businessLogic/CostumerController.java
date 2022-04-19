@@ -8,11 +8,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CostumerController {
-    TypeOfAccessDao typeOfAccessDao = new FakeTypeOfAccessDao();
-    CostumerDao costumerDao = new FakeCostumerDao();
-    TrainingDiaryDao trainingDiaryDao = new FakeTrainingDiaryDao();
+    private TypeOfAccessDao typeOfAccessDao;
+    private CostumerDao costumerDao;
+    private TrainingDiaryDao trainingDiaryDao;
 
-    Costumer thisCostumer;
+    private Costumer thisCostumer;
+
+    public CostumerController(){
+        typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
+        costumerDao = FakeCostumerDao.getInstance();
+        trainingDiaryDao = FakeTrainingDiaryDao.getInstance();
+    }
 
     public boolean setCurrentUser(String name, String surname, String phoneNumber){
         this.thisCostumer = costumerDao.getSelectedCostumer(name, surname, phoneNumber);

@@ -8,20 +8,20 @@ import java.util.ArrayList;
 
 public class GymManagerController {
 
-    PersonalTrainerDao personalTrainerDao;
-    BillDao billDao;
-    AccessDao accessDao;
-    CostumerDao costumerDao;
-    TypeOfAccessDao typeOfAccessDao;
-    ReceptionistDao receptionistDao;
+    private PersonalTrainerDao personalTrainerDao;
+    private BillDao billDao;
+    private AccessDao accessDao;
+    private CostumerDao costumerDao;
+    private TypeOfAccessDao typeOfAccessDao;
+    private ReceptionistDao receptionistDao;
 
     public GymManagerController(){
-        personalTrainerDao = new FakePersonalTrainerDao();
-        billDao = new FakeBillDao();
-        accessDao = new FakeAccessDao();
-        costumerDao = new FakeCostumerDao();
-        typeOfAccessDao = new FakeTypeOfAccessDao();
-        receptionistDao = new FakeReceptionistDao();
+        personalTrainerDao = FakePersonalTrainerDao.getInstance();
+        billDao = FakeBillDao.getInstance();
+        accessDao = FakeAccessDao.getInstance();
+        costumerDao = FakeCostumerDao.getInstance();
+        typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
+        receptionistDao = FakeReceptionistDao.getInstance();
     }
 
     public ArrayList<PersonalTrainer> getAllPersonalTrainer(){

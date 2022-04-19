@@ -10,11 +10,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PersonalTrainerController {
-    PersonalTrainer thisPersonalTrainer;
+    private PersonalTrainer thisPersonalTrainer;
 
-    PersonalTrainerDao personalTrainerDao = new FakePersonalTrainerDao();
-    TrainingDiaryDao trainingDiaryDao = new FakeTrainingDiaryDao();
-    CostumerDao costumerDao = new FakeCostumerDao();
+    private PersonalTrainerDao personalTrainerDao;
+    private TrainingDiaryDao trainingDiaryDao;
+    private CostumerDao costumerDao;
+
+    public PersonalTrainerController(){
+        personalTrainerDao = FakePersonalTrainerDao.getInstance();
+        trainingDiaryDao = FakeTrainingDiaryDao.getInstance();
+        costumerDao = FakeCostumerDao.getInstance();
+    }
 
     public boolean setThisPersonalTrainer(String name, String surname, String phoneNumber){
         thisPersonalTrainer = personalTrainerDao.getPersonalTrainer(name, surname, phoneNumber);
