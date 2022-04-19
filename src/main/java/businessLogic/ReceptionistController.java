@@ -13,6 +13,7 @@ public class ReceptionistController {
     private AccessDao accessDao;
     private BillDao billDao;
     private ReceptionistDao receptionistDao;
+    private BadgeDao badgeDao;
 
     private Receptionist thisReceptionist;
 
@@ -22,6 +23,7 @@ public class ReceptionistController {
         accessDao = FakeAccessDao.getInstance();
         billDao = FakeBillDao.getInstance();
         receptionistDao = FakeReceptionistDao.getInstance();
+        badgeDao = FakeBadgeDao.getInstance();
     }
 
     public boolean setCurrentReceptionist(String name, String surname, String phoneNumber){
@@ -63,29 +65,33 @@ public class ReceptionistController {
         return costumerDao.getSelectedCostumer(name, surname, email);
     }
 
-    public boolean addAccessForCostumer(Costumer costumer, int day, int month, int year){
-
-        //INVARIANTE prima del controllo sono sicuro che ho un solo abbonamento valido, all'aggiunta dell'abbonamento ho il controllo
-
+    public boolean addAccessForCostumerFromBadge(int id, int day, int month, int year){
         LocalDate date = LocalDate.of(year, month, day);
-
-        Access access = new Access(costumer, date, false);
-
-        ArrayList<TypeOfAccess> typeOfAccessesOfCostumer = typeOfAccessDao.getFromCostumer(costumer);
-
-        int i = 0;
-        while (!typeOfAccessesOfCostumer.get(i).isValid(date) && i < typeOfAccessesOfCostumer.size()){
-            i++;
+        Costumer costumer = badgeDao.searchCostumerFromId(id);
+        TypeOfAccess validTypeOfAccess = typeOfAccessDao.getValidTypeOfAccessFromCostumer(costumer, date);
+        if (validTypeOfAccess != null){
+            accessDao.add(new Access(costumer, date, true));
+            validTypeOfAccess.addAccess();
+            return true;
         }
-
-        if (i < typeOfAccessesOfCostumer.size()) {
-            typeOfAccessesOfCostumer.get(i).addAccess();
-            access.setAccessValid(true);
+        else{
+            accessDao.add(new Access(costumer, date, false));
+            return false;
         }
+    }
 
-        accessDao.add(access);
-
-        return access.isAccessValid();
+    public boolean addAccessForCostumer(Costumer costumer, int day, int month, int year){
+        LocalDate date = LocalDate.of(year, month, day);
+        TypeOfAccess validTypeOfAccess = typeOfAccessDao.getValidTypeOfAccessFromCostumer(costumer, date);
+        if (validTypeOfAccess != null){
+            accessDao.add(new Access(costumer, date, true));
+            validTypeOfAccess.addAccess();
+            return true;
+        }
+        else{
+            accessDao.add(new Access(costumer, date, false));
+            return false;
+        }
     }
 
     public long addBill(float cost, int year, int month, int day){
