@@ -1,10 +1,7 @@
 package businessLogic;
 
 import dao.*;
-import domainModel.Costumer;
-import domainModel.PersonalTrainer;
-import domainModel.TrainingCard;
-import domainModel.TrainingDiary;
+import domainModel.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,11 +12,13 @@ public class PersonalTrainerController {
     private PersonalTrainerDao personalTrainerDao;
     private TrainingDiaryDao trainingDiaryDao;
     private CostumerDao costumerDao;
+    private EvaluationDao evaluationDao;
 
     public PersonalTrainerController(){
         personalTrainerDao = FakePersonalTrainerDao.getInstance();
         trainingDiaryDao = FakeTrainingDiaryDao.getInstance();
         costumerDao = FakeCostumerDao.getInstance();
+        evaluationDao = FakeEvaluationDao.getInstance();
     }
 
     public boolean setThisPersonalTrainer(String name, String surname, String phoneNumber){
@@ -53,4 +52,7 @@ public class PersonalTrainerController {
         return trainingDiaryDao.getTrainingDiaryFromCostumer(selectedCostumer);
     }
 
+    public void addEvaluation(Costumer costumer, int year, int month, int day, String comments, int progressLevel, Measurement measurement){
+
+    }
 }

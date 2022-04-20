@@ -3,19 +3,19 @@ package domainModel;
 public class Turnstile {
 
     private boolean operative;
-    private boolean open;
+    private boolean canAccess;
 
-    public Turnstile(boolean isOperative, boolean isOpen){
+    public Turnstile(boolean isOperative){
         this.operative = isOperative;
-        this.open = isOpen;
+        this.canAccess = false;
     }
 
-    public boolean isOpen() {
-        return open;
+    public boolean canAccess() {
+        return canAccess;
     }
 
-    public void setOpen(boolean open) {
-        this.open = open;
+    public void setCanAccess(boolean canAccess) {
+        this.canAccess = canAccess;
     }
 
     public boolean isOperative() {

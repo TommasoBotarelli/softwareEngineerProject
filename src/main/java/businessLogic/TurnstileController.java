@@ -17,15 +17,26 @@ public class TurnstileController {
         typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
     }
 
-    public void addAccess(int id, int year, int month, int day){
-        LocalDate date = LocalDate.of(year, month, day);
-        Costumer costumer = badgeDao.searchCostumerFromId(id);
-        TypeOfAccess validTypeOfAccess = typeOfAccessDao.getValidTypeOfAccessFromCostumer(costumer, date);
-        if (validTypeOfAccess != null){
-            accessDao.add(new Access(costumer, date, true));
-            validTypeOfAccess.addAccess();
+    public void setTurnstile(Turnstile turnstile) {
+        this.thisTurnstile = turnstile;
+    }
+
+    public boolean addAccess(int id, int year, int month, int day){
+        if(thisTurnstile.isOperative()) {
+            LocalDate date = LocalDate.of(year, month, day);
+            Costumer costumer = badgeDao.searchCostumerFromId(id);
+            TypeOfAccess validTypeOfAccess = typeOfAccessDao.getValidTypeOfAccessFromCostumer(costumer, date);
+            if (validTypeOfAccess != null) {
+                accessDao.add(new Access(costumer, date, true));
+                validTypeOfAccess.addAccess();
+                thisTurnstile.setCanAccess(true);
+                return true;
+            } else {
+                accessDao.add(new Access(costumer, date, false));
+                return false;
+            }
         }
         else
-            accessDao.add(new Access(costumer, date, false));
+            return false;
     }
 }
