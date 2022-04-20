@@ -44,6 +44,11 @@ public class PersonalTrainerController {
         trainingDiaryDao.addTrainingCard(trainingCard, costumer);
     }
 
+    public void addNewCostumer(Costumer costumer){
+        TrainingDiary trainingDiary = new TrainingDiary(costumer);
+        trainingDiaryDao.addTrainingDiary(trainingDiary);
+    }
+
     public ArrayList<Costumer> getAllCostumer(){
         return costumerDao.getAll();
     }
@@ -52,7 +57,19 @@ public class PersonalTrainerController {
         return trainingDiaryDao.getTrainingDiaryFromCostumer(selectedCostumer);
     }
 
-    public void addEvaluation(Costumer costumer, int year, int month, int day, String comments, int progressLevel, Measurement measurement){
+    public void addEvaluation(Costumer costumer, int year, int month, int day, String comments, int progressLevel, float height,
+                              float weight, float leanMass, float fatMass){
+        LocalDate date = LocalDate.of(year, month, day);
+        Measurement measurement = new Measurement(height, weight, leanMass, fatMass);
+        Evaluation evaluation = new Evaluation(date, measurement, costumer);
+        evaluationDao.addEvaluation(evaluation);
+    }
 
+    public ArrayList<Evaluation> getEvaluationOfCostumer(Costumer costumer){
+        return evaluationDao.getEvaluationOfCostumer(costumer);
+    }
+
+    public void deleteEvaluation(Evaluation evaluation){
+        evaluationDao.deleteEvaluation(evaluation);
     }
 }

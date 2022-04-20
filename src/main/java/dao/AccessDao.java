@@ -3,6 +3,7 @@ package dao;
 import domainModel.Access;
 import domainModel.Costumer;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface AccessDao {
@@ -10,4 +11,5 @@ public interface AccessDao {
     void delete(Access access);
     ArrayList<Access> getAll();
     ArrayList<Access> getFromCostumer(Costumer costumer);
+    ArrayList<Access> getFromDate(LocalDate date);
 }

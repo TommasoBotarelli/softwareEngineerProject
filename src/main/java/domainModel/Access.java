@@ -27,4 +27,8 @@ public class Access {
     public void setAccessValid(boolean accessValid) {
         this.accessValid = accessValid;
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }

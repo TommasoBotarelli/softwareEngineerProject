@@ -58,6 +58,10 @@ public class GymManagerController {
         return accessDao.getAll();
     }
 
+    public ArrayList<Access> getAllAccessFromDate(int year, int month, int day){
+        return accessDao.getFromDate(LocalDate.of(year, month, day));
+    }
+
     public ArrayList<Costumer> getAllCostumers(){
         return costumerDao.getAll();
     }

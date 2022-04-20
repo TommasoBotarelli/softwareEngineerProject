@@ -9,7 +9,7 @@ public class TrainingDiary {
     private ArrayList<Evaluation> evaluationHistory;
 
 
-    TrainingDiary(Costumer costumer){
+    public TrainingDiary(Costumer costumer){
         this.costumerRef = costumer;
         trainingCardsContainer = new ArrayList<>();
         evaluationHistory = new ArrayList<>();

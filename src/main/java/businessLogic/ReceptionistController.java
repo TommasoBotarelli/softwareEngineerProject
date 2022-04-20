@@ -61,8 +61,8 @@ public class ReceptionistController {
         return costumerDao.getFromNameSurname(name, surname);
     }
 
-    public Costumer selectCostumer(String name, String surname, String email){
-        return costumerDao.getSelectedCostumer(name, surname, email);
+    public Costumer selectCostumer(String name, String surname, String phoneNumber){
+        return costumerDao.getSelectedCostumer(name, surname, phoneNumber);
     }
 
     public boolean addAccessForCostumerFromBadge(int id, int day, int month, int year){

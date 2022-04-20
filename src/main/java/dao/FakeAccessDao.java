@@ -3,6 +3,7 @@ package dao;
 import domainModel.Access;
 import domainModel.Costumer;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -47,5 +48,19 @@ public class FakeAccessDao implements AccessDao{
         }
 
         return costumerAccess;
+    }
+
+    @Override
+    public ArrayList<Access> getFromDate(LocalDate date) {
+        ArrayList<Access> accessOfDate = new ArrayList<>();
+
+        for (Access a : acceses){
+            if(a.getDate().getYear() == date.getYear() &&
+                a.getDate().getMonth() == date.getMonth() &&
+                a.getDate().getDayOfMonth() == date.getDayOfMonth())
+                accessOfDate.add(a);
+        }
+
+        return accessOfDate;
     }
 }
