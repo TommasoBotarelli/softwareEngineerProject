@@ -13,13 +13,13 @@ public class TrainingCard {
     private boolean standard;
 
 
-    public TrainingCard(String exercises, int level, LocalDate emission, LocalDate expiration, boolean standard, PersonalTrainer personalTrainer){
+    public TrainingCard(String exercises, int level, LocalDate emission, boolean standard, PersonalTrainer personalTrainer){
         this.exercises = exercises;
         this.level = level;
         this.emission = emission;
-        this.expiration = expiration;
         this.personalTrainer = personalTrainer;
         this.standard = standard;
+        this.expiration = LocalDate.MAX;
     }
 
     public Costumer getCostumer() {

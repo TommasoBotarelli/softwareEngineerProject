@@ -40,8 +40,9 @@ public class PersonalTrainerController {
     public void addTrainingCard(Costumer costumer, String exercises, int level, int emissionDay, int emissionMonth, int
                                 emissionYear, int expirationDay, int expirationMonth, int expirationYear, boolean standard){
         TrainingCard trainingCard = new TrainingCard(exercises, level, LocalDate.of(emissionYear, emissionMonth, emissionDay),
-                LocalDate.of(expirationYear, expirationMonth, expirationDay), standard, thisPersonalTrainer);
+                standard, thisPersonalTrainer);
         trainingCard.setCostumer(costumer);
+        trainingCard.setExpiration(LocalDate.of(expirationYear, expirationMonth, expirationDay));
         trainingCardDao.addTrainingCard(trainingCard);
     }
 

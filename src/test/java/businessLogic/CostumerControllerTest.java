@@ -38,10 +38,12 @@ class CostumerControllerTest {
         typeOfAccessOfCostumer.add(subscription);
         costumerController.setCurrentUser("Tommaso", "Botarelli", "123456789");
         PersonalTrainer aPersonalTrainer = new PersonalTrainer("Mario", "Rossi", "987654321");
-        TrainingCard myFirstTrainingCard = new TrainingCard("Some exercises", 1, firstDate, firstDate.plusDays(14), true, aPersonalTrainer);
+        TrainingCard myFirstTrainingCard = new TrainingCard("Some exercises", 1, firstDate, true, aPersonalTrainer);
         myFirstTrainingCard.setCostumer(costumer);
-        TrainingCard mySecondTrainingCard = new TrainingCard("Some exercises", 2, firstDate.plusDays(14), firstDate.plusMonths(1), true, aPersonalTrainer);
+        myFirstTrainingCard.setExpiration(firstDate.plusDays(14));
+        TrainingCard mySecondTrainingCard = new TrainingCard("Some exercises", 2, firstDate.plusDays(14), true, aPersonalTrainer);
         mySecondTrainingCard.setCostumer(costumer);
+        mySecondTrainingCard.setExpiration(firstDate.plusMonths(2));
         TrainingCardDao trainingCardDao = FakeTrainingCardDao.getInstance();
         trainingCardDao.addTrainingCard(myFirstTrainingCard);
         trainingCardDao.addTrainingCard(mySecondTrainingCard);
