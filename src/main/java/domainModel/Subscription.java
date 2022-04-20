@@ -13,12 +13,11 @@ public class Subscription implements TypeOfAccess {
     private long billID;
 
 
-    public Subscription(LocalDate emission, TypeOfSub type, Costumer costumer, long billID){
+    public Subscription(LocalDate emission, TypeOfSub type, Costumer costumer){
         this.emission = emission;
         this.type = type;
         this.myCostumer = costumer;
         this.nAccess = 0;
-        this.billID = billID;
     }
 
     @Override
@@ -31,17 +30,17 @@ public class Subscription implements TypeOfAccess {
 
     @Override
     public Costumer getCostumer() {
-        return null;
+        return this.myCostumer;
     }
 
     @Override
     public LocalDate getEmission() {
-        return null;
+        return this.emission;
     }
 
     @Override
     public LocalDate getExpiration() {
-        return null;
+        return this.expiration;
     }
 
     @Override
@@ -67,6 +66,10 @@ public class Subscription implements TypeOfAccess {
     @Override
     public long getBillID() {
         return this.billID;
+    }
+
+    public void setBillID(long billID) {
+        this.billID = billID;
     }
 
     public TypeOfSub getType() {

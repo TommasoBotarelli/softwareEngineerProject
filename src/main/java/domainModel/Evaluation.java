@@ -49,4 +49,14 @@ public class Evaluation {
     public void setCostumer(Costumer costumer) {
         this.costumer = costumer;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Evaluation otherEvaluation = (Evaluation) obj;
+        return this.measurement.equals(otherEvaluation.getMeasurement()) &&
+                this.date.isEqual(otherEvaluation.getDate()) &&
+                this.costumer.equals(otherEvaluation.getCostumer()) &&
+                this.comments.equals(otherEvaluation.getComments()) &&
+                this.progressLevel == otherEvaluation.getProgressLevel();
+    }
 }

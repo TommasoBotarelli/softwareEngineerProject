@@ -12,4 +12,5 @@ public interface TypeOfAccess {
     void setCostumer(Costumer costumer);
     void addAccess();
     long getBillID();
+    void setBillID(long id);
 }

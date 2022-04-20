@@ -10,11 +10,10 @@ public class Daily implements TypeOfAccess {
     private boolean canAccess;
     private long billID;
 
-    public Daily(LocalDate emission, long billID, Costumer costumer){
+    public Daily(LocalDate emission, Costumer costumer){
         this.emission = emission;
         this.expiration = LocalDate.MAX;
         this.canAccess = true;
-        this.billID = billID;
         this.myCostumer = costumer;
     }
 
@@ -62,5 +61,10 @@ public class Daily implements TypeOfAccess {
     @Override
     public long getBillID() {
         return this.billID;
+    }
+
+    @Override
+    public void setBillID(long id) {
+        this.billID = id;
     }
 }

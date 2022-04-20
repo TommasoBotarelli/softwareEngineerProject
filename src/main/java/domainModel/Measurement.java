@@ -30,4 +30,13 @@ public class Measurement {
     public float getFatMass() {
         return fatMass;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Measurement otherObject = (Measurement) obj;
+        return otherObject.getHeight() == this.height &&
+                otherObject.getWeight() == this.weight &&
+                otherObject.getFatMass() == this.fatMass &&
+                otherObject.getLeanMass() == this.leanMass;
+    }
 }

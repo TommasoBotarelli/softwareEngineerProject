@@ -105,28 +105,33 @@ public class ReceptionistController {
 
         if (type.equalsIgnoreCase("SUBSCRIPTION")){
             if (subscriptionType.equalsIgnoreCase("PROVA")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.PROVA, costumer, billID);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.PROVA, costumer);
                 sub.setExpiration(date.plusDays(TypeOfSub.PROVA.getnDay()));
             }
             else if (subscriptionType.equalsIgnoreCase("MENSILE")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.MENSILE, costumer, billID);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.MENSILE, costumer);
+                sub.setBillID(billID);
                 sub.setExpiration(date.plusMonths(TypeOfSub.MENSILE.getnMonth()));
             }
             else if (subscriptionType.equalsIgnoreCase("TRIMESTRALE")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.TRIMESTRALE, costumer, billID);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.TRIMESTRALE, costumer);
+                sub.setBillID(billID);
                 sub.setExpiration(date.plusMonths(TypeOfSub.TRIMESTRALE.getnMonth()));
             }
             else if (subscriptionType.equalsIgnoreCase("SEMESTRALE")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.SEMESTRALE, costumer, billID);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.SEMESTRALE, costumer);
+                sub.setBillID(billID);
                 sub.setExpiration(date.plusMonths(TypeOfSub.SEMESTRALE.getnMonth()));
             }
             else if (subscriptionType.equalsIgnoreCase("ANNUALE")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.ANNUALE, costumer, billID);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.ANNUALE, costumer);
+                sub.setBillID(billID);
                 sub.setExpiration(date.plusMonths(TypeOfSub.ANNUALE.getnMonth()));
             }
         }
         else if (type.equalsIgnoreCase("DAILY")) {
-            TypeOfAccess daily = new Daily(date, billID, costumer);
+            TypeOfAccess daily = new Daily(date, costumer);
+            daily.setBillID(billID);
         }
     }
 }

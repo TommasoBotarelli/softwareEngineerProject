@@ -3,6 +3,7 @@ package dao;
 import domainModel.*;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class FakeTrainingDiaryDao implements TrainingDiaryDao{
     private ArrayList<TrainingDiary> trainingDiaries;
@@ -28,8 +29,8 @@ public class FakeTrainingDiaryDao implements TrainingDiaryDao{
 
     @Override
     public void addTrainingCard(TrainingCard trainingCard, Costumer costumer) {
-        TrainingDiary trainingDiaryOfCostumer = (TrainingDiary) trainingDiaries.stream().filter
-                (trainingDiary -> trainingDiary.getCostumerRef().equals(costumer));
+        TrainingDiary trainingDiaryOfCostumer = (TrainingDiary) (trainingDiaries.stream().filter
+                (trainingDiary -> trainingDiary.getCostumerRef().equals(costumer)).collect(Collectors.toList()).get(0));
         trainingDiaryOfCostumer.addTrainingCard(trainingCard);
     }
 
@@ -40,7 +41,7 @@ public class FakeTrainingDiaryDao implements TrainingDiaryDao{
 
     @Override
     public TrainingDiary getTrainingDiaryFromCostumer(Costumer costumer) {
-        return (TrainingDiary)(trainingDiaries.stream().filter(trainingDiary -> trainingDiary.getCostumerRef().equals(costumer)));
+        return (TrainingDiary)(trainingDiaries.stream().filter(trainingDiary -> trainingDiary.getCostumerRef().equals(costumer)).collect(Collectors.toList()).get(0));
     }
 
     @Override

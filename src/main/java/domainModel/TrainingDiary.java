@@ -36,18 +36,6 @@ public class TrainingDiary {
     }
 
 
-    public ArrayList<TrainingCard> getTrainingCardFromPT(PersonalTrainer pt){
-        ArrayList<TrainingCard> personalTrainerCards = new ArrayList<>();
-
-        for (TrainingCard tCard : trainingCardsContainer){
-            if (tCard.getPersonalTrainer() == pt)
-                personalTrainerCards.add(tCard);
-        }
-
-        return personalTrainerCards;
-    }
-
-
     public Costumer getCostumerRef() {
         return costumerRef;
     }

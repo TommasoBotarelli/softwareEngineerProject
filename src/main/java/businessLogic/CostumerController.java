@@ -11,6 +11,7 @@ public class CostumerController {
     private TypeOfAccessDao typeOfAccessDao;
     private CostumerDao costumerDao;
     private TrainingDiaryDao trainingDiaryDao;
+    private EvaluationDao evaluationDao;
 
     private Costumer thisCostumer;
 
@@ -18,11 +19,16 @@ public class CostumerController {
         typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
         costumerDao = FakeCostumerDao.getInstance();
         trainingDiaryDao = FakeTrainingDiaryDao.getInstance();
+        evaluationDao = FakeEvaluationDao.getInstance();
     }
 
     public boolean setCurrentUser(String name, String surname, String phoneNumber){
         this.thisCostumer = costumerDao.getSelectedCostumer(name, surname, phoneNumber);
         return thisCostumer != null;
+    }
+
+    public Costumer getThisCostumer(){
+        return thisCostumer;
     }
 
     public String getName(){
@@ -46,7 +52,7 @@ public class CostumerController {
     }
 
     public ArrayList<Evaluation> getListOfMyEvaluation(){
-        return trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getEvaluationHistory();
+        return evaluationDao.getEvaluationOfCostumer(thisCostumer);
     }
 
     public TrainingCard getMyCurrentTrainingCard() throws FileNotFoundException {

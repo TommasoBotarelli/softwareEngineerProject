@@ -4,6 +4,7 @@ import domainModel.Costumer;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class FakeCostumerDao implements CostumerDao{
 
@@ -50,7 +51,7 @@ public class FakeCostumerDao implements CostumerDao{
 
     @Override
     public Costumer getSelectedCostumer(String name, String surname, String phoneNumber) {
-        return (Costumer) costumers.stream().filter(costumer -> costumer.getName().equals(name) &&
-                costumer.getSurname().equals(surname) && costumer.getPhoneNumber().equals(phoneNumber));
+        return (Costumer) (costumers.stream().filter(costumer -> costumer.getName().equals(name) &&
+                costumer.getSurname().equals(surname) && costumer.getPhoneNumber().equals(phoneNumber)).collect(Collectors.toList()).get(0));
     }
 }
