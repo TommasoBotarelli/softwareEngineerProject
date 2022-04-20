@@ -4,6 +4,7 @@ import dao.*;
 import domainModel.*;
 import org.junit.jupiter.api.*;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -38,11 +39,12 @@ class CostumerControllerTest {
         costumerController.setCurrentUser("Tommaso", "Botarelli", "123456789");
         PersonalTrainer aPersonalTrainer = new PersonalTrainer("Mario", "Rossi", "987654321");
         TrainingCard myFirstTrainingCard = new TrainingCard("Some exercises", 1, firstDate, firstDate.plusDays(14), true, aPersonalTrainer);
+        myFirstTrainingCard.setCostumer(costumer);
         TrainingCard mySecondTrainingCard = new TrainingCard("Some exercises", 2, firstDate.plusDays(14), firstDate.plusMonths(1), true, aPersonalTrainer);
-        TrainingDiaryDao trainingDiaryDao = FakeTrainingDiaryDao.getInstance();
-        trainingDiaryDao.addTrainingDiary(new TrainingDiary(costumer));
-        trainingDiaryDao.addTrainingCard(myFirstTrainingCard, costumer);
-        trainingDiaryDao.addTrainingCard(mySecondTrainingCard, costumer);
+        mySecondTrainingCard.setCostumer(costumer);
+        TrainingCardDao trainingCardDao = FakeTrainingCardDao.getInstance();
+        trainingCardDao.addTrainingCard(myFirstTrainingCard);
+        trainingCardDao.addTrainingCard(mySecondTrainingCard);
         trainingCards.add(myFirstTrainingCard);
         trainingCards.add(mySecondTrainingCard);
         Measurement firstMeasurement = new Measurement(1.85f, 80.0f, 70.0f, 10.0f);
@@ -83,26 +85,9 @@ class CostumerControllerTest {
     }
 
     @Test
-    void getMyCurrentTrainingCard() {
-    }
-
-    @Test
-    void getXCoordinateForGraph() {
-    }
-
-    @Test
-    void getWeightForGraph() {
-    }
-
-    @Test
-    void getHeightForGraph() {
-    }
-
-    @Test
-    void getLeanMassForGraph() {
-    }
-
-    @Test
-    void getFatMassForGraph() {
+    void getMyCurrentTrainingCard() throws FileNotFoundException {
+        ArrayList<TrainingCard> myActualTrainingCard = costumerController.getMyCurrentTrainingCard(25, 4, 2022);
+        Assertions.assertEquals(myActualTrainingCard.size(), 1);
+        Assertions.assertEquals(myActualTrainingCard.get(0), trainingCards.get(0));
     }
 }

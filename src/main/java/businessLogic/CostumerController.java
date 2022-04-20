@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class CostumerController {
     private TypeOfAccessDao typeOfAccessDao;
     private CostumerDao costumerDao;
-    private TrainingDiaryDao trainingDiaryDao;
+    private TrainingCardDao trainingCardDao;
     private EvaluationDao evaluationDao;
 
     private Costumer thisCostumer;
@@ -18,7 +18,7 @@ public class CostumerController {
     public CostumerController(){
         typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
         costumerDao = FakeCostumerDao.getInstance();
-        trainingDiaryDao = FakeTrainingDiaryDao.getInstance();
+        trainingCardDao = FakeTrainingCardDao.getInstance();
         evaluationDao = FakeEvaluationDao.getInstance();
     }
 
@@ -48,25 +48,22 @@ public class CostumerController {
     }
 
     public ArrayList<TrainingCard> getListOfMyTrainingCard(){
-        return trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getTrainingCardsContainer();
+        return trainingCardDao.getTrainingCardFromCostumer(thisCostumer);
     }
 
     public ArrayList<Evaluation> getListOfMyEvaluation(){
         return evaluationDao.getEvaluationOfCostumer(thisCostumer);
     }
 
-    public TrainingCard getMyCurrentTrainingCard() throws FileNotFoundException {
-        if (!trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getTrainingCardsContainer().isEmpty()){
-            ArrayList<TrainingCard> trainingCards = trainingDiaryDao.getTrainingDiaryFromCostumer(thisCostumer).getTrainingCardsContainer();
+    public ArrayList<TrainingCard> getMyCurrentTrainingCard(int day, int month, int year) throws FileNotFoundException {
+        LocalDate actualDate = LocalDate.of(year, month, day);
 
-            TrainingCard lastTrainingCard = trainingCards.get(0);
-            int i = 1;
-            while (i < trainingCards.size()){
-                if (lastTrainingCard.getExpiration().isBefore(trainingCards.get(i).getExpiration()))
-                    lastTrainingCard = trainingCards.get(i);
-            }
+        if (!trainingCardDao.getTrainingCardFromCostumer(thisCostumer).isEmpty()){
+            ArrayList<TrainingCard> trainingCards = trainingCardDao.getTrainingCardFromCostumer(thisCostumer);
 
-            return lastTrainingCard;
+            trainingCards.removeIf(t -> t.getEmission().isAfter(actualDate) || t.getExpiration().isBefore(actualDate));
+
+            return trainingCards;
         }
         else
             throw new FileNotFoundException("Nessuna scheda da visualizzare");
@@ -75,7 +72,7 @@ public class CostumerController {
     public ArrayList<LocalDate> getXCoordinateForGraph(){
         ArrayList<LocalDate> xCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
             xCoordinate.add(evaluation.getDate());
         }
 
@@ -85,7 +82,7 @@ public class CostumerController {
     public ArrayList<Float> getWeightForGraph(){
         ArrayList<Float> weightCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
             weightCoordinate.add(evaluation.getMeasurement().getWeight());
         }
 
@@ -95,7 +92,7 @@ public class CostumerController {
     public ArrayList<Float> getHeightForGraph(){
         ArrayList<Float> heightCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
             heightCoordinate.add(evaluation.getMeasurement().getHeight());
         }
 
@@ -105,7 +102,7 @@ public class CostumerController {
     public ArrayList<Float> getLeanMassForGraph(){
         ArrayList<Float> leanMassCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
             leanMassCoordinate.add(evaluation.getMeasurement().getLeanMass());
         }
 
@@ -115,7 +112,7 @@ public class CostumerController {
     public ArrayList<Float> getFatMassForGraph(){
         ArrayList<Float> fatMassCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : trainingDiaryDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
             fatMassCoordinate.add(evaluation.getMeasurement().getFatMass());
         }
 

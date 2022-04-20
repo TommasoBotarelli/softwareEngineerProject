@@ -9,6 +9,7 @@ public class TrainingCard {
     private LocalDate emission;
     private LocalDate expiration;
     private PersonalTrainer personalTrainer;
+    private Costumer costumer;
     private boolean standard;
 
 
@@ -21,15 +22,13 @@ public class TrainingCard {
         this.standard = standard;
     }
 
-
-    TrainingCard(TrainingCard tCard){
-        this.exercises = tCard.exercises;
-        this.level = tCard.level;
-        this.emission = tCard.emission;
-        this.expiration = tCard.expiration;
-        this.personalTrainer = tCard.personalTrainer;
+    public Costumer getCostumer() {
+        return costumer;
     }
 
+    public void setCostumer(Costumer costumer) {
+        this.costumer = costumer;
+    }
 
     public void setEmission(LocalDate emission) {
         this.emission = emission;

@@ -10,13 +10,13 @@ public class PersonalTrainerController {
     private PersonalTrainer thisPersonalTrainer;
 
     private PersonalTrainerDao personalTrainerDao;
-    private TrainingDiaryDao trainingDiaryDao;
+    private TrainingCardDao trainingCardDao;
     private CostumerDao costumerDao;
     private EvaluationDao evaluationDao;
 
     public PersonalTrainerController(){
         personalTrainerDao = FakePersonalTrainerDao.getInstance();
-        trainingDiaryDao = FakeTrainingDiaryDao.getInstance();
+        trainingCardDao = FakeTrainingCardDao.getInstance();
         costumerDao = FakeCostumerDao.getInstance();
         evaluationDao = FakeEvaluationDao.getInstance();
     }
@@ -29,7 +29,7 @@ public class PersonalTrainerController {
     public ArrayList<TrainingCard> getMyStandardTrainingCard(){
         ArrayList<TrainingCard> myStandardTrainingCards = new ArrayList<>();
 
-        for (TrainingCard trainingCard : trainingDiaryDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer)){
+        for (TrainingCard trainingCard : trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer)){
             if (trainingCard.isStandard())
                 myStandardTrainingCards.add(trainingCard);
         }
@@ -41,20 +41,16 @@ public class PersonalTrainerController {
                                 emissionYear, int expirationDay, int expirationMonth, int expirationYear, boolean standard){
         TrainingCard trainingCard = new TrainingCard(exercises, level, LocalDate.of(emissionYear, emissionMonth, emissionDay),
                 LocalDate.of(expirationYear, expirationMonth, expirationDay), standard, thisPersonalTrainer);
-        trainingDiaryDao.addTrainingCard(trainingCard, costumer);
-    }
-
-    public void addNewCostumer(Costumer costumer){
-        TrainingDiary trainingDiary = new TrainingDiary(costumer);
-        trainingDiaryDao.addTrainingDiary(trainingDiary);
+        trainingCard.setCostumer(costumer);
+        trainingCardDao.addTrainingCard(trainingCard);
     }
 
     public ArrayList<Costumer> getAllCostumer(){
         return costumerDao.getAll();
     }
 
-    public TrainingDiary getTrainingDiaryOfCostumer(Costumer selectedCostumer){
-        return trainingDiaryDao.getTrainingDiaryFromCostumer(selectedCostumer);
+    public ArrayList<Costumer> findCostumer(String name, String surname){
+        return costumerDao.getFromNameSurname(name, surname);
     }
 
     public void addEvaluation(Costumer costumer, int year, int month, int day, String comments, int progressLevel, float height,

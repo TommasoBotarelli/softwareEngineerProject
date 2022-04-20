@@ -2,6 +2,10 @@ package domainModel;
 
 import java.util.ArrayList;
 
+/*
+TODO Maybe is better to remove this? Because we dont't use this so much.
+ */
+
 public class TrainingDiary {
 
     private final Costumer costumerRef;
