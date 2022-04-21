@@ -27,22 +27,24 @@ public class PersonalTrainerController {
     }
 
     public ArrayList<TrainingCard> getMyStandardTrainingCard(){
-        ArrayList<TrainingCard> myStandardTrainingCards = new ArrayList<>();
-
-        for (TrainingCard trainingCard : trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer)){
-            if (trainingCard.isStandard())
-                myStandardTrainingCards.add(trainingCard);
-        }
-
-        return myStandardTrainingCards;
+        return trainingCardDao.getStandardTrainingCardsFromPersonalTrainer(thisPersonalTrainer);
     }
 
-    public void addTrainingCard(Costumer costumer, String exercises, int level, int emissionDay, int emissionMonth, int
-                                emissionYear, int expirationDay, int expirationMonth, int expirationYear, boolean standard){
-        TrainingCard trainingCard = new TrainingCard(exercises, level, LocalDate.of(emissionYear, emissionMonth, emissionDay),
-                standard, thisPersonalTrainer);
+    public void addCustomizeTrainingCard(Costumer costumer, String exercises, int level, int emissionDay, int emissionMonth, int
+                                emissionYear, int expirationDay, int expirationMonth, int expirationYear){
+
+        TrainingCard trainingCard = new TrainingCard(exercises, level,false, thisPersonalTrainer);
+
         trainingCard.setCostumer(costumer);
+        trainingCard.setEmission(LocalDate.of(emissionYear, emissionMonth, emissionDay));
         trainingCard.setExpiration(LocalDate.of(expirationYear, expirationMonth, expirationDay));
+
+        trainingCardDao.addTrainingCard(trainingCard);
+    }
+
+    public void addStandardTrainingCard(String exercises, int level){
+        TrainingCard trainingCard = new TrainingCard(exercises, level, true, thisPersonalTrainer);
+
         trainingCardDao.addTrainingCard(trainingCard);
     }
 
@@ -68,5 +70,13 @@ public class PersonalTrainerController {
 
     public void deleteEvaluation(Evaluation evaluation){
         evaluationDao.deleteEvaluation(evaluation);
+    }
+
+    public PersonalTrainer getThisPersonalTrainer(){
+        return thisPersonalTrainer;
+    }
+
+    public ArrayList<TrainingCard> getMyTrainingCard(){
+        return trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer);
     }
 }

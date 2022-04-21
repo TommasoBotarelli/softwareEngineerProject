@@ -1,6 +1,7 @@
 package dao;
 
 import domainModel.PersonalTrainer;
+import domainModel.TrainingCard;
 
 import java.util.ArrayList;
 

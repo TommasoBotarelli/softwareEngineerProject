@@ -9,4 +9,5 @@ public interface EvaluationDao {
     void addEvaluation(Evaluation evaluation);
     void deleteEvaluation(Evaluation evaluation);
     ArrayList<Evaluation> getEvaluationOfCostumer(Costumer costumer);
+    ArrayList<Evaluation> getAllEvaluation();
 }

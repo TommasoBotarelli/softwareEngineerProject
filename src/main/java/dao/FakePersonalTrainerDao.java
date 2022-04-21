@@ -1,6 +1,7 @@
 package dao;
 
 import domainModel.PersonalTrainer;
+import domainModel.TrainingCard;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -38,8 +39,13 @@ public class FakePersonalTrainerDao implements PersonalTrainerDao{
 
     @Override
     public PersonalTrainer getPersonalTrainer(String name, String surname, String phoneNumber) {
-        return personalTrainers.stream().filter(personalTrainer -> personalTrainer.
-                equals(new PersonalTrainer(name, surname, phoneNumber))).collect(Collectors.toList()).get(0);
+        if (personalTrainers.contains(new PersonalTrainer(name, surname, phoneNumber))){
+            return personalTrainers.stream().filter
+                    (personalTrainer -> personalTrainer.equals(new PersonalTrainer(name, surname, phoneNumber)))
+                    .collect(Collectors.toList()).get(0);
+        }
+        else
+            return null;
     }
 
     @Override

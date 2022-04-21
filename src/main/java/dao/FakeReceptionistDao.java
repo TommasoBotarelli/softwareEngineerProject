@@ -42,7 +42,9 @@ public class FakeReceptionistDao implements ReceptionistDao{
 
     @Override
     public void addReceptionist(Receptionist receptionist) {
-        receptionists.add(receptionist);
+        if (!receptionists.contains(receptionist)){
+            receptionists.add(receptionist);
+        }
     }
 
     public void deleteReceptionist(Receptionist receptionist){

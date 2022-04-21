@@ -41,4 +41,9 @@ public class FakeEvaluationDao implements EvaluationDao{
 
         return evaluationOfCostumer;
     }
+
+    @Override
+    public ArrayList<Evaluation> getAllEvaluation() {
+        return evaluations;
+    }
 }

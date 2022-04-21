@@ -15,6 +15,8 @@ public class Evaluation {
         this.date = date;
         this.measurement = measurement;
         this.costumer = costumer;
+        this.progressLevel = 0;
+        this.comments = "";
     }
 
 
