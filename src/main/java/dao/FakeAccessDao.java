@@ -63,4 +63,9 @@ public class FakeAccessDao implements AccessDao{
 
         return accessOfDate;
     }
+
+    @Override
+    public void deleteAll() {
+        acceses.clear();
+    }
 }

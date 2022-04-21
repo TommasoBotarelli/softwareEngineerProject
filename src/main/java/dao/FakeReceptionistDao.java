@@ -3,6 +3,7 @@ package dao;
 import domainModel.Receptionist;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class FakeReceptionistDao implements ReceptionistDao{
 
@@ -26,8 +27,13 @@ public class FakeReceptionistDao implements ReceptionistDao{
     }
 
     @Override
-    public Receptionist getReceptionistFromNameSurnamePhoneNumber(String name, String surname, String phoneNumber) {
-        return (Receptionist) receptionists.stream().filter(receptionist -> receptionist.equals(new Receptionist(name, surname, phoneNumber)));
+    public Receptionist getReceptionistFromNameSurnamePhoneNumber(String name, String surname, String phoneNumber) throws Exception{
+        if (receptionists.stream().anyMatch(receptionist -> receptionist.equals(new Receptionist(name, surname, phoneNumber)))){
+            return receptionists.stream().filter
+                    (receptionist -> receptionist.equals(new Receptionist(name, surname, phoneNumber))).collect(Collectors.toList()).get(0);
+        }
+        else
+            throw new Exception("No receptionist with these data");
     }
 
     /*
@@ -41,5 +47,15 @@ public class FakeReceptionistDao implements ReceptionistDao{
 
     public void deleteReceptionist(Receptionist receptionist){
         receptionists.remove(receptionist);
+    }
+
+    @Override
+    public boolean contains(Receptionist receptionist) {
+        return receptionists.contains(receptionist);
+    }
+
+    @Override
+    public void deleteAll() {
+        receptionists.clear();
     }
 }

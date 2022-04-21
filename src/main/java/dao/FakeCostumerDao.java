@@ -24,7 +24,9 @@ public class FakeCostumerDao implements CostumerDao{
 
     @Override
     public void add(Costumer costumer) {
-        costumers.add(costumer);
+        if (!costumers.contains(costumer)){
+            costumers.add(costumer);
+        }
     }
 
     @Override
@@ -51,7 +53,7 @@ public class FakeCostumerDao implements CostumerDao{
 
     @Override
     public Costumer getSelectedCostumer(String name, String surname, String phoneNumber) {
-        return (Costumer) (costumers.stream().filter(costumer -> costumer.getName().equals(name) &&
-                costumer.getSurname().equals(surname) && costumer.getPhoneNumber().equals(phoneNumber)).collect(Collectors.toList()).get(0));
+        return costumers.stream().filter(costumer -> costumer.getName().equals(name) &&
+                costumer.getSurname().equals(surname) && costumer.getPhoneNumber().equals(phoneNumber)).collect(Collectors.toList()).get(0);
     }
 }

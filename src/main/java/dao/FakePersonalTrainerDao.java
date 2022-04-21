@@ -41,4 +41,9 @@ public class FakePersonalTrainerDao implements PersonalTrainerDao{
         return personalTrainers.stream().filter(personalTrainer -> personalTrainer.
                 equals(new PersonalTrainer(name, surname, phoneNumber))).collect(Collectors.toList()).get(0);
     }
+
+    @Override
+    public void deleteAll() {
+        personalTrainers.clear();
+    }
 }

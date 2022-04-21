@@ -26,7 +26,7 @@ public class ReceptionistController {
         badgeDao = FakeBadgeDao.getInstance();
     }
 
-    public boolean setCurrentReceptionist(String name, String surname, String phoneNumber){
+    public boolean setCurrentReceptionist(String name, String surname, String phoneNumber) throws Exception{
         thisReceptionist = receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);
         return thisReceptionist != null;
     }

@@ -9,4 +9,5 @@ public interface PersonalTrainerDao {
     void delete(PersonalTrainer personalTrainer);
     ArrayList<PersonalTrainer> getAllPersonalTrainers();
     PersonalTrainer getPersonalTrainer(String name, String surname, String phoneNumber);
+    void deleteAll();
 }

@@ -4,6 +4,7 @@ import dao.*;
 import domainModel.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -15,69 +16,32 @@ class GymManagerControllerTest {
 
     private GymManagerController gymManagerController = new GymManagerController();
 
-    private static ArrayList<PersonalTrainer> personalTrainers = new ArrayList<>();
-    private static ArrayList<Receptionist> receptionists = new ArrayList<>();
-    private static ArrayList<Costumer> costumers = new ArrayList<>();
-
-    @BeforeAll
-    static void setUp(){
-        LocalDate actualDate = LocalDate.of(2022, 4, 22);
-        LocalDate pastDate = LocalDate.of(2022, 4, 21);
-        LocalDate futureDate = LocalDate.of(2022, 5, 10);
-
-        PersonalTrainer personalTrainer1 = new PersonalTrainer("Mario", "Rossi", "123456789");
-        PersonalTrainer personalTrainer2 = new PersonalTrainer("Marco", "Bianchi", "24681012");
-        personalTrainers.add(personalTrainer1);
-        personalTrainers.add(personalTrainer2);
-        PersonalTrainerDao personalTrainerDao = FakePersonalTrainerDao.getInstance();
-        personalTrainerDao.add(personalTrainer1);
-        personalTrainerDao.add(personalTrainer2);
-        Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8163582");
-        Costumer costumer2 = new Costumer("Marco", "Verdi", "826724617");
-        costumers.add(costumer1);
-        costumers.add(costumer2);
-        Receptionist receptionist1 = new Receptionist("Laura", "Rossi", "186753187");
-        Receptionist receptionist2 = new Receptionist("Maria", "Neri", "9828375725");
-        receptionists.add(receptionist1);
-        receptionists.add(receptionist2);
-
-        Bill bill1c1 = new Bill(200, actualDate);
-        Bill bill1c2 = new Bill(200, futureDate);
-        FakeBillDao.getInstance().add(bill1c1);
-        FakeBillDao.getInstance().add(bill1c2);
-
-        Subscription freeSubC1 = new Subscription(pastDate, TypeOfSub.PROVA, costumer1);
-        Subscription freeSubC2 = new Subscription(pastDate, TypeOfSub.PROVA, costumer2);
-
-        Subscription paySubC1 = new Subscription(actualDate, TypeOfSub.SEMESTRALE, costumer1);
-        paySubC1.setBillID(bill1c1.getId());
-
-        Subscription paySubC2 = new Subscription(futureDate, TypeOfSub.MENSILE, costumer2);
-        paySubC2.setBillID(bill1c2.getId());
-
-        TrainingCard standardTrainingCardPT1 = new TrainingCard("Some exercises", 1, pastDate, true, personalTrainer1);
-        TrainingCard standardTrainingCardPT2 = new TrainingCard("Some exercises", 2, pastDate, true, personalTrainer2);
-
-        TrainingCard customizeTrainingCardPT1 = new TrainingCard("Some exercise", 2, actualDate, false, personalTrainer1);
-        TrainingCard customizeTrainingCardPT2 = new TrainingCard("Some exercise", 3, actualDate, false, personalTrainer1);
-        customizeTrainingCardPT1.setCostumer(costumer1);
-        customizeTrainingCardPT2.setCostumer(costumer2);
-
-        TrainingCardDao trainingCardDao = FakeTrainingCardDao.getInstance();
-        trainingCardDao.addTrainingCard(customizeTrainingCardPT1);
-        trainingCardDao.addTrainingCard(customizeTrainingCardPT2);
-
-        Evaluation evaluation1C1 = new Evaluation(actualDate, new Measurement(1.85f, 80.0f, 70.0f, 10.0f), costumer1);
-        Evaluation evaluation1C2 = new Evaluation(actualDate, new Measurement(1.90f, 83.0f, 70.0f, 13.0f), costumer2);
-        EvaluationDao evaluationDao = FakeEvaluationDao.getInstance();
-        evaluationDao.addEvaluation(evaluation1C1);
-        evaluationDao.addEvaluation(evaluation1C2);
+    @BeforeEach
+    void setUp(){
+        FakeReceptionistDao.getInstance().deleteAll();
+        FakePersonalTrainerDao.getInstance().deleteAll();
+        FakeTypeOfAccessDao.getInstance().deleteAll();
+        FakeBillDao.getInstance().deleteAll();
+        FakeAccessDao.getInstance().deleteAll();
     }
 
     @Test
     void getAllPersonalTrainer() {
-        ArrayList<PersonalTrainer> allPersonalTrainer = gymManagerController.getAllPersonalTrainer();
-        assertEquals(allPersonalTrainer, personalTrainers);
+        PersonalTrainer personalTrainer1 = new PersonalTrainer("Tommaso", "Botarelli", "12753726");
+        PersonalTrainer personalTrainer2 = new PersonalTrainer("Gianluca", "Botarelli", "8637235628");
+        PersonalTrainer personalTrainer3 = new PersonalTrainer("Lorenzo", "Botarelli", "82673526738");
+
+        ArrayList<PersonalTrainer> personalTrainers = new ArrayList<>();
+
+        personalTrainers.add(personalTrainer1);
+        personalTrainers.add(personalTrainer2);
+        personalTrainers.add(personalTrainer3);
+
+        FakePersonalTrainerDao.getInstance().add(personalTrainer1);
+        FakePersonalTrainerDao.getInstance().add(personalTrainer2);
+        FakePersonalTrainerDao.getInstance().add(personalTrainer3);
+
+        assertEquals(personalTrainers, gymManagerController.getAllPersonalTrainer());
     }
 
     @Test
@@ -98,16 +62,34 @@ class GymManagerControllerTest {
 
     @Test
     void getAllBills() {
-        ArrayList<Bill> allBills = gymManagerController.getAllBills();
-        assertEquals(2, allBills.size());
-        assertEquals(allBills.get(0).getId(), FakeBillDao.getInstance().getAll().get(0).getId());
-        assertEquals(allBills.get(1).getId(), FakeBillDao.getInstance().getAll().get(1).getId());
+        Bill bill1 = new Bill(200.0f, LocalDate.of(2022, 4, 22));
+        Bill bill2 = new Bill(100.0f, LocalDate.of(2022, 4, 22));
+
+        ArrayList<Bill> bills = new ArrayList<>();
+
+        bills.add(bill1);
+        bills.add(bill2);
+
+        FakeBillDao.getInstance().add(bill1);
+        FakeBillDao.getInstance().add(bill2);
+
+        assertEquals(bills, gymManagerController.getAllBills());
     }
 
     @Test
     void getBillsOfTheDay() {
-        ArrayList<Bill> billsOfTheDay = gymManagerController.getBillsOfTheDay(22, 4, 2022);
-        assertEquals(billsOfTheDay.get(0).getId(), FakeBillDao.getInstance().getAll().get(0).getId());
+        Bill bill1 = new Bill(200.0f, LocalDate.of(2022, 4, 22));
+        Bill bill2 = new Bill(100.0f, LocalDate.of(2022, 4, 22));
+
+        ArrayList<Bill> bills = new ArrayList<>();
+
+        bills.add(bill1);
+        bills.add(bill2);
+
+        FakeBillDao.getInstance().add(bill1);
+        FakeBillDao.getInstance().add(bill2);
+
+        assertEquals(bills, gymManagerController.getBillsOfTheDay(22, 4, 2022));
     }
 
     @Test
@@ -137,29 +119,130 @@ class GymManagerControllerTest {
 
     @Test
     void getAllAccessFromDate() {
+        LocalDate actualDate = LocalDate.of(2022, 4, 22);
+
+        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
+        Costumer costumer2 = new Costumer("Ludovico", "Siciliani", "976425842");
+
+        Access access1 = new Access(costumer1, actualDate, true);
+        Access access2 = new Access(costumer2, actualDate, true);
+        Access access3 = new Access(costumer2, actualDate.plusDays(2), false);
+        Access access4 = new Access(costumer2, actualDate.plusDays(1), true);
+
+        AccessDao accessDao = FakeAccessDao.getInstance();
+        accessDao.add(access1);
+        accessDao.add(access2);
+        accessDao.add(access3);
+        accessDao.add(access4);
+
+        assertEquals(2, gymManagerController.getAllAccessFromDate(2022, 4, 22).size());
+        assertEquals(access1, gymManagerController.getAllAccessFromDate(2022, 4, 22).get(0));
+        assertEquals(access2, gymManagerController.getAllAccessFromDate(2022, 4, 22).get(1));
+
     }
 
     @Test
     void getAllCostumers() {
+        ArrayList<Costumer> costumersOfGym = new ArrayList<>();
+
+        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
+        Costumer costumer2 = new Costumer("Alessandro", "Siani", "976425842");
+        Costumer costumer3 = new Costumer("Lorenzo", "Massi", "4362545");
+        Costumer costumer4 = new Costumer("Francesco", "Corbini", "754752445");
+
+        costumersOfGym.add(costumer1);
+        costumersOfGym.add(costumer2);
+        costumersOfGym.add(costumer3);
+        costumersOfGym.add(costumer4);
+
+        CostumerDao costumerDao = FakeCostumerDao.getInstance();
+        costumerDao.add(costumer1);
+        costumerDao.add(costumer2);
+        costumerDao.add(costumer3);
+        costumerDao.add(costumer4);
+
+        assertEquals(costumersOfGym, gymManagerController.getAllCostumers());
     }
 
     @Test
     void getSubOfCostumer() {
+        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
+
+        ArrayList<TypeOfAccess> subscriptions = new ArrayList<>();
+
+        Subscription subscription1 = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.MENSILE, costumer1);
+        Daily subscription2 = new Daily(LocalDate.of(2022, 4, 22), costumer1);
+        Subscription subscription3 = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.SEMESTRALE, costumer1);
+
+        subscriptions.add(subscription1);
+        subscriptions.add(subscription2);
+        subscriptions.add(subscription3);
+
+        TypeOfAccessDao typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
+
+        typeOfAccessDao.add(subscription1, 123);
+        typeOfAccessDao.add(subscription2, 321);
+        typeOfAccessDao.add(subscription3, 826);
+
+        assertEquals(subscriptions, gymManagerController.getSubOfCostumer(costumer1));
     }
 
     @Test
-    void getBillOfSub() {
+    void getBillOfSub() throws Exception{
+        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
+
+        Bill bill = new Bill(200.0f, LocalDate.of(2022, 4, 22));
+
+        BillDao billDao = FakeBillDao.getInstance();
+
+        long id = billDao.add(bill);
+
+        Subscription subscription = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.MENSILE, costumer1);
+
+        TypeOfAccessDao typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
+
+        typeOfAccessDao.add(subscription, id);
+
+        assertEquals(bill, gymManagerController.getBillOfSub(subscription));
     }
 
     @Test
     void getAllReceptionist() {
+        Receptionist receptionist1 = new Receptionist("Test", "Prova", "892165271");
+        Receptionist receptionist2 = new Receptionist("AnotherTest", "Prova", "45235431");
+        Receptionist receptionist3 = new Receptionist("AntotherReceptionist", "Receptionist", "892165271");
+
+        ReceptionistDao receptionistDao = FakeReceptionistDao.getInstance();
+
+        receptionistDao.addReceptionist(receptionist1);
+        receptionistDao.addReceptionist(receptionist2);
+        receptionistDao.addReceptionist(receptionist3);
+
+        ArrayList<Receptionist> allReceptionist = new ArrayList<>();
+
+        allReceptionist.add(receptionist1);
+        allReceptionist.add(receptionist2);
+        allReceptionist.add(receptionist3);
+
+        assertEquals(allReceptionist, gymManagerController.getAllReceptionist());
     }
 
     @Test
-    void addReceptionist() {
+    void addReceptionist() throws Exception{
+        gymManagerController.addReceptionist("TestAdd", "Test", "7856749");
+        assertEquals(new Receptionist("TestAdd", "Test", "7856749"),
+                FakeReceptionistDao.getInstance().getReceptionistFromNameSurnamePhoneNumber
+                        ("TestAdd", "Test", "7856749"));
     }
 
     @Test
     void deleteReceptionist() {
+        Receptionist receptionist = new Receptionist("Tommaso", "Botarelli", "123456759");
+
+        FakeReceptionistDao.getInstance().addReceptionist(receptionist);
+
+        gymManagerController.deleteReceptionist(receptionist);
+
+        assertFalse(FakeReceptionistDao.getInstance().contains(receptionist));
     }
 }

@@ -74,7 +74,7 @@ public class GymManagerController {
         return typeOfAccessDao.getFromCostumer(costumer);
     }
 
-    public Bill getBillOfSub(TypeOfAccess typeOfAccess){
+    public Bill getBillOfSub(TypeOfAccess typeOfAccess) throws Exception{
         return billDao.getFromID(typeOfAccess.getBillID());
     }
 

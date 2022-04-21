@@ -9,5 +9,6 @@ public interface BillDao {
     long add(Bill bill);
     ArrayList<Bill> getAll();
     ArrayList<Bill> getFromDate(LocalDate date);
-    Bill getFromID(long id);
+    Bill getFromID(long id) throws Exception;
+    void deleteAll();
 }

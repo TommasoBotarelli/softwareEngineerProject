@@ -32,8 +32,8 @@ class CostumerControllerTest {
         Subscription subscription = new Subscription(firstDate.plusDays(14), TypeOfSub.SEMESTRALE, costumer);
         subscription.setBillID(bill.getId());
         TypeOfAccessDao typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
-        typeOfAccessDao.add(freeSubscription);
-        typeOfAccessDao.add(subscription);
+        typeOfAccessDao.add(freeSubscription, 434);
+        typeOfAccessDao.add(subscription, 323);
         typeOfAccessOfCostumer.add(freeSubscription);
         typeOfAccessOfCostumer.add(subscription);
         costumerController.setCurrentUser("Tommaso", "Botarelli", "123456789");

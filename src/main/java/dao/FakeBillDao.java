@@ -1,9 +1,12 @@
 package dao;
 
 import domainModel.Bill;
+
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class FakeBillDao implements BillDao{
 
@@ -26,7 +29,8 @@ public class FakeBillDao implements BillDao{
     @Override
     public long add(Bill bill) {
         bills.add(bill);
-        return ++counter;
+        bill.setId(counter);
+        return counter++;
     }
 
     @Override
@@ -47,7 +51,16 @@ public class FakeBillDao implements BillDao{
     }
 
     @Override
-    public Bill getFromID(long id) {
-        return (Bill)bills.stream().filter(bill -> bill.getId() == id);
+    public Bill getFromID(long id) throws Exception{
+        if (bills.stream().anyMatch(bill -> bill.getId() == id)){
+            return bills.stream().filter(bill -> bill.getId() == id).collect(Collectors.toList()).get(0);
+        }
+        else
+            throw new Exception("A bill with this ID doesn't exist");
+    }
+
+    @Override
+    public void deleteAll() {
+        bills.clear();
     }
 }

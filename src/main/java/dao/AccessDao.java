@@ -12,4 +12,5 @@ public interface AccessDao {
     ArrayList<Access> getAll();
     ArrayList<Access> getFromCostumer(Costumer costumer);
     ArrayList<Access> getFromDate(LocalDate date);
+    void deleteAll();
 }

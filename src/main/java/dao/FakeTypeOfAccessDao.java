@@ -25,7 +25,8 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao{
     }
 
     @Override
-    public void add(TypeOfAccess typeOfAccess) {
+    public void add(TypeOfAccess typeOfAccess, long id) {
+        typeOfAccess.setBillID(id);
         typeOfAccesses.add(typeOfAccess);
     }
 
@@ -59,6 +60,11 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao{
     @Override
     public TypeOfAccess getValidTypeOfAccessFromCostumer(Costumer costumer, LocalDate date) {
         return (TypeOfAccess) this.getFromCostumer(costumer).stream().filter(returnCostumer -> returnCostumer.isValid(date));
+    }
+
+    @Override
+    public void deleteAll() {
+        typeOfAccesses.clear();
     }
 
 
