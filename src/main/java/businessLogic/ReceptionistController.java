@@ -26,7 +26,7 @@ public class ReceptionistController {
         badgeDao = FakeBadgeDao.getInstance();
     }
 
-    public boolean setCurrentReceptionist(String name, String surname, String phoneNumber) throws Exception{
+    public boolean setCurrentReceptionist(String name, String surname, String phoneNumber){
         thisReceptionist = receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);
         return thisReceptionist != null;
     }
@@ -36,8 +36,8 @@ public class ReceptionistController {
         costumerDao.add(newCostumer);
     }
 
-    public void deleteCostumer(Costumer costumer){
-        costumerDao.delete(costumer);
+    public boolean deleteCostumer(Costumer costumer){
+        return costumerDao.delete(costumer);
     }
 
     public ArrayList<Costumer> visualizeAllCostumer(){
@@ -65,31 +65,63 @@ public class ReceptionistController {
         return costumerDao.getSelectedCostumer(name, surname, phoneNumber);
     }
 
-    public boolean addAccessForCostumerFromBadge(int id, int day, int month, int year){
-        LocalDate date = LocalDate.of(year, month, day);
+    private ArrayList<TypeOfAccess> getSubscriptionsOfCostumer(Costumer costumer){
+        ArrayList<TypeOfAccess> onlySubscriptions = typeOfAccessDao.getFromCostumer(costumer);
+
+        onlySubscriptions.removeIf(t -> t instanceof Daily);
+
+        return onlySubscriptions;
+    }
+
+    private ArrayList<TypeOfAccess> getDailyOfCostumer(Costumer costumer){
+        ArrayList<TypeOfAccess> onlySubscriptions = typeOfAccessDao.getFromCostumer(costumer);
+
+        onlySubscriptions.removeIf(t -> t instanceof Subscription);
+
+        return onlySubscriptions;
+    }
+
+    public boolean addAccessForCostumerFromBadge(long id, LocalDate date) throws Exception{
         Costumer costumer = badgeDao.searchCostumerFromId(id);
-        TypeOfAccess validTypeOfAccess = typeOfAccessDao.getValidTypeOfAccessFromCostumer(costumer, date);
-        if (validTypeOfAccess != null){
-            accessDao.add(new Access(costumer, date, true));
-            validTypeOfAccess.addAccess();
-            return true;
+        if (costumer == null)
+            throw new Exception("A costumer with this id doesn't exist");
+
+        ArrayList<TypeOfAccess> typeOfAccesesOfCostumer = typeOfAccessDao.getFromCostumer(costumer);
+
+        if (!typeOfAccesesOfCostumer.isEmpty()){
+            ArrayList<TypeOfAccess> subOfCostumer = this.getSubscriptionsOfCostumer(costumer);
+            for (TypeOfAccess t : subOfCostumer){
+                if (t.isValid(date)){
+                    t.addAccess();
+                    Access newAccess = new Access(costumer, date);
+                    accessDao.add(newAccess);
+                    return true;
+                }
+            }
+            ArrayList<TypeOfAccess> dailyOfSub = this.getDailyOfCostumer(costumer);
+            for (TypeOfAccess t : subOfCostumer){
+                if (t.isValid(date)){
+                    t.addAccess();
+                    Access newAccess = new Access(costumer, date);
+                    accessDao.add(newAccess);
+                    return true;
+                }
+            }
         }
-        else{
-            accessDao.add(new Access(costumer, date, false));
-            return false;
-        }
+        accessDao.add(new Access(costumer, date));
+        return false;
     }
 
     public boolean addAccessForCostumer(Costumer costumer, int day, int month, int year){
         LocalDate date = LocalDate.of(year, month, day);
         TypeOfAccess validTypeOfAccess = typeOfAccessDao.getValidTypeOfAccessFromCostumer(costumer, date);
         if (validTypeOfAccess != null){
-            accessDao.add(new Access(costumer, date, true));
+            accessDao.add(new Access(costumer, date));
             validTypeOfAccess.addAccess();
             return true;
         }
         else{
-            accessDao.add(new Access(costumer, date, false));
+            accessDao.add(new Access(costumer, date));
             return false;
         }
     }
@@ -133,5 +165,10 @@ public class ReceptionistController {
             TypeOfAccess daily = new Daily(date, costumer);
             daily.setBillID(billID);
         }
+    }
+
+    public void releaseBadge(Costumer costumer){
+        Badge badge = new Badge(costumer);
+        badgeDao.addBadge(badge);
     }
 }

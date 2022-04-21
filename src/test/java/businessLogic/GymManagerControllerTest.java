@@ -2,8 +2,6 @@ package businessLogic;
 
 import dao.*;
 import domainModel.*;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -99,10 +97,10 @@ class GymManagerControllerTest {
         Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
         Costumer costumer2 = new Costumer("Ludovico", "Siciliani", "976425842");
 
-        Access access1 = new Access(costumer1, actualDate, true);
-        Access access2 = new Access(costumer2, actualDate, true);
-        Access access3 = new Access(costumer2, actualDate.plusDays(2), false);
-        Access access4 = new Access(costumer2, actualDate.plusDays(1), true);
+        Access access1 = new Access(costumer1, actualDate);
+        Access access2 = new Access(costumer2, actualDate);
+        Access access3 = new Access(costumer2, actualDate.plusDays(2));
+        Access access4 = new Access(costumer2, actualDate.plusDays(1));
 
         FakeAccessDao.getInstance().add(access1);
         FakeAccessDao.getInstance().add(access2);
@@ -124,10 +122,10 @@ class GymManagerControllerTest {
         Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
         Costumer costumer2 = new Costumer("Ludovico", "Siciliani", "976425842");
 
-        Access access1 = new Access(costumer1, actualDate, true);
-        Access access2 = new Access(costumer2, actualDate, true);
-        Access access3 = new Access(costumer2, actualDate.plusDays(2), false);
-        Access access4 = new Access(costumer2, actualDate.plusDays(1), true);
+        Access access1 = new Access(costumer1, actualDate);
+        Access access2 = new Access(costumer2, actualDate);
+        Access access3 = new Access(costumer2, actualDate.plusDays(2));
+        Access access4 = new Access(costumer2, actualDate.plusDays(1));
 
         AccessDao accessDao = FakeAccessDao.getInstance();
         accessDao.add(access1);
@@ -180,9 +178,9 @@ class GymManagerControllerTest {
 
         TypeOfAccessDao typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
 
-        typeOfAccessDao.add(subscription1, 123);
-        typeOfAccessDao.add(subscription2, 321);
-        typeOfAccessDao.add(subscription3, 826);
+        typeOfAccessDao.addWithBill(subscription1, 123);
+        typeOfAccessDao.addWithBill(subscription2, 321);
+        typeOfAccessDao.addWithBill(subscription3, 826);
 
         assertEquals(subscriptions, gymManagerController.getSubOfCostumer(costumer1));
     }
@@ -201,7 +199,7 @@ class GymManagerControllerTest {
 
         TypeOfAccessDao typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
 
-        typeOfAccessDao.add(subscription, id);
+        typeOfAccessDao.addWithBill(subscription, id);
 
         assertEquals(bill, gymManagerController.getBillOfSub(subscription));
     }
@@ -228,7 +226,7 @@ class GymManagerControllerTest {
     }
 
     @Test
-    void addReceptionist() throws Exception{
+    void addReceptionist(){
         gymManagerController.addReceptionist("TestAdd", "Test", "7856749");
         assertEquals(new Receptionist("TestAdd", "Test", "7856749"),
                 FakeReceptionistDao.getInstance().getReceptionistFromNameSurnamePhoneNumber

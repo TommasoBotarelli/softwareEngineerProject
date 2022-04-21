@@ -27,18 +27,14 @@ public class FakeReceptionistDao implements ReceptionistDao{
     }
 
     @Override
-    public Receptionist getReceptionistFromNameSurnamePhoneNumber(String name, String surname, String phoneNumber) throws Exception{
+    public Receptionist getReceptionistFromNameSurnamePhoneNumber(String name, String surname, String phoneNumber){
         if (receptionists.stream().anyMatch(receptionist -> receptionist.equals(new Receptionist(name, surname, phoneNumber)))){
             return receptionists.stream().filter
                     (receptionist -> receptionist.equals(new Receptionist(name, surname, phoneNumber))).collect(Collectors.toList()).get(0);
         }
         else
-            throw new Exception("No receptionist with these data");
+            return null;
     }
-
-    /*
-    TODO evitare di introdurre receptionist che sono già stati introdotti (controllo sulla lista) anche delete
-     */
 
     @Override
     public void addReceptionist(Receptionist receptionist) {

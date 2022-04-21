@@ -5,14 +5,12 @@ import java.time.LocalDate;
 public class Access {
 
     private Costumer costumer;
-    private boolean accessValid;
-    private LocalDate date;
+    private LocalDate accessTime;
 
 
-    public Access(Costumer costumer, LocalDate actualDate, boolean valid) {
+    public Access(Costumer costumer, LocalDate actualDate) {
         this.costumer = costumer;
-        this.date = actualDate;
-        this.accessValid = valid;
+        this.accessTime = actualDate;
     }
 
 
@@ -20,15 +18,7 @@ public class Access {
         return costumer;
     }
 
-    public boolean isAccessValid() {
-        return accessValid;
-    }
-
-    public void setAccessValid(boolean accessValid) {
-        this.accessValid = accessValid;
-    }
-
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getAccessTime() {
+        return accessTime;
     }
 }

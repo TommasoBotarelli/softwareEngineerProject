@@ -5,7 +5,6 @@ import domainModel.Costumer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class FakeAccessDao implements AccessDao{
 
@@ -55,9 +54,9 @@ public class FakeAccessDao implements AccessDao{
         ArrayList<Access> accessOfDate = new ArrayList<>();
 
         for (Access a : acceses){
-            if(a.getDate().getYear() == date.getYear() &&
-                a.getDate().getMonth() == date.getMonth() &&
-                a.getDate().getDayOfMonth() == date.getDayOfMonth())
+            if(a.getAccessTime().getYear() == date.getYear() &&
+                a.getAccessTime().getMonth() == date.getMonth() &&
+                a.getAccessTime().getDayOfMonth() == date.getDayOfMonth())
                 accessOfDate.add(a);
         }
 

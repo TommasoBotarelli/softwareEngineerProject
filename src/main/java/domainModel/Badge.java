@@ -2,14 +2,18 @@ package domainModel;
 
 public class Badge {
     private final Costumer costumer;
-    public int id;
+    private long id;
 
-    Badge(Costumer costumer){
+    public Badge(Costumer costumer){
         this.costumer = costumer;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public long getId(){
+        return this.id;
     }
 
     public Costumer getCostumer(){

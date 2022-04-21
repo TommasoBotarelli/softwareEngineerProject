@@ -27,12 +27,12 @@ public class TurnstileController {
             Costumer costumer = badgeDao.searchCostumerFromId(id);
             TypeOfAccess validTypeOfAccess = typeOfAccessDao.getValidTypeOfAccessFromCostumer(costumer, date);
             if (validTypeOfAccess != null) {
-                accessDao.add(new Access(costumer, date, true));
+                accessDao.add(new Access(costumer, date));
                 validTypeOfAccess.addAccess();
                 thisTurnstile.setCanAccess(true);
                 return true;
             } else {
-                accessDao.add(new Access(costumer, date, false));
+                accessDao.add(new Access(costumer, date));
                 return false;
             }
         }

@@ -25,7 +25,7 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao{
     }
 
     @Override
-    public void add(TypeOfAccess typeOfAccess, long id) {
+    public void addWithBill(TypeOfAccess typeOfAccess, long id) {
         typeOfAccess.setBillID(id);
         typeOfAccesses.add(typeOfAccess);
     }
