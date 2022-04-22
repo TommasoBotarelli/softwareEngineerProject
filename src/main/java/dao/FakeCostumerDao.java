@@ -65,4 +65,9 @@ public class FakeCostumerDao implements CostumerDao{
         else
             return null;
     }
+
+    @Override
+    public void deleteAll() {
+        costumers.clear();
+    }
 }

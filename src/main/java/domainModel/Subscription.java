@@ -21,14 +21,6 @@ public class Subscription implements TypeOfAccess {
     }
 
     @Override
-    public boolean isValid(LocalDate actualDate) {
-        boolean canAccess = this.type != TypeOfSub.PROVA || this.nAccess < 3;
-
-        return (this.emission.isBefore(actualDate) || this.emission.isEqual(actualDate)) &&
-                (this.expiration.isAfter(actualDate) || this.expiration.isEqual(actualDate)) && canAccess;
-    }
-
-    @Override
     public Costumer getCostumer() {
         return this.myCostumer;
     }
@@ -79,4 +71,14 @@ public class Subscription implements TypeOfAccess {
     public void setType(TypeOfSub type) {
         this.type = type;
     }
+
+    /*@Override
+    public boolean equals(Object obj) {
+        Subscription compare = (Subscription) obj;
+        return this.emission.isEqual(compare.emission) &&
+                this.expiration.isEqual(compare.expiration) &&
+                this.billID == compare.getBillID() &&
+                this.type == compare.type &&
+                this.myCostumer.equals(compare.myCostumer);
+    }*/
 }

@@ -1,17 +1,17 @@
 package domainModel;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Bill {
 
     private float payment;
-    private LocalDate date;
+    private LocalDateTime dateTime;
     private long id;
 
 
-    public Bill(float payment, LocalDate date){
+    public Bill(float payment, LocalDateTime dateTime){
         this.payment = payment;
-        this.date = date;
+        this.dateTime = dateTime;
     }
 
     public long getId() {
@@ -26,7 +26,7 @@ public class Bill {
         return payment;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 }

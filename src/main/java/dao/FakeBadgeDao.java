@@ -4,7 +4,6 @@ import domainModel.Badge;
 import domainModel.Costumer;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class FakeBadgeDao implements BadgeDao{
@@ -26,9 +25,15 @@ public class FakeBadgeDao implements BadgeDao{
 
     @Override
     public long addBadge(Badge badge) {
-        badges.add(badge);
-        badge.setId(count);
-        return count++;
+        if (badges.stream().noneMatch(b -> b.getId() == count)){
+            badges.add(badge);
+            badge.setId(count);
+            return count++;
+        }
+        else {
+            count++;
+            return this.addBadge(badge);
+        }
     }
 
     @Override
@@ -43,5 +48,15 @@ public class FakeBadgeDao implements BadgeDao{
         }
         else
             return null;
+    }
+
+    @Override
+    public Badge getFromCostumer(Costumer costumer) {
+        if (badges.stream().anyMatch(badge -> badge.getCostumer().equals(costumer))){
+            return badges.stream().filter(badge -> badge.getCostumer().equals(costumer)).collect(Collectors.toList()).get(0);
+        }
+        else{
+            return null;
+        }
     }
 }

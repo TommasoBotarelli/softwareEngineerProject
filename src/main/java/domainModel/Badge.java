@@ -1,7 +1,7 @@
 package domainModel;
 
 public class Badge {
-    private final Costumer costumer;
+    private Costumer costumer;
     private long id;
 
     public Badge(Costumer costumer){
@@ -18,5 +18,15 @@ public class Badge {
 
     public Costumer getCostumer(){
         return costumer;
+    }
+
+    public void setCostumer(Costumer costumer) {
+        this.costumer = costumer;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.id == ((Badge)obj).id &&
+                this.costumer == ((Badge)obj).costumer;
     }
 }

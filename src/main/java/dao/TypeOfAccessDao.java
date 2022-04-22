@@ -13,6 +13,5 @@ public interface TypeOfAccessDao {
     ArrayList<TypeOfAccess> getAll();
     ArrayList<TypeOfAccess> getFromCostumer(Costumer costumer);
     void deleteAllTypeOfAccessFromCostumer(Costumer costumer);
-    TypeOfAccess getValidTypeOfAccessFromCostumer(Costumer costumer, LocalDate date);
     void deleteAll();
 }

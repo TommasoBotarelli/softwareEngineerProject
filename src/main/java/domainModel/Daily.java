@@ -7,21 +7,14 @@ public class Daily implements TypeOfAccess {
     private LocalDate expiration;
     private Costumer myCostumer;
 
-    private boolean canAccess;
+    private boolean validity;
     private long billID;
 
     public Daily(LocalDate emission, Costumer costumer){
         this.emission = emission;
         this.expiration = LocalDate.MAX;
-        this.canAccess = true;
+        this.validity = true;
         this.myCostumer = costumer;
-    }
-
-
-    @Override
-    public boolean isValid(LocalDate actualDate) {
-        return (this.expiration.isAfter(actualDate) || this.expiration.isEqual(actualDate)) &&
-                (this.emission.isBefore(actualDate) || this.emission.isEqual(actualDate)) && this.canAccess;
     }
 
     @Override
@@ -55,7 +48,7 @@ public class Daily implements TypeOfAccess {
 
     @Override
     public void addAccess() {
-        this.canAccess = false;
+        this.validity = false;
     }
 
     @Override

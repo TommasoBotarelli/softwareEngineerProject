@@ -10,4 +10,5 @@ public interface CostumerDao {
     ArrayList<Costumer> getAll();
     ArrayList<Costumer> getFromNameSurname(String name, String surname);
     Costumer getSelectedCostumer(String name, String surname, String mobilePhone);
+    void deleteAll();
 }

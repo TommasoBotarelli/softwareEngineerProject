@@ -49,8 +49,7 @@ public class GymManagerController {
         return billDao.getAll();
     }
 
-    public ArrayList<Bill> getBillsOfTheDay(int day, int month, int year){
-        LocalDate date = LocalDate.of(year, month, day);
+    public ArrayList<Bill> getBillsOfTheDay(LocalDate date){
         return billDao.getFromDate(date);
     }
 

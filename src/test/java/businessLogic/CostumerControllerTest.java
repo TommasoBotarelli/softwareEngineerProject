@@ -6,6 +6,8 @@ import org.junit.jupiter.api.*;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 class CostumerControllerTest {
@@ -25,7 +27,7 @@ class CostumerControllerTest {
         Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
         CostumerDao costumerDao = FakeCostumerDao.getInstance();
         costumerDao.add(costumer);
-        Bill bill = new Bill(200, firstDate);
+        Bill bill = new Bill(200, LocalDateTime.of(firstDate, LocalTime.now()));
         BillDao billDao = FakeBillDao.getInstance();
         billDao.add(bill);
         Subscription freeSubscription = new Subscription(firstDate, TypeOfSub.PROVA, costumer);

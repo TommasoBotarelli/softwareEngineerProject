@@ -3,7 +3,6 @@ package domainModel;
 import java.time.LocalDate;
 
 public interface TypeOfAccess {
-    boolean isValid(LocalDate actualDate);
     Costumer getCostumer();
     LocalDate getEmission();
     LocalDate getExpiration();

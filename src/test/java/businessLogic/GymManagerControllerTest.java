@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,8 +62,8 @@ class GymManagerControllerTest {
 
     @Test
     void getAllBills() {
-        Bill bill1 = new Bill(200.0f, LocalDate.of(2022, 4, 22));
-        Bill bill2 = new Bill(100.0f, LocalDate.of(2022, 4, 22));
+        Bill bill1 = new Bill(200.0f, LocalDateTime.now());
+        Bill bill2 = new Bill(100.0f, LocalDateTime.now().plusDays(1));
 
         ArrayList<Bill> bills = new ArrayList<>();
 
@@ -76,31 +78,30 @@ class GymManagerControllerTest {
 
     @Test
     void getBillsOfTheDay() {
-        Bill bill1 = new Bill(200.0f, LocalDate.of(2022, 4, 22));
-        Bill bill2 = new Bill(100.0f, LocalDate.of(2022, 4, 22));
+        Bill bill1 = new Bill(200.0f, LocalDateTime.now());
+        Bill bill2 = new Bill(100.0f, LocalDateTime.now().plusDays(1));
 
         ArrayList<Bill> bills = new ArrayList<>();
 
         bills.add(bill1);
-        bills.add(bill2);
 
         FakeBillDao.getInstance().add(bill1);
         FakeBillDao.getInstance().add(bill2);
 
-        assertEquals(bills, gymManagerController.getBillsOfTheDay(22, 4, 2022));
+        assertEquals(bills, gymManagerController.getBillsOfTheDay(LocalDate.now()));
     }
 
     @Test
     void getAllAccess() {
-        LocalDate actualDate = LocalDate.of(2022, 4, 22);
+        LocalDateTime actualDateTime = LocalDateTime.now();
 
         Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
         Costumer costumer2 = new Costumer("Ludovico", "Siciliani", "976425842");
 
-        Access access1 = new Access(costumer1, actualDate);
-        Access access2 = new Access(costumer2, actualDate);
-        Access access3 = new Access(costumer2, actualDate.plusDays(2));
-        Access access4 = new Access(costumer2, actualDate.plusDays(1));
+        Access access1 = new Access(costumer1, actualDateTime);
+        Access access2 = new Access(costumer2, actualDateTime);
+        Access access3 = new Access(costumer2, actualDateTime.plusDays(2));
+        Access access4 = new Access(costumer2, actualDateTime.plusDays(1));
 
         FakeAccessDao.getInstance().add(access1);
         FakeAccessDao.getInstance().add(access2);
@@ -117,15 +118,15 @@ class GymManagerControllerTest {
 
     @Test
     void getAllAccessFromDate() {
-        LocalDate actualDate = LocalDate.of(2022, 4, 22);
+        LocalDateTime actualDateTime = LocalDateTime.now();
 
         Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
         Costumer costumer2 = new Costumer("Ludovico", "Siciliani", "976425842");
 
-        Access access1 = new Access(costumer1, actualDate);
-        Access access2 = new Access(costumer2, actualDate);
-        Access access3 = new Access(costumer2, actualDate.plusDays(2));
-        Access access4 = new Access(costumer2, actualDate.plusDays(1));
+        Access access1 = new Access(costumer1, actualDateTime);
+        Access access2 = new Access(costumer2, actualDateTime);
+        Access access3 = new Access(costumer2, actualDateTime.plusDays(2));
+        Access access4 = new Access(costumer2, actualDateTime.plusDays(1));
 
         AccessDao accessDao = FakeAccessDao.getInstance();
         accessDao.add(access1);
@@ -189,7 +190,7 @@ class GymManagerControllerTest {
     void getBillOfSub() throws Exception{
         Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
 
-        Bill bill = new Bill(200.0f, LocalDate.of(2022, 4, 22));
+        Bill bill = new Bill(200.0f, LocalDateTime.of(LocalDate.of(2022, 4, 22), LocalTime.now()));
 
         BillDao billDao = FakeBillDao.getInstance();
 
