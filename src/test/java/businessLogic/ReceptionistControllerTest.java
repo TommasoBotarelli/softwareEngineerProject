@@ -356,4 +356,28 @@ class ReceptionistControllerTest {
 
         assertEquals(badge, FakeBadgeDao.getInstance().getFromCostumer(costumer1));
     }
+
+    @Test
+    void scanBadgeForGetCostumer(){
+        Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
+        FakeCostumerDao.getInstance().add(costumer1);
+
+        Badge badge = new Badge(costumer1);
+        long id = FakeBadgeDao.getInstance().addBadge(badge);
+
+        try{
+            Costumer costumer = receptionistController.scanBadgeForGetCostumer(id);
+            assertEquals(costumer1, costumer);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        try{
+            Costumer costumer = receptionistController.scanBadgeForGetCostumer(9);
+        }
+        catch (Exception e){
+            assertEquals("A costumer with this id doesn't exist", e.getMessage());
+        }
+    }
 }
