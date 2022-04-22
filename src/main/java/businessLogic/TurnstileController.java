@@ -3,51 +3,77 @@ package businessLogic;
 import dao.*;
 import domainModel.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class TurnstileController {
-    private Turnstile thisTurnstile;
     private AccessDao accessDao;
     private BadgeDao badgeDao;
     private TypeOfAccessDao typeOfAccessDao;
+    private TurnstileDao turnstileDao;
 
     public TurnstileController(){
         accessDao = FakeAccessDao.getInstance();
         badgeDao = FakeBadgeDao.getInstance();
         typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
-    }
-
-    public void setTurnstile(Turnstile turnstile) {
-        this.thisTurnstile = turnstile;
+        turnstileDao = FakeTurnstileDao.getInstance();
     }
 
     private boolean isTypeOfAccessValid(TypeOfAccess sub, LocalDateTime localDateTime){
-        return (sub.getExpiration().isAfter(localDateTime.toLocalDate()) && sub.getEmission().isBefore(localDateTime.toLocalDate()))
-                || (sub.getExpiration().isEqual(localDateTime.toLocalDate())) || (sub.getEmission().isEqual(localDateTime.toLocalDate()));
+        if (sub instanceof Daily){
+            return ((Daily) sub).getValidity() && sub.getEmission().isEqual(localDateTime.toLocalDate());
+        }
+        else{
+            return (sub.getExpiration().isAfter(localDateTime.toLocalDate()) && sub.getEmission().isBefore(localDateTime.toLocalDate()))
+                    || (sub.getExpiration().isEqual(localDateTime.toLocalDate())) || (sub.getEmission().isEqual(localDateTime.toLocalDate()));
+        }
     }
 
-    public boolean addAccessForCostumerFromBadge(long id, LocalDateTime dateTime) throws Exception{
+    private void openEntryTurnstile(){
+        turnstileDao.getEntryTurnstile().setCanAccess(true);
+    }
+
+    /*
+    This method closeEntryTurnstile will be called automatically after the transit of a costumer.
+     */
+
+    public void closeEntryTurnstile(){
+        turnstileDao.getEntryTurnstile().setCanAccess(false);
+    }
+
+    /*
+    The method scanBadge is to intend like a thread always running, or can be call if a button is pressed.
+     */
+
+    public boolean scanBadge(long id, LocalDateTime dateTime) throws Exception{
+        boolean canAccess = this.addAccessForCostumerFromBadge(id, dateTime);
+        if (canAccess) {
+            this.openEntryTurnstile();
+        }
+        return canAccess;
+    }
+
+    private boolean addAccessForCostumerFromBadge(long id, LocalDateTime dateTime) throws Exception{
+
         Costumer costumer = badgeDao.searchCostumerFromId(id);
         if (costumer == null)
             throw new Exception("A costumer with this id doesn't exist");
 
         ArrayList<TypeOfAccess> typeOfAccesesOfCostumer = typeOfAccessDao.getFromCostumer(costumer);
 
-        if (!typeOfAccesesOfCostumer.isEmpty()){
+        if (!typeOfAccesesOfCostumer.isEmpty()) {
             ArrayList<TypeOfAccess> subOfCostumer = this.getSubscriptionsOfCostumer(costumer);
-            for (TypeOfAccess t : subOfCostumer){
-                if (this.isTypeOfAccessValid(t, dateTime)){
+            for (TypeOfAccess t : subOfCostumer) {
+                if (this.isTypeOfAccessValid(t, dateTime)) {
                     t.addAccess();
                     Access newAccess = new Access(costumer, dateTime);
                     accessDao.add(newAccess);
                     return true;
                 }
             }
-            ArrayList<TypeOfAccess> dailyOfSub = this.getDailyOfCostumer(costumer);
-            for (TypeOfAccess t : subOfCostumer){
-                if (this.isTypeOfAccessValid(t, dateTime)){
+            ArrayList<TypeOfAccess> dailySub = this.getDailyOfCostumer(costumer);
+            for (TypeOfAccess t : dailySub) {
+                if (this.isTypeOfAccessValid(t, dateTime)) {
                     t.addAccess();
                     Access newAccess = new Access(costumer, dateTime);
                     accessDao.add(newAccess);
@@ -55,7 +81,6 @@ public class TurnstileController {
                 }
             }
         }
-        accessDao.add(new Access(costumer, dateTime));
         return false;
     }
 

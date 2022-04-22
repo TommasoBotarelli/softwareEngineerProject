@@ -60,4 +60,8 @@ public class Daily implements TypeOfAccess {
     public void setBillID(long id) {
         this.billID = id;
     }
+
+    public boolean getValidity(){
+        return this.validity;
+    }
 }

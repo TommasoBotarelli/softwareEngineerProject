@@ -15,6 +15,7 @@ public class ReceptionistController {
     private BillDao billDao;
     private ReceptionistDao receptionistDao;
     private BadgeDao badgeDao;
+    private TurnstileDao turnstileDao;
 
     private Receptionist thisReceptionist;
 
@@ -25,6 +26,7 @@ public class ReceptionistController {
         billDao = FakeBillDao.getInstance();
         receptionistDao = FakeReceptionistDao.getInstance();
         badgeDao = FakeBadgeDao.getInstance();
+        turnstileDao = FakeTurnstileDao.getInstance();
     }
 
     public boolean setCurrentReceptionist(String name, String surname, String phoneNumber){
@@ -98,28 +100,42 @@ public class ReceptionistController {
     public boolean addAccessForCostumer(Costumer costumer, LocalDateTime dateTime){
         ArrayList<TypeOfAccess> typeOfAccesesOfCostumer = typeOfAccessDao.getFromCostumer(costumer);
 
-        if (!typeOfAccesesOfCostumer.isEmpty()){
+        if (!typeOfAccesesOfCostumer.isEmpty()) {
             ArrayList<TypeOfAccess> subOfCostumer = this.getSubscriptionsOfCostumer(costumer);
-            for (TypeOfAccess t : subOfCostumer){
-                if (this.isTypeOfAccessValid(t, dateTime)){
+            for (TypeOfAccess t : subOfCostumer) {
+                if (this.isTypeOfAccessValid(t, dateTime)) {
                     t.addAccess();
-                    Access newAccess = new Access(costumer, dateTime);
+                    Access newAccess = new Access(costumer, dateTime, turnstileDao.getEntryTurnstile());
                     accessDao.add(newAccess);
                     return true;
                 }
             }
-            ArrayList<TypeOfAccess> dailyOfSub = this.getDailyOfCostumer(costumer);
-            for (TypeOfAccess t : subOfCostumer){
-                if (this.isTypeOfAccessValid(t, dateTime)){
+            ArrayList<TypeOfAccess> dailySub = this.getDailyOfCostumer(costumer);
+            for (TypeOfAccess t : dailySub) {
+                if (this.isTypeOfAccessValid(t, dateTime)) {
                     t.addAccess();
-                    Access newAccess = new Access(costumer, dateTime);
+                    Access newAccess = new Access(costumer, dateTime, turnstileDao.getEntryTurnstile());
                     accessDao.add(newAccess);
                     return true;
                 }
             }
         }
-        accessDao.add(new Access(costumer, dateTime));
         return false;
+    }
+
+    public Costumer scanBadgeForGetCostumer(long id) throws Exception{
+        Costumer costumer = badgeDao.searchCostumerFromId(id);
+        if(costumer == null)
+            throw new Exception("A costumer with this id doesn't exist");
+        return costumer;
+    }
+
+    public void openEntryTurnstile(){
+        turnstileDao.getEntryTurnstile().setCanAccess(true);
+    }
+
+    public void closeEntryTurnstile(){
+        turnstileDao.getEntryTurnstile().setCanAccess(false);
     }
 
     public long addBill(float cost, LocalDateTime dateTime){
