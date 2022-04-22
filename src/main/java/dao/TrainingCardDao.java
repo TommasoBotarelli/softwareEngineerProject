@@ -10,7 +10,6 @@ public interface TrainingCardDao {
     ArrayList<TrainingCard> getTrainingCardFromPersonalTrainer(PersonalTrainer personalTrainer);
 
     //FIXME maybe is better to remove this and control this logic in business logic using the getTrainingCardFromPersonalTrainer
-    ArrayList<TrainingCard> getStandardTrainingCardsFromPersonalTrainer(PersonalTrainer personalTrainer);
 
     void deleteAll();
 }

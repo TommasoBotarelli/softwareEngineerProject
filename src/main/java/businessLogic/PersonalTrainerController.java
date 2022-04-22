@@ -27,7 +27,15 @@ public class PersonalTrainerController {
     }
 
     public ArrayList<TrainingCard> getMyStandardTrainingCard(){
-        return trainingCardDao.getStandardTrainingCardsFromPersonalTrainer(thisPersonalTrainer);
+        ArrayList<TrainingCard> allMyTrainingCard = trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer);
+        ArrayList<TrainingCard> standardTrainingCard = new ArrayList<>();
+
+        for (TrainingCard t : allMyTrainingCard){
+            if (t.isStandard())
+                standardTrainingCard.add(t);
+        }
+
+        return standardTrainingCard;
     }
 
     public void addCustomizeTrainingCard(Costumer costumer, String exercises, int level, int emissionDay, int emissionMonth, int
