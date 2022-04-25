@@ -50,18 +50,6 @@ public class FakeTrainingCardDao implements TrainingCardDao {
     }
 
     @Override
-    public ArrayList<TrainingCard> getStandardTrainingCardsFromPersonalTrainer(PersonalTrainer personalTrainer) {
-        ArrayList<TrainingCard> standardTrainingCards = new ArrayList<>();
-
-        for (TrainingCard trainingCard : trainingCards){
-            if (trainingCard.isStandard())
-                standardTrainingCards.add(trainingCard);
-        }
-
-        return standardTrainingCards;
-    }
-
-    @Override
     public void deleteAll() {
         trainingCards.clear();
     }

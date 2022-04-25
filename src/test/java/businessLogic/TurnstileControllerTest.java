@@ -4,22 +4,34 @@ import dao.*;
 import domainModel.Badge;
 import domainModel.Costumer;
 import domainModel.Daily;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TurnstileControllerTest {
 
     private TurnstileController turnstileController = new TurnstileController();
+    private static CostumerDao costumerDao;
+    private static TypeOfAccessDao typeOfAccessDao;
+    private static BadgeDao badgeDao;
+
+    @BeforeAll
+    static void beforeAll(){
+        costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
+        typeOfAccessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTypeOfAccess();
+        badgeDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBadgeDao();
+    }
 
     @BeforeEach
     void setUp(){
-        FakeCostumerDao.getInstance().deleteAll();
-        FakeTypeOfAccessDao.getInstance().deleteAll();
+        costumerDao.deleteAll();
+        typeOfAccessDao.deleteAll();
         FakeBillDao.getInstance().deleteAll();
         FakeAccessDao.getInstance().deleteAll();
     }
@@ -27,13 +39,13 @@ class TurnstileControllerTest {
     @Test
     void scanBadge(){
         Costumer costumer = new Costumer("Tommaso", "Botarelli", "6757823122");
-        FakeCostumerDao.getInstance().add(costumer);
+        costumerDao.add(costumer);
 
         Daily daily = new Daily(LocalDate.now(), costumer);
-        FakeTypeOfAccessDao.getInstance().addWithBill(daily, 1);
+        typeOfAccessDao.addWithBill(daily, 1);
 
         Badge badge = new Badge(costumer);
-        long id = FakeBadgeDao.getInstance().addBadge(badge);
+        long id = badgeDao.addBadge(badge);
 
         try{
             boolean result1 = turnstileController.scanBadge(id, LocalDateTime.now());

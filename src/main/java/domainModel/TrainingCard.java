@@ -22,6 +22,19 @@ public class TrainingCard {
         this.expiration = LocalDate.MAX;
     }
 
+    public TrainingCard(TrainingCard trainingCard){
+        this.exercises = trainingCard.exercises;
+        this.level = trainingCard.level;
+        this.personalTrainer = trainingCard.personalTrainer;
+        this.standard = trainingCard.standard;
+        this.emission = trainingCard.emission;
+        this.expiration = trainingCard.expiration;
+    }
+
+    public String getExercises() {
+        return exercises;
+    }
+
     public Costumer getCostumer() {
         return costumer;
     }

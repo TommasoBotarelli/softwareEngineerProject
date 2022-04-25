@@ -82,7 +82,14 @@ class PersonalTrainerControllerTest {
 
         personalTrainerController.addStandardTrainingCard("Exercise", 1);
 
-        assertFalse(FakeTrainingCardDao.getInstance().getStandardTrainingCardsFromPersonalTrainer(personalTrainer).isEmpty());
+        ArrayList<TrainingCard> standardTrainingCard = new ArrayList<>();
+
+        for (TrainingCard t : FakeTrainingCardDao.getInstance().getTrainingCardFromPersonalTrainer(personalTrainer)){
+            if (t.isStandard())
+                standardTrainingCard.add(t);
+        }
+
+        assertEquals("Exercise", FakeTrainingCardDao.getInstance().getTrainingCardFromPersonalTrainer(personalTrainer).get(0).getExercises());
     }
 
     @Test
