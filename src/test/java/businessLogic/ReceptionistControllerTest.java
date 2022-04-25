@@ -2,23 +2,41 @@ package businessLogic;
 
 import dao.*;
 import domainModel.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReceptionistControllerTest {
 
     private ReceptionistController receptionistController = new ReceptionistController();
+    private static CostumerDao costumerDao;
+    private static ReceptionistDao receptionistDao;
+    private static TypeOfAccessDao typeOfAccessDao;
+    private static BadgeDao badgeDao;
+    private static AccessDao accessDao;
+    private static BillDao billDao;
+
+    @BeforeAll
+    static void beforeAll(){
+        costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
+        receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
+        typeOfAccessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTypeOfAccessDao();
+        badgeDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBadgeDao();
+        accessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getAccessDao();
+        billDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBillDao();
+    }
 
     @BeforeEach
     void setUp(){
-        FakeCostumerDao.getInstance().deleteAll();
-        FakeTypeOfAccessDao.getInstance().deleteAll();
+        costumerDao.deleteAll();
+        typeOfAccessDao.deleteAll();
         FakeBillDao.getInstance().deleteAll();
         FakeAccessDao.getInstance().deleteAll();
     }
@@ -29,7 +47,7 @@ class ReceptionistControllerTest {
 
         receptionistController.addCostumer("Tommaso", "Botarelli", "71638723");
 
-        assertEquals(costumer1, FakeCostumerDao.getInstance().getAll().get(0));
+        assertEquals(costumer1, costumerDao.getAll().get(0));
     }
 
     @Test
@@ -40,7 +58,7 @@ class ReceptionistControllerTest {
 
         assertFalse(firstTry);
 
-        FakeReceptionistDao.getInstance().addReceptionist(receptionist);
+        receptionistDao.addReceptionist(receptionist);
 
         boolean secondTry = receptionistController.setCurrentReceptionist("Tommaso", "Botarelli", "71638723");
 
@@ -57,9 +75,9 @@ class ReceptionistControllerTest {
 
         assertFalse(firstDelete);
 
-        FakeCostumerDao.getInstance().add(costumer1);
-        FakeCostumerDao.getInstance().add(costumer2);
-        FakeCostumerDao.getInstance().add(costumer3);
+        costumerDao.add(costumer1);
+        costumerDao.add(costumer2);
+        costumerDao.add(costumer3);
 
         boolean secondDelete = receptionistController.deleteCostumer(costumer1);
 
@@ -68,7 +86,7 @@ class ReceptionistControllerTest {
         costumers.add(costumer2);
         costumers.add(costumer3);
 
-        assertEquals(costumers, FakeCostumerDao.getInstance().getAll());
+        assertEquals(costumers, costumerDao.getAll());
     }
 
     @Test
@@ -83,9 +101,9 @@ class ReceptionistControllerTest {
         allCostumers.add(costumer2);
         allCostumers.add(costumer3);
 
-        FakeCostumerDao.getInstance().add(costumer1);
-        FakeCostumerDao.getInstance().add(costumer2);
-        FakeCostumerDao.getInstance().add(costumer3);
+        costumerDao.add(costumer1);
+        costumerDao.add(costumer2);
+        costumerDao.add(costumer3);
 
         assertEquals(allCostumers, receptionistController.visualizeAllCostumer());
     }
@@ -111,10 +129,10 @@ class ReceptionistControllerTest {
         allSubscriptions.add(subscription3);
         allSubscriptions.add(daily1);
 
-        FakeTypeOfAccessDao.getInstance().addWithBill(subscription1, 1);
-        FakeTypeOfAccessDao.getInstance().addWithBill(subscription2, 2);
-        FakeTypeOfAccessDao.getInstance().addWithBill(subscription3, 3);
-        FakeTypeOfAccessDao.getInstance().addWithBill(daily1, 4);
+        typeOfAccessDao.addWithBill(subscription1, 1);
+        typeOfAccessDao.addWithBill(subscription2, 2);
+        typeOfAccessDao.addWithBill(subscription3, 3);
+        typeOfAccessDao.addWithBill(daily1, 4);
 
         assertEquals(allSubscriptions, receptionistController.visualizeAllTypeOfAccess());
     }
@@ -137,10 +155,10 @@ class ReceptionistControllerTest {
 
         subscriptionOfCostumer1.add(subscription1);
 
-        FakeTypeOfAccessDao.getInstance().addWithBill(subscription1, 1);
-        FakeTypeOfAccessDao.getInstance().addWithBill(subscription2, 2);
-        FakeTypeOfAccessDao.getInstance().addWithBill(subscription3, 3);
-        FakeTypeOfAccessDao.getInstance().addWithBill(daily1, 4);
+        typeOfAccessDao.addWithBill(subscription1, 1);
+        typeOfAccessDao.addWithBill(subscription2, 2);
+        typeOfAccessDao.addWithBill(subscription3, 3);
+        typeOfAccessDao.addWithBill(daily1, 4);
 
         assertEquals(subscriptionOfCostumer1, receptionistController.visualizeTypeOfAccessFromCostumer(costumer1));
     }
@@ -157,11 +175,11 @@ class ReceptionistControllerTest {
         costumersWithSameNameSurname.add(costumer4);
         costumersWithSameNameSurname.add(costumer4bis);
 
-        FakeCostumerDao.getInstance().add(costumer1);
-        FakeCostumerDao.getInstance().add(costumer2);
-        FakeCostumerDao.getInstance().add(costumer3);
-        FakeCostumerDao.getInstance().add(costumer4);
-        FakeCostumerDao.getInstance().add(costumer4bis);
+        costumerDao.add(costumer1);
+        costumerDao.add(costumer2);
+        costumerDao.add(costumer3);
+        costumerDao.add(costumer4);
+        costumerDao.add(costumer4bis);
 
         assertEquals(0, receptionistController.findCostumer("Giulio", "Giuli").size());
         assertEquals(costumersWithSameNameSurname, receptionistController.findCostumer("Tommaso", "Botarelli"));
@@ -175,11 +193,11 @@ class ReceptionistControllerTest {
         Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
         Costumer costumer4bis = new Costumer("Tommaso", "Botarelli", "452341324214");
 
-        FakeCostumerDao.getInstance().add(costumer1);
-        FakeCostumerDao.getInstance().add(costumer2);
-        FakeCostumerDao.getInstance().add(costumer3);
-        FakeCostumerDao.getInstance().add(costumer4);
-        FakeCostumerDao.getInstance().add(costumer4bis);
+        costumerDao.add(costumer1);
+        costumerDao.add(costumer2);
+        costumerDao.add(costumer3);
+        costumerDao.add(costumer4);
+        costumerDao.add(costumer4bis);
 
         assertNull(receptionistController.selectCostumer("Gianluca", "Rossi", "65725181"));
         assertEquals(costumer4bis, receptionistController.selectCostumer("Tommaso", "Botarelli", "452341324214"));
@@ -192,13 +210,13 @@ class ReceptionistControllerTest {
         Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
         Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
 
-        FakeCostumerDao.getInstance().add(costumer1);
-        FakeCostumerDao.getInstance().add(costumer2);
+        costumerDao.add(costumer1);
+        costumerDao.add(costumer2);
 
         Badge badge1 = new Badge(costumer1);
         Badge badge2 = new Badge(costumer2);
 
-        long id1 = FakeBadgeDao.getInstance().addBadge(badge1);
+        long id1 = badgeDao.addBadge(badge1);
         long id2 = id1 + 1;
 
         Subscription subscriptionC1 = new Subscription(actualDateTime.toLocalDate(), TypeOfSub.PROVA, costumer1);
@@ -207,13 +225,13 @@ class ReceptionistControllerTest {
         subscriptionC1.setExpiration(actualDateTime.toLocalDate().plusDays(14));
         dailyC1.setExpiration(actualDateTime.toLocalDate().plusMonths(10));
 
-        FakeTypeOfAccessDao.getInstance().addWithBill(subscriptionC1, 0);
-        FakeTypeOfAccessDao.getInstance().addWithBill(dailyC1, 1);
+        typeOfAccessDao.addWithBill(subscriptionC1, 0);
+        typeOfAccessDao.addWithBill(dailyC1, 1);
 
         try{
             boolean response = receptionistController.addAccessForCostumerFromBadge(id1, actualDateTime.plusDays(1));
             assertTrue(response);
-            assertEquals(actualDateTime.plusDays(1), FakeAccessDao.getInstance().getFromCostumer(costumer1).get(0).getAccessTime());
+            assertEquals(actualDateTime.plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -257,17 +275,17 @@ class ReceptionistControllerTest {
         Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
         Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
 
-        FakeCostumerDao.getInstance().add(costumer1);
-        FakeCostumerDao.getInstance().add(costumer2);
+        costumerDao.add(costumer1);
+        costumerDao.add(costumer2);
 
         Subscription subscriptionC1 = new Subscription(actualDateTime.toLocalDate(), TypeOfSub.PROVA, costumer1);
         subscriptionC1.setExpiration(actualDateTime.toLocalDate().plusDays(14));
 
-        FakeTypeOfAccessDao.getInstance().addWithBill(subscriptionC1, 0);
+        typeOfAccessDao.addWithBill(subscriptionC1, 0);
 
         boolean response1 = receptionistController.addAccessForCostumer(costumer1, actualDateTime.plusDays(1));
         assertTrue(response1);
-        assertEquals(actualDateTime.plusDays(1), FakeAccessDao.getInstance().getFromCostumer(costumer1).get(0).getAccessTime());
+        assertEquals(actualDateTime.plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
 
         boolean response2 = receptionistController.addAccessForCostumer(costumer2, actualDateTime.plusMonths(1));
         assertFalse(response2);
@@ -283,87 +301,87 @@ class ReceptionistControllerTest {
     void addBill() {
         LocalDateTime time1 = LocalDateTime.now();
         receptionistController.addBill(200.0f, time1);
-        assertEquals(time1, FakeBillDao.getInstance().getAll().get(0).getDateTime());
+        assertEquals(time1, billDao.getAll().get(0).getDateTime());
     }
 
     @Test
     void addTypeOfAccess() {
         Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
-        FakeCostumerDao.getInstance().add(costumer1);
+        costumerDao.add(costumer1);
 
         receptionistController.addTypeOfAccess("subscription", "prova", 0, LocalDate.now(), costumer1);
 
-        assertEquals(LocalDate.now(), FakeTypeOfAccessDao.getInstance().getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusDays(14), FakeTypeOfAccessDao.getInstance().getAll().get(0).getExpiration());
-        assertEquals(costumer1, FakeTypeOfAccessDao.getInstance().getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.PROVA, ((Subscription)FakeTypeOfAccessDao.getInstance().getAll().get(0)).getType());
+        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusDays(14), typeOfAccessDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
+        assertEquals(TypeOfSub.PROVA, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
-        FakeTypeOfAccessDao.getInstance().deleteAll();
+        typeOfAccessDao.deleteAll();
 
         receptionistController.addTypeOfAccess("subscription", "mensile", 0, LocalDate.now(), costumer1);
 
-        assertEquals(LocalDate.now(), FakeTypeOfAccessDao.getInstance().getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusMonths(1), FakeTypeOfAccessDao.getInstance().getAll().get(0).getExpiration());
-        assertEquals(costumer1, FakeTypeOfAccessDao.getInstance().getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.MENSILE, ((Subscription)FakeTypeOfAccessDao.getInstance().getAll().get(0)).getType());
+        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusMonths(1), typeOfAccessDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
+        assertEquals(TypeOfSub.MENSILE, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
-        FakeTypeOfAccessDao.getInstance().deleteAll();
+        typeOfAccessDao.deleteAll();
 
         receptionistController.addTypeOfAccess("subscription", "trimestrale", 0, LocalDate.now(), costumer1);
 
-        assertEquals(LocalDate.now(), FakeTypeOfAccessDao.getInstance().getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusMonths(3), FakeTypeOfAccessDao.getInstance().getAll().get(0).getExpiration());
-        assertEquals(costumer1, FakeTypeOfAccessDao.getInstance().getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.TRIMESTRALE, ((Subscription)FakeTypeOfAccessDao.getInstance().getAll().get(0)).getType());
+        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusMonths(3), typeOfAccessDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
+        assertEquals(TypeOfSub.TRIMESTRALE, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
-        FakeTypeOfAccessDao.getInstance().deleteAll();
+        typeOfAccessDao.deleteAll();
 
         receptionistController.addTypeOfAccess("subscription", "semestrale", 0, LocalDate.now(), costumer1);
 
-        assertEquals(LocalDate.now(), FakeTypeOfAccessDao.getInstance().getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusMonths(6), FakeTypeOfAccessDao.getInstance().getAll().get(0).getExpiration());
-        assertEquals(costumer1, FakeTypeOfAccessDao.getInstance().getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.SEMESTRALE, ((Subscription)FakeTypeOfAccessDao.getInstance().getAll().get(0)).getType());
+        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusMonths(6), typeOfAccessDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
+        assertEquals(TypeOfSub.SEMESTRALE, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
-        FakeTypeOfAccessDao.getInstance().deleteAll();
+        typeOfAccessDao.deleteAll();
 
         receptionistController.addTypeOfAccess("subscription", "annuale", 0, LocalDate.now(), costumer1);
 
-        assertEquals(LocalDate.now(), FakeTypeOfAccessDao.getInstance().getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusMonths(12), FakeTypeOfAccessDao.getInstance().getAll().get(0).getExpiration());
-        assertEquals(costumer1, FakeTypeOfAccessDao.getInstance().getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.ANNUALE, ((Subscription)FakeTypeOfAccessDao.getInstance().getAll().get(0)).getType());
+        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusMonths(12), typeOfAccessDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
+        assertEquals(TypeOfSub.ANNUALE, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
-        FakeTypeOfAccessDao.getInstance().deleteAll();
+        typeOfAccessDao.deleteAll();
 
         receptionistController.addTypeOfAccess("daily", "", 0, LocalDate.now(), costumer1);
 
-        assertEquals(LocalDate.now(), FakeTypeOfAccessDao.getInstance().getAll().get(0).getEmission());
-        assertEquals(LocalDate.now(), FakeTypeOfAccessDao.getInstance().getAll().get(0).getExpiration());
-        assertEquals(costumer1, FakeTypeOfAccessDao.getInstance().getAll().get(0).getCostumer());
-        assertTrue(FakeTypeOfAccessDao.getInstance().getAll().get(0) instanceof Daily);
+        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
+        assertTrue(typeOfAccessDao.getAll().get(0) instanceof Daily);
     }
 
     @Test
     void releaseBadge(){
         Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
-        FakeCostumerDao.getInstance().add(costumer1);
+        costumerDao.add(costumer1);
 
         receptionistController.releaseBadge(costumer1);
 
         Badge badge = new Badge(costumer1);
         badge.setId(0);
 
-        assertEquals(badge, FakeBadgeDao.getInstance().getFromCostumer(costumer1));
+        assertEquals(badge, badgeDao.getFromCostumer(costumer1));
     }
 
     @Test
     void scanBadgeForGetCostumer(){
         Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
-        FakeCostumerDao.getInstance().add(costumer1);
+        costumerDao.add(costumer1);
 
         Badge badge = new Badge(costumer1);
-        long id = FakeBadgeDao.getInstance().addBadge(badge);
+        long id = badgeDao.addBadge(badge);
 
         try{
             Costumer costumer = receptionistController.scanBadgeForGetCostumer(id);

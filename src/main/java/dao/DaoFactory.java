@@ -14,7 +14,7 @@ public abstract class DaoFactory {
     public abstract ReceptionistDao getReceptionistDao();
     public abstract TrainingCardDao getTrainingCardDao();
     public abstract TurnstileDao getTurnstileDao();
-    public abstract TypeOfAccessDao getTypeOfAccess();
+    public abstract TypeOfAccessDao getTypeOfAccessDao();
 
     public static DaoFactory getDaoFactory(int nFactory){
         switch (nFactory){

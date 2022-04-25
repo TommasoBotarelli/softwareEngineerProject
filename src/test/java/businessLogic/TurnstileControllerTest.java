@@ -24,7 +24,7 @@ class TurnstileControllerTest {
     @BeforeAll
     static void beforeAll(){
         costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
-        typeOfAccessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTypeOfAccess();
+        typeOfAccessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTypeOfAccessDao();
         badgeDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBadgeDao();
     }
 

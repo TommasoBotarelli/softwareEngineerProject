@@ -48,7 +48,7 @@ public class DaoFactoryFake extends DaoFactory{
     }
 
     @Override
-    public TypeOfAccessDao getTypeOfAccess() {
+    public TypeOfAccessDao getTypeOfAccessDao() {
         return FakeTypeOfAccessDao.getInstance();
     }
 }
