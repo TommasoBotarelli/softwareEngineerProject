@@ -186,9 +186,9 @@ class GymManagerControllerTest {
 
         ArrayList<TypeOfAccess> subscriptions = new ArrayList<>();
 
-        Subscription subscription1 = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.MENSILE, costumer1);
+        Subscription subscription1 = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.MONTHLY, costumer1);
         Daily subscription2 = new Daily(LocalDate.of(2022, 4, 22), costumer1);
-        Subscription subscription3 = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.SEMESTRALE, costumer1);
+        Subscription subscription3 = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.HALFYEARLY, costumer1);
 
         subscriptions.add(subscription1);
         subscriptions.add(subscription2);
@@ -209,7 +209,7 @@ class GymManagerControllerTest {
 
         long id = billDao.add(bill);
 
-        Subscription subscription = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.MENSILE, costumer1);
+        Subscription subscription = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.MONTHLY, costumer1);
 
         typeOfAccessDao.addWithBill(subscription, id);
 

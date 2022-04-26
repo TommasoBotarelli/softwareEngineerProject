@@ -120,9 +120,9 @@ class ReceptionistControllerTest {
         Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
         Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
 
-        TypeOfAccess subscription1 = new Subscription(actualDate, TypeOfSub.PROVA, costumer1);
-        TypeOfAccess subscription2 = new Subscription(actualDate, TypeOfSub.MENSILE, costumer2);
-        TypeOfAccess subscription3 = new Subscription(actualDate, TypeOfSub.ANNUALE, costumer3);
+        TypeOfAccess subscription1 = new Subscription(actualDate, TypeOfSub.TRIAL, costumer1);
+        TypeOfAccess subscription2 = new Subscription(actualDate, TypeOfSub.MONTHLY, costumer2);
+        TypeOfAccess subscription3 = new Subscription(actualDate, TypeOfSub.YEARLY, costumer3);
         TypeOfAccess daily1 = new Daily(actualDate, costumer4);
 
         ArrayList<TypeOfAccess> allSubscriptions = new ArrayList<>();
@@ -149,9 +149,9 @@ class ReceptionistControllerTest {
         Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
         Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
 
-        TypeOfAccess subscription1 = new Subscription(actualDate, TypeOfSub.PROVA, costumer1);
-        TypeOfAccess subscription2 = new Subscription(actualDate, TypeOfSub.MENSILE, costumer2);
-        TypeOfAccess subscription3 = new Subscription(actualDate, TypeOfSub.ANNUALE, costumer3);
+        TypeOfAccess subscription1 = new Subscription(actualDate, TypeOfSub.TRIAL, costumer1);
+        TypeOfAccess subscription2 = new Subscription(actualDate, TypeOfSub.MONTHLY, costumer2);
+        TypeOfAccess subscription3 = new Subscription(actualDate, TypeOfSub.YEARLY, costumer3);
         TypeOfAccess daily1 = new Daily(actualDate, costumer4);
 
         ArrayList<TypeOfAccess> subscriptionOfCostumer1 = new ArrayList<>();
@@ -222,7 +222,7 @@ class ReceptionistControllerTest {
         long id1 = badgeDao.addBadge(badge1);
         long id2 = id1 + 1;
 
-        Subscription subscriptionC1 = new Subscription(actualDateTime.toLocalDate(), TypeOfSub.PROVA, costumer1);
+        Subscription subscriptionC1 = new Subscription(actualDateTime.toLocalDate(), TypeOfSub.TRIAL, costumer1);
         Daily dailyC1 = new Daily(actualDateTime.toLocalDate().plusMonths(10), costumer1);
 
         subscriptionC1.setExpiration(actualDateTime.toLocalDate().plusDays(14));
@@ -281,7 +281,7 @@ class ReceptionistControllerTest {
         costumerDao.add(costumer1);
         costumerDao.add(costumer2);
 
-        Subscription subscriptionC1 = new Subscription(actualDateTime.toLocalDate(), TypeOfSub.PROVA, costumer1);
+        Subscription subscriptionC1 = new Subscription(actualDateTime.toLocalDate(), TypeOfSub.TRIAL, costumer1);
         subscriptionC1.setExpiration(actualDateTime.toLocalDate().plusDays(14));
 
         typeOfAccessDao.addWithBill(subscriptionC1, 0);
@@ -317,7 +317,7 @@ class ReceptionistControllerTest {
         assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusDays(14), typeOfAccessDao.getAll().get(0).getExpiration());
         assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.PROVA, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        assertEquals(TypeOfSub.TRIAL, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
         typeOfAccessDao.deleteAll();
 
@@ -326,7 +326,7 @@ class ReceptionistControllerTest {
         assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(1), typeOfAccessDao.getAll().get(0).getExpiration());
         assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.MENSILE, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        assertEquals(TypeOfSub.MONTHLY, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
         typeOfAccessDao.deleteAll();
 
@@ -335,7 +335,7 @@ class ReceptionistControllerTest {
         assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(3), typeOfAccessDao.getAll().get(0).getExpiration());
         assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.TRIMESTRALE, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        assertEquals(TypeOfSub.QUARTERLY, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
         typeOfAccessDao.deleteAll();
 
@@ -344,7 +344,7 @@ class ReceptionistControllerTest {
         assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(6), typeOfAccessDao.getAll().get(0).getExpiration());
         assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.SEMESTRALE, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        assertEquals(TypeOfSub.HALFYEARLY, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
         typeOfAccessDao.deleteAll();
 
@@ -353,7 +353,7 @@ class ReceptionistControllerTest {
         assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(12), typeOfAccessDao.getAll().get(0).getExpiration());
         assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.ANNUALE, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        assertEquals(TypeOfSub.YEARLY, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
 
         typeOfAccessDao.deleteAll();
 

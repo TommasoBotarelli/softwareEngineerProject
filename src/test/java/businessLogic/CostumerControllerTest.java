@@ -33,8 +33,8 @@ class CostumerControllerTest {
         Bill bill = new Bill(200, LocalDateTime.of(firstDate, LocalTime.now()));
         BillDao billDao = FakeBillDao.getInstance();
         billDao.add(bill);
-        Subscription freeSubscription = new Subscription(firstDate, TypeOfSub.PROVA, costumer);
-        Subscription subscription = new Subscription(firstDate.plusDays(14), TypeOfSub.SEMESTRALE, costumer);
+        Subscription freeSubscription = new Subscription(firstDate, TypeOfSub.TRIAL, costumer);
+        Subscription subscription = new Subscription(firstDate.plusDays(14), TypeOfSub.HALFYEARLY, costumer);
         subscription.setBillID(bill.getId());
         TypeOfAccessDao typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
         typeOfAccessDao.addWithBill(freeSubscription, 434);

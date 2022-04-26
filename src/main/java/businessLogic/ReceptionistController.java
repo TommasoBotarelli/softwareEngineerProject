@@ -148,32 +148,32 @@ public class ReceptionistController {
 
         if (type.equalsIgnoreCase("SUBSCRIPTION")){
             if (subscriptionType.equalsIgnoreCase("PROVA")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.PROVA, costumer);
-                sub.setExpiration(date.plusDays(TypeOfSub.PROVA.getnDay()));
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.TRIAL, costumer);
+                sub.setExpiration(date.plusDays(TypeOfSub.TRIAL.getnDay()));
                 typeOfAccessDao.addWithBill(sub, billID);
             }
             else if (subscriptionType.equalsIgnoreCase("MENSILE")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.MENSILE, costumer);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.MONTHLY, costumer);
                 sub.setBillID(billID);
-                sub.setExpiration(date.plusMonths(TypeOfSub.MENSILE.getnMonth()));
+                sub.setExpiration(date.plusMonths(TypeOfSub.MONTHLY.getnMonth()));
                 typeOfAccessDao.addWithBill(sub, billID);
             }
             else if (subscriptionType.equalsIgnoreCase("TRIMESTRALE")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.TRIMESTRALE, costumer);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.QUARTERLY, costumer);
                 sub.setBillID(billID);
-                sub.setExpiration(date.plusMonths(TypeOfSub.TRIMESTRALE.getnMonth()));
+                sub.setExpiration(date.plusMonths(TypeOfSub.QUARTERLY.getnMonth()));
                 typeOfAccessDao.addWithBill(sub, billID);
             }
             else if (subscriptionType.equalsIgnoreCase("SEMESTRALE")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.SEMESTRALE, costumer);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.HALFYEARLY, costumer);
                 sub.setBillID(billID);
-                sub.setExpiration(date.plusMonths(TypeOfSub.SEMESTRALE.getnMonth()));
+                sub.setExpiration(date.plusMonths(TypeOfSub.HALFYEARLY.getnMonth()));
                 typeOfAccessDao.addWithBill(sub, billID);
             }
             else if (subscriptionType.equalsIgnoreCase("ANNUALE")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.ANNUALE, costumer);
+                TypeOfAccess sub = new Subscription(date, TypeOfSub.YEARLY, costumer);
                 sub.setBillID(billID);
-                sub.setExpiration(date.plusMonths(TypeOfSub.ANNUALE.getnMonth()));
+                sub.setExpiration(date.plusMonths(TypeOfSub.YEARLY.getnMonth()));
                 typeOfAccessDao.addWithBill(sub, billID);
             }
         }
