@@ -104,4 +104,14 @@ public class PersonalTrainerController {
         trainingCardCopied.setExpiration(expiration);
         trainingCardDao.addTrainingCard(trainingCardCopied);
     }
+
+    public void modifyExercises(String exercises, TrainingCard trainingCard) throws Exception{
+        boolean result = trainingCardDao.deleteTrainingCard(trainingCard);
+        if (result) {
+            trainingCard.setExercises(exercises);
+            trainingCardDao.addTrainingCard(trainingCard);
+        }
+        else
+            throw new Exception("La scheda di allenamento selezionata non esiste");
+    }
 }

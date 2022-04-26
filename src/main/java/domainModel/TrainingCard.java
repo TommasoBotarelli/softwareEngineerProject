@@ -20,6 +20,7 @@ public class TrainingCard {
         this.standard = standard;
         this.emission = LocalDate.MIN;
         this.expiration = LocalDate.MAX;
+        this.costumer = null;
     }
 
     public TrainingCard(TrainingCard trainingCard){
@@ -29,6 +30,7 @@ public class TrainingCard {
         this.standard = trainingCard.standard;
         this.emission = trainingCard.emission;
         this.expiration = trainingCard.expiration;
+        this.costumer = null;
     }
 
     public String getExercises() {
@@ -65,5 +67,9 @@ public class TrainingCard {
 
     public boolean isStandard() {
         return standard;
+    }
+
+    public void setExercises(String exercises){
+        this.exercises = exercises;
     }
 }

@@ -51,6 +51,16 @@ public class FakeTrainingCardDao implements TrainingCardDao {
     }
 
     @Override
+    public boolean deleteTrainingCard(TrainingCard trainingCard) {
+        if (trainingCards.contains(trainingCard)){
+            trainingCards.remove(trainingCard);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    @Override
     public void deleteAll() {
         trainingCards.clear();
     }
