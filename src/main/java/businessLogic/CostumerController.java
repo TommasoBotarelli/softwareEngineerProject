@@ -62,7 +62,7 @@ public class CostumerController {
         return evaluationDao.getEvaluationOfCostumer(thisCostumer);
     }
 
-    public ArrayList<TrainingCard> getMyCurrentTrainingCard(int day, int month, int year) throws FileNotFoundException {
+    public ArrayList<TrainingCard> getMyCurrentTrainingCard(int day, int month, int year) throws Exception {
         LocalDate actualDate = LocalDate.of(year, month, day);
 
         if (!trainingCardDao.getTrainingCardFromCostumer(thisCostumer).isEmpty()){
@@ -73,7 +73,7 @@ public class CostumerController {
             return trainingCards;
         }
         else
-            throw new FileNotFoundException("Nessuna scheda da visualizzare");
+            throw new Exception("Nessuna scheda da visualizzare");
     }
 
     public ArrayList<LocalDate> getXCoordinateForGraph(){

@@ -47,4 +47,9 @@ public class FakeEvaluationDao implements EvaluationDao {
     public ArrayList<Evaluation> getAllEvaluation() {
         return evaluations;
     }
+
+    @Override
+    public void deleteAll() {
+        evaluations.clear();
+    }
 }

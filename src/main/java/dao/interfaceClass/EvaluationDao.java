@@ -10,4 +10,5 @@ public interface EvaluationDao {
     void deleteEvaluation(Evaluation evaluation);
     ArrayList<Evaluation> getEvaluationOfCostumer(Costumer costumer);
     ArrayList<Evaluation> getAllEvaluation();
+    void deleteAll();
 }
