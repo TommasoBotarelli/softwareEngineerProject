@@ -91,10 +91,17 @@ public class PersonalTrainerController {
         return thisPersonalTrainer;
     }
 
-    //TODO testa questo metodo
+    //TODO testa questi metodi
+
     public ArrayList<TrainingCard> getMyTrainingCard(){
         return trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer);
     }
 
-    //TODO aggiungere metodo per associare una scheda di allenamento ad un costumer
+    public void copyTrainingCard(TrainingCard trainingCard, Costumer costumer, LocalDate emission, LocalDate expiration){
+        TrainingCard trainingCardCopied = new TrainingCard(trainingCard);
+        trainingCardCopied.setCostumer(costumer);
+        trainingCardCopied.setEmission(emission);
+        trainingCardCopied.setExpiration(expiration);
+        trainingCardDao.addTrainingCard(trainingCardCopied);
+    }
 }
