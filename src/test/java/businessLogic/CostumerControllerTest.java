@@ -1,6 +1,6 @@
 package businessLogic;
 
-import dao.concreteDao.*;
+import dao.concreteClass.*;
 import dao.interfaceClass.*;
 import domainModel.*;
 import org.junit.jupiter.api.*;

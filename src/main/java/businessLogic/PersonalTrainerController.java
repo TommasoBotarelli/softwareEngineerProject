@@ -1,9 +1,9 @@
 package businessLogic;
 
-import dao.concreteDao.FakeCostumerDao;
-import dao.concreteDao.FakeEvaluationDao;
-import dao.concreteDao.FakePersonalTrainerDao;
-import dao.concreteDao.FakeTrainingCardDao;
+import dao.concreteClass.FakeCostumerDao;
+import dao.concreteClass.FakeEvaluationDao;
+import dao.concreteClass.FakePersonalTrainerDao;
+import dao.concreteClass.FakeTrainingCardDao;
 import dao.interfaceClass.CostumerDao;
 import dao.interfaceClass.EvaluationDao;
 import dao.interfaceClass.PersonalTrainerDao;

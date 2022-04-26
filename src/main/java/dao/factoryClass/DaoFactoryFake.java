@@ -1,6 +1,6 @@
 package dao.factoryClass;
 
-import dao.concreteDao.*;
+import dao.concreteClass.*;
 import dao.interfaceClass.*;
 
 public class DaoFactoryFake extends DaoFactory{

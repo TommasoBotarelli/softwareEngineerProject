@@ -1,9 +1,9 @@
 package businessLogic;
 
-import dao.concreteDao.FakeAccessDao;
-import dao.concreteDao.FakeBadgeDao;
-import dao.concreteDao.FakeTurnstileDao;
-import dao.concreteDao.FakeTypeOfAccessDao;
+import dao.concreteClass.FakeAccessDao;
+import dao.concreteClass.FakeBadgeDao;
+import dao.concreteClass.FakeTurnstileDao;
+import dao.concreteClass.FakeTypeOfAccessDao;
 import dao.interfaceClass.AccessDao;
 import dao.interfaceClass.BadgeDao;
 import dao.interfaceClass.TurnstileDao;

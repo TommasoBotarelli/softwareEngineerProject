@@ -1,4 +1,4 @@
-package dao.concreteDao;
+package dao.concreteClass;
 
 import dao.interfaceClass.CostumerDao;
 import domainModel.Costumer;

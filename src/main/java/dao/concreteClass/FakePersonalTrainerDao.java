@@ -1,4 +1,4 @@
-package dao.concreteDao;
+package dao.concreteClass;
 
 import dao.interfaceClass.PersonalTrainerDao;
 import domainModel.PersonalTrainer;
