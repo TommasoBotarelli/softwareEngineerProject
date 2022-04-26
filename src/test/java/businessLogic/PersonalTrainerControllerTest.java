@@ -1,30 +1,45 @@
 package businessLogic;
 
-import dao.*;
+import dao.factoryClass.DaoFactory;
+import dao.interfaceClass.EvaluationDao;
+import dao.interfaceClass.PersonalTrainerDao;
+import dao.interfaceClass.TrainingCardDao;
 import domainModel.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonalTrainerControllerTest {
 
     private PersonalTrainerController personalTrainerController = new PersonalTrainerController();
+    private static PersonalTrainerDao personalTrainerDao;
+    private static TrainingCardDao trainingCardDao;
+    private static EvaluationDao evaluationDao;
+    
+    @BeforeAll
+    static void beforeAll(){
+        personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
+        trainingCardDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrainingCardDao();
+        evaluationDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getEvaluationDao();
+    }
 
     @BeforeEach
     void setUp(){
-        FakePersonalTrainerDao.getInstance().deleteAll();
-        FakeTrainingCardDao.getInstance().deleteAll();
+        personalTrainerDao.deleteAll();
+        trainingCardDao.deleteAll();
     }
 
     @Test
     void setThisPersonalTrainer() {
-        FakePersonalTrainerDao.getInstance().add(new PersonalTrainer("Tommaso", "Botarelli", "7576143571"));
+        personalTrainerDao.add(new PersonalTrainer("Tommaso", "Botarelli", "7576143571"));
         personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
-        assertEquals(FakePersonalTrainerDao.getInstance().getPersonalTrainer("Tommaso", "Botarelli", "7576143571"),
+        assertEquals(personalTrainerDao.getPersonalTrainer("Tommaso", "Botarelli", "7576143571"),
                 personalTrainerController.getThisPersonalTrainer());
     }
 
@@ -32,7 +47,7 @@ class PersonalTrainerControllerTest {
     void getMyStandardTrainingCard() {
         PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
-        FakePersonalTrainerDao.getInstance().add(personalTrainer);
+        personalTrainerDao.add(personalTrainer);
 
         personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
@@ -44,9 +59,9 @@ class PersonalTrainerControllerTest {
         trainingCard2.setEmission(LocalDate.of(2022, 4, 22));
         trainingCard3.setEmission(LocalDate.of(2022, 4, 22));
 
-        FakeTrainingCardDao.getInstance().addTrainingCard(trainingCard1);
-        FakeTrainingCardDao.getInstance().addTrainingCard(trainingCard2);
-        FakeTrainingCardDao.getInstance().addTrainingCard(trainingCard3);
+        trainingCardDao.addTrainingCard(trainingCard1);
+        trainingCardDao.addTrainingCard(trainingCard2);
+        trainingCardDao.addTrainingCard(trainingCard3);
 
         ArrayList<TrainingCard> standardTrainingCards = new ArrayList<>();
 
@@ -60,7 +75,7 @@ class PersonalTrainerControllerTest {
     void addCustomizeTrainingCard() {
         PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
-        FakePersonalTrainerDao.getInstance().add(personalTrainer);
+        personalTrainerDao.add(personalTrainer);
 
         Costumer costumer = new Costumer("Sandro", "Giusti", "7862345");
 
@@ -69,14 +84,14 @@ class PersonalTrainerControllerTest {
         personalTrainerController.addCustomizeTrainingCard(costumer, "Exercise", 1,
                 22, 4, 2022, 22, 5, 2022);
 
-        assertFalse(FakeTrainingCardDao.getInstance().getTrainingCardFromCostumer(costumer).isEmpty());
+        assertFalse(trainingCardDao.getTrainingCardFromCostumer(costumer).isEmpty());
     }
 
     @Test
     void addStandardTrainingCard(){
         PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
-        FakePersonalTrainerDao.getInstance().add(personalTrainer);
+        personalTrainerDao.add(personalTrainer);
 
         personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
@@ -84,19 +99,19 @@ class PersonalTrainerControllerTest {
 
         ArrayList<TrainingCard> standardTrainingCard = new ArrayList<>();
 
-        for (TrainingCard t : FakeTrainingCardDao.getInstance().getTrainingCardFromPersonalTrainer(personalTrainer)){
+        for (TrainingCard t : trainingCardDao.getTrainingCardFromPersonalTrainer(personalTrainer)){
             if (t.isStandard())
                 standardTrainingCard.add(t);
         }
 
-        assertEquals("Exercise", FakeTrainingCardDao.getInstance().getTrainingCardFromPersonalTrainer(personalTrainer).get(0).getExercises());
+        assertEquals("Exercise", trainingCardDao.getTrainingCardFromPersonalTrainer(personalTrainer).get(0).getExercises());
     }
 
     @Test
     void addEvaluation() {
         PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
-        FakePersonalTrainerDao.getInstance().add(personalTrainer);
+        personalTrainerDao.add(personalTrainer);
 
         Costumer costumer = new Costumer("Sandro", "Giusti", "7862345");
 
@@ -105,14 +120,14 @@ class PersonalTrainerControllerTest {
         personalTrainerController.addEvaluation(costumer, 2022, 4, 22, "Everything is ok", 2,
                 1.80f, 80.0f, 70.0f, 10.0f);
 
-        assertFalse(FakeEvaluationDao.getInstance().getEvaluationOfCostumer(costumer).isEmpty());
+        assertFalse(evaluationDao.getEvaluationOfCostumer(costumer).isEmpty());
     }
 
     @Test
     void getEvaluationOfCostumer() {
         PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
-        FakePersonalTrainerDao.getInstance().add(personalTrainer);
+        personalTrainerDao.add(personalTrainer);
 
         Costumer costumer1 = new Costumer("Sandro", "Giusti", "7862345");
         Costumer costumer2 = new Costumer("Gianluca", "Righi", "4353241324");
@@ -127,9 +142,9 @@ class PersonalTrainerControllerTest {
         Evaluation evaluation3 = new Evaluation(LocalDate.of(2022, 4, 22),
                 new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer3);
 
-        FakeEvaluationDao.getInstance().addEvaluation(evaluation1);
-        FakeEvaluationDao.getInstance().addEvaluation(evaluation2);
-        FakeEvaluationDao.getInstance().addEvaluation(evaluation3);
+        evaluationDao.addEvaluation(evaluation1);
+        evaluationDao.addEvaluation(evaluation2);
+        evaluationDao.addEvaluation(evaluation3);
 
         ArrayList<Evaluation> evaluationsOfCostumer1 = personalTrainerController.getEvaluationOfCostumer(costumer1);
         ArrayList<Evaluation> evaluationsOfCostumer2 = personalTrainerController.getEvaluationOfCostumer(costumer2);
@@ -144,7 +159,7 @@ class PersonalTrainerControllerTest {
     void deleteEvaluation() {
         PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
-        FakePersonalTrainerDao.getInstance().add(personalTrainer);
+        personalTrainerDao.add(personalTrainer);
 
         Costumer costumer1 = new Costumer("Sandro", "Giusti", "7862345");
         Costumer costumer2 = new Costumer("Gianluca", "Righi", "4353241324");
@@ -159,14 +174,14 @@ class PersonalTrainerControllerTest {
         Evaluation evaluation3 = new Evaluation(LocalDate.of(2022, 4, 22),
                 new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer3);
 
-        FakeEvaluationDao.getInstance().addEvaluation(evaluation1);
-        FakeEvaluationDao.getInstance().addEvaluation(evaluation2);
-        FakeEvaluationDao.getInstance().addEvaluation(evaluation3);
+        evaluationDao.addEvaluation(evaluation1);
+        evaluationDao.addEvaluation(evaluation2);
+        evaluationDao.addEvaluation(evaluation3);
 
         personalTrainerController.deleteEvaluation(evaluation1);
         personalTrainerController.deleteEvaluation(evaluation2);
         personalTrainerController.deleteEvaluation(evaluation3);
 
-        assertEquals(0, FakeEvaluationDao.getInstance().getAllEvaluation().size());
+        assertEquals(0, evaluationDao.getAllEvaluation().size());
     }
 }

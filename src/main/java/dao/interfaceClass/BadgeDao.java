@@ -1,4 +1,4 @@
-package dao;
+package dao.interfaceClass;
 
 import domainModel.Badge;
 import domainModel.Costumer;

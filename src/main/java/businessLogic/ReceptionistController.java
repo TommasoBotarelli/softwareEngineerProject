@@ -1,6 +1,7 @@
 package businessLogic;
 
-import dao.*;
+import dao.concreteDao.*;
+import dao.interfaceClass.*;
 import domainModel.*;
 
 import java.time.LocalDate;

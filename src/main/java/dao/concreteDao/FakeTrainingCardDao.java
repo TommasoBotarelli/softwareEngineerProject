@@ -1,5 +1,6 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.TrainingCardDao;
 import domainModel.*;
 
 import java.util.ArrayList;

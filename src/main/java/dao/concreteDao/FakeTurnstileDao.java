@@ -1,8 +1,9 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.TurnstileDao;
 import domainModel.Turnstile;
 
-public class FakeTurnstileDao implements TurnstileDao{
+public class FakeTurnstileDao implements TurnstileDao {
     private Turnstile entryTurnstile;
     private static FakeTurnstileDao instance = null;
 

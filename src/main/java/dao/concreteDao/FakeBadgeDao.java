@@ -1,12 +1,13 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.BadgeDao;
 import domainModel.Badge;
 import domainModel.Costumer;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class FakeBadgeDao implements BadgeDao{
+public class FakeBadgeDao implements BadgeDao {
 
     int count = 0;
     ArrayList<Badge> badges;

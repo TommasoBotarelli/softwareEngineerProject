@@ -1,4 +1,6 @@
-package dao;
+package dao.factoryClass;
+
+import dao.interfaceClass.*;
 
 public abstract class DaoFactory {
     public static final int FAKE = 1;

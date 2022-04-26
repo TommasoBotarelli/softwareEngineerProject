@@ -1,12 +1,12 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.CostumerDao;
 import domainModel.Costumer;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class FakeCostumerDao implements CostumerDao{
+public class FakeCostumerDao implements CostumerDao {
 
     private ArrayList<Costumer> costumers;
     private static FakeCostumerDao instance = null;

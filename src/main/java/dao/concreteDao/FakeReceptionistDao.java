@@ -1,11 +1,12 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.ReceptionistDao;
 import domainModel.Receptionist;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class FakeReceptionistDao implements ReceptionistDao{
+public class FakeReceptionistDao implements ReceptionistDao {
 
     ArrayList<Receptionist> receptionists;
     private static FakeReceptionistDao instance = null;

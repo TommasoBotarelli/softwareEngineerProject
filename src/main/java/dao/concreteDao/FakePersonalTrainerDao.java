@@ -1,12 +1,12 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.PersonalTrainerDao;
 import domainModel.PersonalTrainer;
-import domainModel.TrainingCard;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class FakePersonalTrainerDao implements PersonalTrainerDao{
+public class FakePersonalTrainerDao implements PersonalTrainerDao {
 
     private ArrayList<PersonalTrainer> personalTrainers;
     private static FakePersonalTrainerDao instance = null;

@@ -1,11 +1,12 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.EvaluationDao;
 import domainModel.Costumer;
 import domainModel.Evaluation;
 
 import java.util.ArrayList;
 
-public class FakeEvaluationDao implements EvaluationDao{
+public class FakeEvaluationDao implements EvaluationDao {
 
     private static FakeEvaluationDao instance = null;
     private ArrayList<Evaluation> evaluations;

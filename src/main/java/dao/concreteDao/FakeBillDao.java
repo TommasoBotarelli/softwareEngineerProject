@@ -1,12 +1,13 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.BillDao;
 import domainModel.Bill;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class FakeBillDao implements BillDao{
+public class FakeBillDao implements BillDao {
 
     ArrayList<Bill> bills;
     long counter;

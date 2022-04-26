@@ -1,14 +1,12 @@
-package dao;
+package dao.concreteDao;
 
+import dao.interfaceClass.TypeOfAccessDao;
 import domainModel.Costumer;
 import domainModel.TypeOfAccess;
 
-import java.lang.reflect.Type;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
-public class FakeTypeOfAccessDao implements TypeOfAccessDao{
+public class FakeTypeOfAccessDao implements TypeOfAccessDao {
 
     private ArrayList<TypeOfAccess> typeOfAccesses;
     private static FakeTypeOfAccessDao instance = null;

@@ -1,6 +1,13 @@
 package businessLogic;
 
-import dao.*;
+import dao.concreteDao.FakeCostumerDao;
+import dao.concreteDao.FakeEvaluationDao;
+import dao.concreteDao.FakeTrainingCardDao;
+import dao.concreteDao.FakeTypeOfAccessDao;
+import dao.interfaceClass.CostumerDao;
+import dao.interfaceClass.EvaluationDao;
+import dao.interfaceClass.TrainingCardDao;
+import dao.interfaceClass.TypeOfAccessDao;
 import domainModel.*;
 
 import java.io.FileNotFoundException;

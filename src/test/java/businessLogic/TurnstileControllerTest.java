@@ -1,6 +1,11 @@
 package businessLogic;
 
-import dao.*;
+import dao.concreteDao.FakeAccessDao;
+import dao.concreteDao.FakeBillDao;
+import dao.factoryClass.DaoFactory;
+import dao.interfaceClass.BadgeDao;
+import dao.interfaceClass.CostumerDao;
+import dao.interfaceClass.TypeOfAccessDao;
 import domainModel.Badge;
 import domainModel.Costumer;
 import domainModel.Daily;

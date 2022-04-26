@@ -1,6 +1,13 @@
 package businessLogic;
 
-import dao.*;
+import dao.concreteDao.FakeAccessDao;
+import dao.concreteDao.FakeBadgeDao;
+import dao.concreteDao.FakeTurnstileDao;
+import dao.concreteDao.FakeTypeOfAccessDao;
+import dao.interfaceClass.AccessDao;
+import dao.interfaceClass.BadgeDao;
+import dao.interfaceClass.TurnstileDao;
+import dao.interfaceClass.TypeOfAccessDao;
 import domainModel.*;
 
 import java.time.LocalDateTime;
