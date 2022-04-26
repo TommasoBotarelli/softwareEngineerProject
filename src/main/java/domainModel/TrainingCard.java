@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class TrainingCard {
 
     private String exercises;
+    private String name;
     private int level;
     private LocalDate emission;
     private LocalDate expiration;
@@ -14,6 +15,7 @@ public class TrainingCard {
 
 
     public TrainingCard(String exercises, int level, boolean standard, PersonalTrainer personalTrainer){
+        this.name = "TrainingCard";
         this.exercises = exercises;
         this.level = level;
         this.personalTrainer = personalTrainer;
@@ -71,5 +73,9 @@ public class TrainingCard {
 
     public void setExercises(String exercises){
         this.exercises = exercises;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 }

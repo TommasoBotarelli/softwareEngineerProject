@@ -189,4 +189,8 @@ public class ReceptionistController {
         Badge badge = new Badge(costumer);
         badgeDao.addBadge(badge);
     }
+
+    public long addPayment(TypeOfSub type, LocalDateTime dateTime){
+        return billDao.add(new Bill(type.getCost(), dateTime));
+    }
 }

@@ -8,9 +8,9 @@ import dao.interfaceClass.CostumerDao;
 import dao.interfaceClass.EvaluationDao;
 import dao.interfaceClass.TrainingCardDao;
 import dao.interfaceClass.TypeOfAccessDao;
+
 import domainModel.*;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
