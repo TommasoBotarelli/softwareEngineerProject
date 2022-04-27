@@ -57,15 +57,9 @@ class ReceptionistControllerTest {
     void setCurrentReceptionist(){
         Receptionist receptionist = new Receptionist("Tommaso", "Botarelli", "71638723");
 
-        boolean firstTry = receptionistController.setCurrentReceptionist("Tommaso", "Botarelli", "71638723");
+        receptionistController.setCurrentReceptionist(receptionist);
 
-        assertFalse(firstTry);
-
-        receptionistDao.addReceptionist(receptionist);
-
-        boolean secondTry = receptionistController.setCurrentReceptionist("Tommaso", "Botarelli", "71638723");
-
-        assertTrue(secondTry);
+        assertEquals(receptionist, receptionistController.getCurrentReceptionist());
     }
 
     @Test

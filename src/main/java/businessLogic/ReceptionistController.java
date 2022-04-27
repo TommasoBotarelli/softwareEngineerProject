@@ -30,9 +30,12 @@ public class ReceptionistController {
         turnstileDao = FakeTurnstileDao.getInstance();
     }
 
-    public boolean setCurrentReceptionist(String name, String surname, String phoneNumber){
-        thisReceptionist = receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);
-        return thisReceptionist != null;
+    public void setCurrentReceptionist(Receptionist receptionist){
+        this.thisReceptionist = receptionist;
+    }
+
+    public Receptionist getCurrentReceptionist(){
+        return thisReceptionist;
     }
 
     public void addCostumer(String name, String surname, String email) {
@@ -132,11 +135,11 @@ public class ReceptionistController {
     }
 
     public void openEntryTurnstile(){
-        turnstileDao.getEntryTurnstile().setCanAccess(true);
+        turnstileDao.getEntryTurnstile().setOpen(true);
     }
 
     public void closeEntryTurnstile(){
-        turnstileDao.getEntryTurnstile().setCanAccess(false);
+        turnstileDao.getEntryTurnstile().setOpen(false);
     }
 
     public long addBill(float cost, LocalDateTime dateTime){

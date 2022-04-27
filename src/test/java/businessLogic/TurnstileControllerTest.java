@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TurnstileControllerTest {
 
     private TurnstileController turnstileController = new TurnstileController();
+
     private static CostumerDao costumerDao;
     private static TypeOfAccessDao typeOfAccessDao;
     private static BadgeDao badgeDao;

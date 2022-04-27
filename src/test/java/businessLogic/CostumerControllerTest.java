@@ -53,7 +53,7 @@ class CostumerControllerTest {
         Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
         costumerDao.add(costumer);
 
-        costumerController.setCurrentUser("Tommaso", "Botarelli", "123456789");
+        costumerController.setCurrentUser(costumer);
 
         assertEquals(costumer, costumerController.getThisCostumer());
     }
@@ -63,7 +63,7 @@ class CostumerControllerTest {
         Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
         costumerDao.add(costumer);
 
-        costumerController.setCurrentUser("Tommaso", "Botarelli", "123456789");
+        costumerController.setCurrentUser(costumer);
 
         Subscription subscription1 = new Subscription(LocalDate.now(), TypeOfSub.TRIAL, costumer);
         Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer);
@@ -88,7 +88,7 @@ class CostumerControllerTest {
         Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
         costumerDao.add(costumer);
 
-        costumerController.setCurrentUser("Tommaso", "Botarelli", "123456789");
+        costumerController.setCurrentUser(costumer);
 
         PersonalTrainer personalTrainer = new PersonalTrainer("Sandro", "Giusti", "763581610");
         personalTrainerDao.add(personalTrainer);
@@ -114,7 +114,7 @@ class CostumerControllerTest {
         Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
         costumerDao.add(costumer);
 
-        costumerController.setCurrentUser("Tommaso", "Botarelli", "123456789");
+        costumerController.setCurrentUser(costumer);
 
         PersonalTrainer personalTrainer = new PersonalTrainer("Sandro", "Giusti", "763581610");
         personalTrainerDao.add(personalTrainer);
@@ -141,7 +141,7 @@ class CostumerControllerTest {
         Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
         costumerDao.add(costumer);
 
-        costumerController.setCurrentUser("Tommaso", "Botarelli", "123456789");
+        costumerController.setCurrentUser(costumer);
 
         PersonalTrainer personalTrainer = new PersonalTrainer("Sandro", "Giusti", "763581610");
         personalTrainerDao.add(personalTrainer);

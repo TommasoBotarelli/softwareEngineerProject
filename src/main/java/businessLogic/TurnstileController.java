@@ -14,16 +14,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class TurnstileController {
+    private final Turnstile entryTurnstile;
+
     private AccessDao accessDao;
     private BadgeDao badgeDao;
     private TypeOfAccessDao typeOfAccessDao;
     private TurnstileDao turnstileDao;
+
+    //TODO rimuovere il turnstile dao che non serve ho semplificato così.
 
     public TurnstileController(){
         accessDao = FakeAccessDao.getInstance();
         badgeDao = FakeBadgeDao.getInstance();
         typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
         turnstileDao = FakeTurnstileDao.getInstance();
+
+        entryTurnstile = new Turnstile();
+        entryTurnstile.setOpen(false);
     }
 
     private boolean isTypeOfAccessValid(TypeOfAccess sub, LocalDateTime localDateTime){
@@ -37,7 +44,7 @@ public class TurnstileController {
     }
 
     private void openEntryTurnstile(){
-        turnstileDao.getEntryTurnstile().setCanAccess(true);
+        this.entryTurnstile.setOpen(true);
     }
 
     /*
@@ -45,7 +52,7 @@ public class TurnstileController {
      */
 
     public void closeEntryTurnstile(){
-        turnstileDao.getEntryTurnstile().setCanAccess(false);
+        this.entryTurnstile.setOpen(false);
     }
 
     /*
@@ -75,6 +82,7 @@ public class TurnstileController {
                     t.addAccess();
                     Access newAccess = new Access(costumer, dateTime);
                     accessDao.add(newAccess);
+                    this.entryTurnstile.setOpen(true);
                     return true;
                 }
             }
@@ -84,6 +92,7 @@ public class TurnstileController {
                     t.addAccess();
                     Access newAccess = new Access(costumer, dateTime);
                     accessDao.add(newAccess);
+                    this.entryTurnstile.setOpen(true);
                     return true;
                 }
             }

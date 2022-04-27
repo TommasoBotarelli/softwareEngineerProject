@@ -28,9 +28,8 @@ public class PersonalTrainerController {
         evaluationDao = FakeEvaluationDao.getInstance();
     }
 
-    public boolean setThisPersonalTrainer(String name, String surname, String phoneNumber){
-        thisPersonalTrainer = personalTrainerDao.getPersonalTrainer(name, surname, phoneNumber);
-        return thisPersonalTrainer != null;
+    public void setThisPersonalTrainer(PersonalTrainer personalTrainer){
+        this.thisPersonalTrainer = personalTrainer;
     }
 
     public ArrayList<TrainingCard> getMyStandardTrainingCard(){
@@ -76,6 +75,7 @@ public class PersonalTrainerController {
         LocalDate date = LocalDate.of(year, month, day);
         Measurement measurement = new Measurement(height, weight, leanMass, fatMass);
         Evaluation evaluation = new Evaluation(date, measurement, costumer);
+        evaluation.setPersonalTrainer(thisPersonalTrainer);
         evaluationDao.addEvaluation(evaluation);
     }
 

@@ -17,6 +17,7 @@ public abstract class DaoFactory {
     public abstract TrainingCardDao getTrainingCardDao();
     public abstract TurnstileDao getTurnstileDao();
     public abstract TypeOfAccessDao getTypeOfAccessDao();
+    public abstract GymManagerDao getGymManagerDao();
 
     public static DaoFactory getDaoFactory(int nFactory){
         switch (nFactory){

@@ -9,6 +9,7 @@ public class Evaluation {
     private String comments;
     private int progressLevel;
     private Costumer costumer;
+    private PersonalTrainer personalTrainer;
 
 
     public Evaluation(LocalDate date, Measurement measurement, Costumer costumer) {
@@ -19,6 +20,9 @@ public class Evaluation {
         this.comments = "";
     }
 
+    public void setPersonalTrainer(PersonalTrainer personalTrainer){
+        this.personalTrainer = personalTrainer;
+    }
 
     public void setComments(String comments) {
         this.comments = comments;

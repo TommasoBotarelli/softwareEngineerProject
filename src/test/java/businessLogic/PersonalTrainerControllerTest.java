@@ -37,8 +37,9 @@ class PersonalTrainerControllerTest {
 
     @Test
     void setThisPersonalTrainer() {
-        personalTrainerDao.add(new PersonalTrainer("Tommaso", "Botarelli", "7576143571"));
-        personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        personalTrainerDao.add(personalTrainer);
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
         assertEquals(personalTrainerDao.getPersonalTrainer("Tommaso", "Botarelli", "7576143571"),
                 personalTrainerController.getThisPersonalTrainer());
     }
@@ -49,7 +50,7 @@ class PersonalTrainerControllerTest {
 
         personalTrainerDao.add(personalTrainer);
 
-        personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         TrainingCard trainingCard1 = new TrainingCard("Exercises", 1, true, personalTrainer);
         TrainingCard trainingCard2 = new TrainingCard("Exercises", 2,true, personalTrainer);
@@ -79,7 +80,7 @@ class PersonalTrainerControllerTest {
 
         Costumer costumer = new Costumer("Sandro", "Giusti", "7862345");
 
-        personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         personalTrainerController.addCustomizeTrainingCard(costumer, "Exercise", 1,
                 22, 4, 2022, 22, 5, 2022);
@@ -93,7 +94,7 @@ class PersonalTrainerControllerTest {
 
         personalTrainerDao.add(personalTrainer);
 
-        personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         personalTrainerController.addStandardTrainingCard("Exercise", 1);
 
@@ -115,7 +116,7 @@ class PersonalTrainerControllerTest {
 
         Costumer costumer = new Costumer("Sandro", "Giusti", "7862345");
 
-        personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         personalTrainerController.addEvaluation(costumer, 2022, 4, 22, "Everything is ok", 2,
                 1.80f, 80.0f, 70.0f, 10.0f);
@@ -133,7 +134,7 @@ class PersonalTrainerControllerTest {
         Costumer costumer2 = new Costumer("Gianluca", "Righi", "4353241324");
         Costumer costumer3 = new Costumer("Filippo", "Rossi", "5234312421");
 
-        personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         Evaluation evaluation1 = new Evaluation(LocalDate.of(2022, 4, 22),
                 new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer1);
@@ -165,7 +166,7 @@ class PersonalTrainerControllerTest {
         Costumer costumer2 = new Costumer("Gianluca", "Righi", "4353241324");
         Costumer costumer3 = new Costumer("Filippo", "Rossi", "5234312421");
 
-        personalTrainerController.setThisPersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         Evaluation evaluation1 = new Evaluation(LocalDate.of(2022, 4, 22),
                 new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer1);

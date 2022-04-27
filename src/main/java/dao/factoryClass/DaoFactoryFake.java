@@ -54,4 +54,9 @@ public class DaoFactoryFake extends DaoFactory{
     public TypeOfAccessDao getTypeOfAccessDao() {
         return FakeTypeOfAccessDao.getInstance();
     }
+
+    @Override
+    public GymManagerDao getGymManagerDao() {
+        return FakeGymManagerDao.getInstance();
+    }
 }

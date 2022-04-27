@@ -29,9 +29,8 @@ public class CostumerController {
         evaluationDao = FakeEvaluationDao.getInstance();
     }
 
-    public boolean setCurrentUser(String name, String surname, String phoneNumber){
-        this.thisCostumer = costumerDao.getSelectedCostumer(name, surname, phoneNumber);
-        return thisCostumer != null;
+    public void setCurrentUser(Costumer costumer){
+        this.thisCostumer = costumer;
     }
 
     public Costumer getThisCostumer(){

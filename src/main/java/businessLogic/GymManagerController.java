@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public class GymManagerController {
 
+    private GymManager thisGymManager;
+
     private PersonalTrainerDao personalTrainerDao;
     private BillDao billDao;
     private AccessDao accessDao;
@@ -23,6 +25,10 @@ public class GymManagerController {
         costumerDao = FakeCostumerDao.getInstance();
         typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
         receptionistDao = FakeReceptionistDao.getInstance();
+    }
+
+    public void setThisGymManager(GymManager thisGymManager) {
+        this.thisGymManager = thisGymManager;
     }
 
     public ArrayList<PersonalTrainer> getAllPersonalTrainer(){
@@ -74,7 +80,7 @@ public class GymManagerController {
         return typeOfAccessDao.getFromCostumer(costumer);
     }
 
-    public Bill getBillOfSub(TypeOfAccess typeOfAccess) throws Exception{
+    public Bill getBillOfSub(TypeOfAccess typeOfAccess){
         return billDao.getFromID(typeOfAccess.getBillID());
     }
 

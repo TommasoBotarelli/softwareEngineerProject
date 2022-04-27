@@ -2,18 +2,18 @@ package domainModel;
 
 public class Turnstile {
 
-    private boolean canAccess;
+    private boolean open;
 
     public Turnstile(){
-        this.canAccess = false;
+        this.open = false;
     }
 
     public boolean canAccess() {
-        return canAccess;
+        return open;
     }
 
-    public void setCanAccess(boolean canAccess) {
-        this.canAccess = canAccess;
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
 }
