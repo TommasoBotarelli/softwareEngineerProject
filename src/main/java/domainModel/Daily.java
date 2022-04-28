@@ -2,66 +2,32 @@ package domainModel;
 
 import java.time.LocalDate;
 
-public class Daily implements TypeOfAccess {
+public class Daily{
     private LocalDate emission;
-    private LocalDate expiration;
     private Costumer myCostumer;
-
     private boolean validity;
-    private long billID;
+    private Bill bill;
 
-    public Daily(LocalDate emission, Costumer costumer){
+    public Daily(LocalDate emission, Costumer costumer, Bill bill){
         this.emission = emission;
-        this.expiration = LocalDate.MAX;
         this.validity = true;
         this.myCostumer = costumer;
+        this.bill = bill;
     }
 
-    @Override
-    public Costumer getCostumer(){
+    public LocalDate getEmission() {
+        return emission;
+    }
+
+    public Costumer getMyCostumer() {
         return myCostumer;
     }
 
-    @Override
-    public LocalDate getEmission() {
-        return this.emission;
+    public boolean isValidity() {
+        return validity;
     }
 
-    @Override
-    public LocalDate getExpiration() {
-        return this.expiration;
-    }
-
-    @Override
-    public void setExpiration(LocalDate date) {
-        this.expiration = date;
-    }
-
-    @Override
-    public void setEmission(LocalDate date) {
-        this.emission = date;
-    }
-
-    public void setCostumer(Costumer costumer) {
-        this.myCostumer = costumer;
-    }
-
-    @Override
-    public void addAccess() {
-        this.validity = false;
-    }
-
-    @Override
-    public long getBillID() {
-        return this.billID;
-    }
-
-    @Override
-    public void setBillID(long id) {
-        this.billID = id;
-    }
-
-    public boolean getValidity(){
-        return this.validity;
+    public Bill getBill() {
+        return bill;
     }
 }

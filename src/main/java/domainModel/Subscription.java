@@ -2,73 +2,40 @@ package domainModel;
 
 import java.time.LocalDate;
 
-public class Subscription implements TypeOfAccess {
+public class Subscription{
 
     private LocalDate emission;
     private LocalDate expiration;
     private TypeOfSub type;
     private Costumer myCostumer;
-
-    private int nAccess;
-    private long billID;
+    private Bill bill;
 
 
-    public Subscription(LocalDate emission, TypeOfSub type, Costumer costumer){
+    public Subscription(LocalDate emission, TypeOfSub type, Costumer costumer, Bill bill){
         this.emission = emission;
         this.type = type;
         this.myCostumer = costumer;
-        this.nAccess = 0;
+        this.expiration = emission.plusMonths(type.getnMonth());
+        this.bill = bill;
     }
 
-    @Override
-    public Costumer getCostumer() {
-        return this.myCostumer;
-    }
-
-    @Override
     public LocalDate getEmission() {
-        return this.emission;
+        return emission;
     }
 
-    @Override
     public LocalDate getExpiration() {
-        return this.expiration;
+        return expiration;
     }
 
-    @Override
-    public void setExpiration(LocalDate date) {
-        this.expiration = date;
-    }
-
-    @Override
-    public void setEmission(LocalDate date) {
-        this.emission = date;
-    }
-
-    @Override
-    public void setCostumer(Costumer costumer) {
-        this.myCostumer = costumer;
-    }
-
-    @Override
-    public void addAccess() {
-        this.nAccess++;
-    }
-
-    @Override
-    public long getBillID() {
-        return this.billID;
-    }
-
-    public void setBillID(long billID) {
-        this.billID = billID;
-    }
-
-    public TypeOfSub getType() {
+    public TypeOfSub getTypeOfSub() {
         return type;
     }
 
-    public void setType(TypeOfSub type) {
-        this.type = type;
+    public Costumer getMyCostumer() {
+        return myCostumer;
+    }
+
+    public Bill getBill() {
+        return bill;
     }
 }
