@@ -1,18 +1,23 @@
 package dao.concreteClass;
 
 import dao.interfaceClass.TypeOfAccessDao;
-import domainModel.Costumer;
-import domainModel.TypeOfAccess;
+import domainModel.*;
 
 import java.util.ArrayList;
 
 public class FakeTypeOfAccessDao implements TypeOfAccessDao {
+
+    private ArrayList<TrialSubscription> trialSubscriptions;
+    private ArrayList<Subscription> subscriptions;
+    private ArrayList<Daily> dailies;
 
     private ArrayList<TypeOfAccess> typeOfAccesses;
     private static FakeTypeOfAccessDao instance = null;
 
     private FakeTypeOfAccessDao(){
         typeOfAccesses = new ArrayList<>();
+        subscriptions = new ArrayList<>();
+        dailies = new ArrayList<>();
     }
 
     public static FakeTypeOfAccessDao getInstance(){
@@ -26,6 +31,21 @@ public class FakeTypeOfAccessDao implements TypeOfAccessDao {
     public void addWithBill(TypeOfAccess typeOfAccess, long id) {
         typeOfAccess.setBillID(id);
         typeOfAccesses.add(typeOfAccess);
+    }
+
+    @Override
+    public void addSubscription(Subscription sub) {
+
+    }
+
+    @Override
+    public void addDaily(Daily daily) {
+
+    }
+
+    @Override
+    public void addTrialSubscription(TrialSubscription sub) {
+        this.trialSubscriptions.add(sub);
     }
 
     @Override

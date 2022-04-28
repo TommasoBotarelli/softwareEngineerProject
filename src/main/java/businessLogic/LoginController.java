@@ -18,7 +18,7 @@ public class LoginController {
     private PersonalTrainerDao personalTrainerDao;
     private GymManagerDao gymManagerDao;
 
-    LoginController(){
+    public LoginController(){
         costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
         receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();

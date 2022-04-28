@@ -1,11 +1,13 @@
 package businessLogic;
 
 import dao.concreteClass.*;
+import dao.factoryClass.DaoFactory;
 import dao.interfaceClass.*;
 import domainModel.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GymManagerController {
 
@@ -17,14 +19,30 @@ public class GymManagerController {
     private CostumerDao costumerDao;
     private TypeOfAccessDao typeOfAccessDao;
     private ReceptionistDao receptionistDao;
+    private GymManagerDao gymManagerDao;
 
     public GymManagerController(){
-        personalTrainerDao = FakePersonalTrainerDao.getInstance();
+        personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
         billDao = FakeBillDao.getInstance();
         accessDao = FakeAccessDao.getInstance();
         costumerDao = FakeCostumerDao.getInstance();
         typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
         receptionistDao = FakeReceptionistDao.getInstance();
+        gymManagerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getGymManagerDao();
+    }
+
+    public boolean addGymManager(String name, String surname, String phoneNumber){
+        GymManager gymManager = new GymManager(name, surname, phoneNumber);
+        return gymManagerDao.addGymManager(gymManager);
+    }
+
+    public boolean setCurrentUser(String name, String surname, String phoneNumber){
+        GymManager gymManager = gymManagerDao.getGymManager(name, surname, phoneNumber);
+
+        if (gymManager != null)
+            this.thisGymManager = gymManager;
+
+        return gymManager != null;
     }
 
     public void setThisGymManager(GymManager thisGymManager) {
