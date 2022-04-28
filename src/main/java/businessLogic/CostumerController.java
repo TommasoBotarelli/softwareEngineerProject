@@ -33,6 +33,15 @@ public class CostumerController {
         this.thisCostumer = costumer;
     }
 
+    public boolean setCurrentUser(String name, String surname, String phoneNumber){
+        Costumer costumer = costumerDao.getSelectedCostumer(name, surname, phoneNumber);
+
+        if (costumer != null)
+            this.thisCostumer = costumer;
+
+        return costumer != null;
+    }
+
     public Costumer getThisCostumer(){
         return thisCostumer;
     }

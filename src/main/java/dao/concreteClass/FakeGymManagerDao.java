@@ -13,7 +13,7 @@ public class FakeGymManagerDao implements GymManagerDao {
 
     private FakeGymManagerDao(){
         gymManagers = new ArrayList<>();
-        gymManagers.add(new GymManager("Default", "GymManager", "123456789"));
+        gymManagers.add(new GymManager("name", "surname", ""));
     }
 
     public static FakeGymManagerDao getInstance(){
@@ -33,14 +33,11 @@ public class FakeGymManagerDao implements GymManagerDao {
     }
 
     @Override
-    public boolean addGymManager(String name, String surname, String phoneNumber) {
-        GymManager newGymManager = new GymManager(name, surname, phoneNumber);
-
-        if (!gymManagers.contains(newGymManager)){
-            gymManagers.add(newGymManager);
+    public boolean addGymManager(GymManager gymManager) {
+        if (!gymManagers.contains(gymManager)){
+            gymManagers.add(gymManager);
             return true;
         }
-
         return false;
     }
 }

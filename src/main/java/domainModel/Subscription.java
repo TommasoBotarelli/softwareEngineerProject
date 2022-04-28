@@ -18,6 +18,7 @@ public class Subscription implements TypeOfAccess {
         this.type = type;
         this.myCostumer = costumer;
         this.nAccess = 0;
+        this.billID = -1;
     }
 
     @Override

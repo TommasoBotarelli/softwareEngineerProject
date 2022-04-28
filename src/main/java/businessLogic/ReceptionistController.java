@@ -38,8 +38,15 @@ public class ReceptionistController {
         return thisReceptionist;
     }
 
-    public void addCostumer(String name, String surname, String email) {
-        Costumer newCostumer = new Costumer(name, surname, email);
+    public boolean setCurrentUser(String name, String surname, String phoneNumber){
+        Receptionist receptionist = receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);
+        if(receptionist != null)
+            this.thisReceptionist = receptionist;
+        return receptionist != null;
+    }
+
+    public void addCostumer(String name, String surname, String phoneNumber) {
+        Costumer newCostumer = new Costumer(name, surname, phoneNumber);
         costumerDao.add(newCostumer);
     }
 
@@ -147,13 +154,14 @@ public class ReceptionistController {
         return billDao.add(newBill);
     }
 
+    //TODO aggiungi qui il float del pagamento il receptionist clicca un tasto e fa aggiunta del pagamento e mette automaticamente ID
+
     public void addTypeOfAccess(String type, String subscriptionType, long billID, LocalDate date, Costumer costumer){
 
         if (type.equalsIgnoreCase("SUBSCRIPTION")){
             if (subscriptionType.equalsIgnoreCase("PROVA")){
-                TypeOfAccess sub = new Subscription(date, TypeOfSub.TRIAL, costumer);
-                sub.setExpiration(date.plusDays(TypeOfSub.TRIAL.getnDay()));
-                typeOfAccessDao.addWithBill(sub, billID);
+                TrialSubscription sub = new TrialSubscription(costumer, date);
+                typeOfAccessDao.addTrialSubscription(sub);
             }
             else if (subscriptionType.equalsIgnoreCase("MENSILE")){
                 TypeOfAccess sub = new Subscription(date, TypeOfSub.MONTHLY, costumer);
