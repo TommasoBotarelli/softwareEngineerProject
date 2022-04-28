@@ -3,27 +3,29 @@ package businessLogic;
 import dao.concreteClass.FakeCostumerDao;
 import dao.concreteClass.FakeEvaluationDao;
 import dao.concreteClass.FakeTrainingCardDao;
-import dao.concreteClass.FakeTypeOfAccessDao;
-import dao.interfaceClass.CostumerDao;
-import dao.interfaceClass.EvaluationDao;
-import dao.interfaceClass.TrainingCardDao;
-import dao.interfaceClass.TypeOfAccessDao;
+import dao.factoryClass.DaoFactory;
+import dao.interfaceClass.*;
 
 import domainModel.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CostumerController {
-    private TypeOfAccessDao typeOfAccessDao;
     private CostumerDao costumerDao;
     private TrainingCardDao trainingCardDao;
     private EvaluationDao evaluationDao;
+    private TrialSubscriptionDao trialSubscriptionDao;
+    private SubscriptionDao subscriptionDao;
+    private DailyDao dailyDao;
 
     private Costumer thisCostumer;
 
     public CostumerController(){
-        typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
+        trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
+        subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
+        dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
         costumerDao = FakeCostumerDao.getInstance();
         trainingCardDao = FakeTrainingCardDao.getInstance();
         evaluationDao = FakeEvaluationDao.getInstance();
@@ -58,8 +60,12 @@ public class CostumerController {
         return thisCostumer.getPhoneNumber();
     }
 
-    public ArrayList<TypeOfAccess> getMyTypeOfAccess(){
-        return typeOfAccessDao.getFromCostumer(thisCostumer);
+    public ArrayList<AccessType> getMyAccessType(){
+        ArrayList<AccessType> allAccessTypeOfCostumer = new ArrayList<>();
+        allAccessTypeOfCostumer.add(trialSubscriptionDao.getFromCostumer(thisCostumer));
+        allAccessTypeOfCostumer.addAll(dailyDao.getFromCostumer(thisCostumer));
+        allAccessTypeOfCostumer.addAll(subscriptionDao.getFromCostumer(thisCostumer));
+        return allAccessTypeOfCostumer;
     }
 
     public ArrayList<TrainingCard> getListOfMyTrainingCard(){

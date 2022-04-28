@@ -2,7 +2,7 @@ package domainModel;
 
 import java.time.LocalDate;
 
-public class Subscription{
+public class Subscription implements AccessType{
 
     private LocalDate emission;
     private LocalDate expiration;
@@ -37,5 +37,10 @@ public class Subscription{
 
     public Bill getBill() {
         return bill;
+    }
+
+    @Override
+    public boolean isValid(LocalDate date) {
+        return date.isEqual(this.emission) || date.isEqual(this.expiration) || date.isAfter(this.emission) && date.isBefore(this.expiration);
     }
 }

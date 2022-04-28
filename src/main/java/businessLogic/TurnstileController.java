@@ -2,16 +2,15 @@ package businessLogic;
 
 import dao.concreteClass.FakeAccessDao;
 import dao.concreteClass.FakeBadgeDao;
-import dao.concreteClass.FakeTurnstileDao;
 import dao.concreteClass.FakeTypeOfAccessDao;
 import dao.interfaceClass.AccessDao;
 import dao.interfaceClass.BadgeDao;
-import dao.interfaceClass.TurnstileDao;
-import dao.interfaceClass.TypeOfAccessDao;
 import domainModel.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+//TODO rimuovere questa classe
 
 public class TurnstileController {
     private final Turnstile entryTurnstile;
@@ -20,8 +19,6 @@ public class TurnstileController {
     private BadgeDao badgeDao;
     private TypeOfAccessDao typeOfAccessDao;
     private TurnstileDao turnstileDao;
-
-    //TODO rimuovere il turnstile dao che non serve ho semplificato così.
 
     public TurnstileController(){
         accessDao = FakeAccessDao.getInstance();

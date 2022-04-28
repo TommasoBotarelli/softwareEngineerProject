@@ -46,17 +46,22 @@ public class DaoFactoryFake extends DaoFactory{
     }
 
     @Override
-    public TurnstileDao getTurnstileDao() {
-        return FakeTurnstileDao.getInstance();
-    }
-
-    @Override
-    public TypeOfAccessDao getTypeOfAccessDao() {
-        return FakeTypeOfAccessDao.getInstance();
-    }
-
-    @Override
     public GymManagerDao getGymManagerDao() {
         return FakeGymManagerDao.getInstance();
+    }
+
+    @Override
+    public DailyDao getDailyDao() {
+        return FakeDailyDao.getInstance();
+    }
+
+    @Override
+    public SubscriptionDao getSubscriptionDao() {
+        return FakeSubscriptionDao.getInstance();
+    }
+
+    @Override
+    public TrialSubscriptionDao getTrialSubscriptionDao() {
+        return FakeTrialSubscriptionDao.getInstance();
     }
 }

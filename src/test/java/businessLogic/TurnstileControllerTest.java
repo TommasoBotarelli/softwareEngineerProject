@@ -5,7 +5,6 @@ import dao.concreteClass.FakeBillDao;
 import dao.factoryClass.DaoFactory;
 import dao.interfaceClass.BadgeDao;
 import dao.interfaceClass.CostumerDao;
-import dao.interfaceClass.TypeOfAccessDao;
 import domainModel.Badge;
 import domainModel.Costumer;
 import domainModel.Daily;

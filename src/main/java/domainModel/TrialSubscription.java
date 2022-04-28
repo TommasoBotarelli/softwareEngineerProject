@@ -2,7 +2,7 @@ package domainModel;
 
 import java.time.LocalDate;
 
-public class TrialSubscription {
+public class TrialSubscription implements AccessType{
     private LocalDate emission;
     private LocalDate expiration;
 
@@ -31,5 +31,15 @@ public class TrialSubscription {
 
     public Costumer getCostumerTarget() {
         return costumerTarget;
+    }
+
+    public void addAccess(){
+        this.nAccess++;
+    }
+
+    @Override
+    public boolean isValid(LocalDate date){
+        return (date.isEqual(this.emission) || date.isEqual(this.expiration) || date.isAfter(this.emission) && date.isBefore(this.expiration)) &&
+                this.nAccess < 3;
     }
 }

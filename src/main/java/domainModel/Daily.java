@@ -2,15 +2,15 @@ package domainModel;
 
 import java.time.LocalDate;
 
-public class Daily{
+public class Daily implements AccessType{
     private LocalDate emission;
     private Costumer myCostumer;
-    private boolean validity;
+    private boolean used;
     private Bill bill;
 
     public Daily(LocalDate emission, Costumer costumer, Bill bill){
         this.emission = emission;
-        this.validity = true;
+        this.used = false;
         this.myCostumer = costumer;
         this.bill = bill;
     }
@@ -23,11 +23,20 @@ public class Daily{
         return myCostumer;
     }
 
-    public boolean isValidity() {
-        return validity;
+    public boolean isUsed() {
+        return used;
     }
 
     public Bill getBill() {
         return bill;
+    }
+
+    public void addAccess(){
+        this.used = true;
+    }
+
+    @Override
+    public boolean isValid(LocalDate date) {
+        return date.isEqual(this.emission) && !this.used;
     }
 }

@@ -17,16 +17,20 @@ public class GymManagerController {
     private BillDao billDao;
     private AccessDao accessDao;
     private CostumerDao costumerDao;
-    private TypeOfAccessDao typeOfAccessDao;
     private ReceptionistDao receptionistDao;
     private GymManagerDao gymManagerDao;
+    private TrialSubscriptionDao trialSubscriptionDao;
+    private SubscriptionDao subscriptionDao;
+    private DailyDao dailyDao;
 
     public GymManagerController(){
+        trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
+        subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
+        dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
         billDao = FakeBillDao.getInstance();
         accessDao = FakeAccessDao.getInstance();
         costumerDao = FakeCostumerDao.getInstance();
-        typeOfAccessDao = FakeTypeOfAccessDao.getInstance();
         receptionistDao = FakeReceptionistDao.getInstance();
         gymManagerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getGymManagerDao();
     }
@@ -94,12 +98,12 @@ public class GymManagerController {
         return costumerDao.getFromNameSurname(name, surname);
     }
 
-    public ArrayList<TypeOfAccess> getSubOfCostumer(Costumer costumer){
-        return typeOfAccessDao.getFromCostumer(costumer);
-    }
-
-    public Bill getBillOfSub(TypeOfAccess typeOfAccess){
-        return billDao.getFromID(typeOfAccess.getBillID());
+    public ArrayList<AccessType> getSubOfCostumer(Costumer costumer){
+        ArrayList<AccessType> allAccessTypeOfCostumer = new ArrayList<>();
+        allAccessTypeOfCostumer.add(trialSubscriptionDao.getFromCostumer(costumer));
+        allAccessTypeOfCostumer.addAll(dailyDao.getFromCostumer(costumer));
+        allAccessTypeOfCostumer.addAll(subscriptionDao.getFromCostumer(costumer));
+        return allAccessTypeOfCostumer;
     }
 
     public ArrayList<Receptionist> getAllReceptionist(){
