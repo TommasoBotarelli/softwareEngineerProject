@@ -62,6 +62,14 @@ public class ReceptionistController {
         return costumerDao.getAll();
     }
 
+    public ArrayList<AccessType> getAllAccessType(){
+        ArrayList<AccessType> allAccessTypeOfCostumer = new ArrayList<>();
+        allAccessTypeOfCostumer.addAll(trialSubscriptionDao.getAll());
+        allAccessTypeOfCostumer.addAll(dailyDao.getAll());
+        allAccessTypeOfCostumer.addAll(subscriptionDao.getAll());
+        return allAccessTypeOfCostumer;
+    }
+
     public ArrayList<TrialSubscription> getAllTrialSubscriptions(){
         return trialSubscriptionDao.getAll();
     }

@@ -19,18 +19,23 @@ class GymManagerControllerTest {
 
     private GymManagerController gymManagerController = new GymManagerController();
 
+    private static TrialSubscriptionDao trialSubscriptionDao;
+    private static SubscriptionDao subscriptionDao;
+    private static DailyDao dailyDao;
     private static CostumerDao costumerDao;
     private static ReceptionistDao receptionistDao;
-    private static TypeOfAccessDao typeOfAccessDao;
     private static AccessDao accessDao;
     private static BillDao billDao;
     private static PersonalTrainerDao personalTrainerDao;
+
     
     @BeforeAll
     static void beforeAll(){
+        trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
+        subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
+        dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
         costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
         receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
-        typeOfAccessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTypeOfAccessDao();
         accessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getAccessDao();
         billDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBillDao();
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
@@ -40,9 +45,11 @@ class GymManagerControllerTest {
     void setUp(){
         receptionistDao.deleteAll();
         personalTrainerDao.deleteAll();
-        typeOfAccessDao.deleteAll();
         billDao.deleteAll();
         accessDao.deleteAll();
+        trialSubscriptionDao.deleteAll();
+        subscriptionDao.deleteAll();
+        dailyDao.deleteAll();
     }
 
     @Test
@@ -184,36 +191,23 @@ class GymManagerControllerTest {
     void getSubOfCostumer() {
         Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
 
-        ArrayList<TypeOfAccess> subscriptions = new ArrayList<>();
+        Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        Subscription subscription1 = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.MONTHLY, costumer1);
-        Daily subscription2 = new Daily(LocalDate.of(2022, 4, 22), costumer1);
-        Subscription subscription3 = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.HALFYEARLY, costumer1);
+        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer1, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer1, genericBill);
 
-        subscriptions.add(subscription1);
-        subscriptions.add(subscription2);
-        subscriptions.add(subscription3);
+        ArrayList<AccessType> typeOfAccessOfCostumer = new ArrayList<>();
 
-        typeOfAccessDao.addWithBill(subscription1, 123);
-        typeOfAccessDao.addWithBill(subscription2, 321);
-        typeOfAccessDao.addWithBill(subscription3, 826);
+        typeOfAccessOfCostumer.add(trialSubscription1);
+        typeOfAccessOfCostumer.add(subscription2);
+        typeOfAccessOfCostumer.add(daily1);
 
-        assertEquals(subscriptions, gymManagerController.getSubOfCostumer(costumer1));
-    }
+        trialSubscriptionDao.add(trialSubscription1);
+        subscriptionDao.add(subscription2);
+        dailyDao.addDaily(daily1);
 
-    @Test
-    void getBillOfSub() throws Exception{
-        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
-
-        Bill bill = new Bill(200.0f, LocalDateTime.of(LocalDate.of(2022, 4, 22), LocalTime.now()));
-
-        long id = billDao.add(bill);
-
-        Subscription subscription = new Subscription(LocalDate.of(2022, 4, 22), TypeOfSub.MONTHLY, costumer1);
-
-        typeOfAccessDao.addWithBill(subscription, id);
-
-        assertEquals(bill, gymManagerController.getBillOfSub(subscription));
+        assertEquals(typeOfAccessOfCostumer, gymManagerController.getSubOfCostumer(costumer1));
     }
 
     @Test

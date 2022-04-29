@@ -9,4 +9,5 @@ public interface DailyDao {
     boolean addDaily(Daily daily);
     ArrayList<Daily> getAll();
     ArrayList<Daily> getFromCostumer(Costumer costumer);
+    void deleteAll();
 }

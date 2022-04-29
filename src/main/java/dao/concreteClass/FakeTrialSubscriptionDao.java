@@ -43,4 +43,9 @@ public class FakeTrialSubscriptionDao implements TrialSubscriptionDao {
         }
         return null;
     }
+
+    @Override
+    public void deleteAll() {
+        trialSubscriptions.clear();
+    }
 }

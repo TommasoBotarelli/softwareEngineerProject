@@ -21,16 +21,20 @@ class ReceptionistControllerTest {
     private ReceptionistController receptionistController = new ReceptionistController();
     private static CostumerDao costumerDao;
     private static ReceptionistDao receptionistDao;
-    private static TypeOfAccessDao typeOfAccessDao;
     private static BadgeDao badgeDao;
     private static AccessDao accessDao;
     private static BillDao billDao;
+    private static TrialSubscriptionDao trialSubscriptionDao;
+    private static SubscriptionDao subscriptionDao;
+    private static DailyDao dailyDao;
 
     @BeforeAll
     static void beforeAll(){
+        trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
+        subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
+        dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
         costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
         receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
-        typeOfAccessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTypeOfAccessDao();
         badgeDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBadgeDao();
         accessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getAccessDao();
         billDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBillDao();
@@ -38,8 +42,10 @@ class ReceptionistControllerTest {
 
     @BeforeEach
     void setUp(){
+        trialSubscriptionDao.deleteAll();
+        subscriptionDao.deleteAll();
+        dailyDao.deleteAll();
         costumerDao.deleteAll();
-        typeOfAccessDao.deleteAll();
         FakeBillDao.getInstance().deleteAll();
         FakeAccessDao.getInstance().deleteAll();
     }
@@ -114,24 +120,26 @@ class ReceptionistControllerTest {
         Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
         Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
 
-        TypeOfAccess subscription1 = new Subscription(actualDate, TypeOfSub.TRIAL, costumer1);
-        TypeOfAccess subscription2 = new Subscription(actualDate, TypeOfSub.MONTHLY, costumer2);
-        TypeOfAccess subscription3 = new Subscription(actualDate, TypeOfSub.YEARLY, costumer3);
-        TypeOfAccess daily1 = new Daily(actualDate, costumer4);
+        Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        ArrayList<TypeOfAccess> allSubscriptions = new ArrayList<>();
+        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer2, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer3, genericBill);
+        Daily daily2 = new Daily(LocalDate.now().plusMonths(3), costumer4, genericBill);
 
-        allSubscriptions.add(subscription1);
+        ArrayList<AccessType> allSubscriptions = new ArrayList<>();
+
+        allSubscriptions.add(trialSubscription1);
         allSubscriptions.add(subscription2);
-        allSubscriptions.add(subscription3);
         allSubscriptions.add(daily1);
+        allSubscriptions.add(daily2);
 
-        typeOfAccessDao.addWithBill(subscription1, 1);
-        typeOfAccessDao.addWithBill(subscription2, 2);
-        typeOfAccessDao.addWithBill(subscription3, 3);
-        typeOfAccessDao.addWithBill(daily1, 4);
+        trialSubscriptionDao.add(trialSubscription1);
+        subscriptionDao.add(subscription2);
+        dailyDao.addDaily(daily1);
+        dailyDao.addDaily(daily2);
 
-        assertEquals(allSubscriptions, receptionistController.visualizeAllTypeOfAccess());
+        assertEquals(allSubscriptions, receptionistController.getAllAccessType());
     }
 
     @Test
@@ -143,21 +151,23 @@ class ReceptionistControllerTest {
         Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
         Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
 
-        TypeOfAccess subscription1 = new Subscription(actualDate, TypeOfSub.TRIAL, costumer1);
-        TypeOfAccess subscription2 = new Subscription(actualDate, TypeOfSub.MONTHLY, costumer2);
-        TypeOfAccess subscription3 = new Subscription(actualDate, TypeOfSub.YEARLY, costumer3);
-        TypeOfAccess daily1 = new Daily(actualDate, costumer4);
+        Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        ArrayList<TypeOfAccess> subscriptionOfCostumer1 = new ArrayList<>();
+        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer2, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer3, genericBill);
+        Daily daily2 = new Daily(LocalDate.now().plusMonths(3), costumer4, genericBill);
 
-        subscriptionOfCostumer1.add(subscription1);
+        ArrayList<AccessType> subscriptionOfCostumer1 = new ArrayList<>();
 
-        typeOfAccessDao.addWithBill(subscription1, 1);
-        typeOfAccessDao.addWithBill(subscription2, 2);
-        typeOfAccessDao.addWithBill(subscription3, 3);
-        typeOfAccessDao.addWithBill(daily1, 4);
+        subscriptionOfCostumer1.add(trialSubscription1);
 
-        assertEquals(subscriptionOfCostumer1, receptionistController.visualizeTypeOfAccessFromCostumer(costumer1));
+        trialSubscriptionDao.add(trialSubscription1);
+        subscriptionDao.add(subscription2);
+        dailyDao.addDaily(daily1);
+        dailyDao.addDaily(daily2);
+
+        assertEquals(subscriptionOfCostumer1, receptionistController.getAllAccessTypeFromCostumer(costumer1));
     }
 
     @Test
@@ -202,8 +212,6 @@ class ReceptionistControllerTest {
 
     @Test
     void addAccessForCostumerFromBadge() {
-        LocalDateTime actualDateTime = LocalDateTime.now();
-
         Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
         Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
 
@@ -214,83 +222,95 @@ class ReceptionistControllerTest {
         Badge badge2 = new Badge(costumer2);
 
         long id1 = badgeDao.addBadge(badge1);
+        //Il badge di costumer 2 non esiste nel sistema.
         long id2 = id1 + 1;
 
-        Subscription subscriptionC1 = new Subscription(actualDateTime.toLocalDate(), TypeOfSub.TRIAL, costumer1);
-        Daily dailyC1 = new Daily(actualDateTime.toLocalDate().plusMonths(10), costumer1);
+        Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        subscriptionC1.setExpiration(actualDateTime.toLocalDate().plusDays(14));
-        dailyC1.setExpiration(actualDateTime.toLocalDate().plusMonths(10));
+        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now(), TypeOfSub.MONTHLY, costumer2, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(2), costumer1, genericBill);
+        Daily daily2 = new Daily(LocalDate.now().plusMonths(2), costumer2, genericBill);
 
-        typeOfAccessDao.addWithBill(subscriptionC1, 0);
-        typeOfAccessDao.addWithBill(dailyC1, 1);
+        trialSubscriptionDao.add(trialSubscription1);
+        subscriptionDao.add(subscription2);
+        dailyDao.addDaily(daily1);
+        dailyDao.addDaily(daily2);
 
         try{
-            boolean response = receptionistController.addAccessForCostumerFromBadge(id1, actualDateTime.plusDays(1));
+            boolean response = receptionistController.addAccessForCostumerFromBadge(id1, LocalDateTime.now().plusDays(1));
             assertTrue(response);
-            assertEquals(actualDateTime.plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
+            assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " non dovrebbe essere stampato");
         }
 
         try{
-            boolean response = receptionistController.addAccessForCostumerFromBadge(id1, actualDateTime.plusMonths(1));
+            boolean response = receptionistController.addAccessForCostumerFromBadge(id1, LocalDateTime.now().plusMonths(1));
             assertFalse(response);
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " non dovrebbe essere stampato");
         }
 
         try{
-            receptionistController.addAccessForCostumerFromBadge(id2, actualDateTime.plusDays(1));
+            receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusDays(1));
         }
         catch(Exception e){
             assertEquals("A costumer with this id doesn't exist", e.getMessage());
         }
+
+        id2 = badgeDao.addBadge(new Badge(costumer2));
+
         try{
-            boolean response1 = receptionistController.addAccessForCostumerFromBadge(id2, actualDateTime.plusMonths(10));
+            boolean response1 = receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusMonths(2));
             assertTrue(response1);
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " non dovrebbe essere stampato");
         }
 
         try{
-            boolean response2 = receptionistController.addAccessForCostumerFromBadge(id2, actualDateTime.plusMonths(10));
+            boolean response2 = receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusMonths(10));
             assertFalse(response2);
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " non dovrebbe essere stampato");
         }
     }
 
     @Test
     void addAccessForCostumer() {
-        LocalDateTime actualDateTime = LocalDateTime.now();
-
         Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
         Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
 
         costumerDao.add(costumer1);
         costumerDao.add(costumer2);
 
-        Subscription subscriptionC1 = new Subscription(actualDateTime.toLocalDate(), TypeOfSub.TRIAL, costumer1);
-        subscriptionC1.setExpiration(actualDateTime.toLocalDate().plusDays(14));
+        Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        typeOfAccessDao.addWithBill(subscriptionC1, 0);
+        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now(), TypeOfSub.MONTHLY, costumer2, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(2), costumer1, genericBill);
+        Daily daily2 = new Daily(LocalDate.now().plusMonths(2), costumer2, genericBill);
 
-        boolean response1 = receptionistController.addAccessForCostumer(costumer1, actualDateTime.plusDays(1));
+        trialSubscriptionDao.add(trialSubscription1);
+        subscriptionDao.add(subscription2);
+        dailyDao.addDaily(daily1);
+        dailyDao.addDaily(daily2);
+
+        boolean response1 = receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(1));
         assertTrue(response1);
-        assertEquals(actualDateTime.plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
+        assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
 
-        boolean response2 = receptionistController.addAccessForCostumer(costumer2, actualDateTime.plusMonths(1));
+        boolean response2 = receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(1));
         assertFalse(response2);
 
-        boolean response3 = receptionistController.addAccessForCostumer(costumer1, actualDateTime.plusDays(14));
+        boolean response3 = receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(14));
         assertTrue(response3);
 
-        boolean response4 = receptionistController.addAccessForCostumer(costumer1, actualDateTime);
+        boolean response4 = receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now());
         assertTrue(response4);
     }
 
@@ -306,57 +326,52 @@ class ReceptionistControllerTest {
         Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
         costumerDao.add(costumer1);
 
-        receptionistController.addTypeOfAccess("subscription", "prova", 0, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "prova", 0, LocalDate.now(), costumer1);
 
-        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusDays(14), typeOfAccessDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.TRIAL, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        assertEquals(LocalDate.now(), trialSubscriptionDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusDays(14), trialSubscriptionDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, trialSubscriptionDao.getAll().get(0).getCostumerTarget());
 
-        typeOfAccessDao.deleteAll();
+        receptionistController.addAccessType("subscription", "monthly", 0, LocalDate.now(), costumer1);
 
-        receptionistController.addTypeOfAccess("subscription", "mensile", 0, LocalDate.now(), costumer1);
+        assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusMonths(1), subscriptionDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, subscriptionDao.getAll().get(0).getMyCostumer());
+        assertEquals(TypeOfSub.MONTHLY, subscriptionDao.getAll().get(0).getTypeOfSub());
 
-        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusMonths(1), typeOfAccessDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.MONTHLY, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        subscriptionDao.deleteAll();
 
-        typeOfAccessDao.deleteAll();
+        receptionistController.addAccessType("subscription", "quarterly", 0, LocalDate.now(), costumer1);
 
-        receptionistController.addTypeOfAccess("subscription", "trimestrale", 0, LocalDate.now(), costumer1);
+        assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusMonths(3), subscriptionDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, subscriptionDao.getAll().get(0).getMyCostumer());
+        assertEquals(TypeOfSub.QUARTERLY, subscriptionDao.getAll().get(0).getTypeOfSub());
 
-        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusMonths(3), typeOfAccessDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.QUARTERLY, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        subscriptionDao.deleteAll();
 
-        typeOfAccessDao.deleteAll();
+        receptionistController.addAccessType("subscription", "halfyearly", 0, LocalDate.now(), costumer1);
 
-        receptionistController.addTypeOfAccess("subscription", "semestrale", 0, LocalDate.now(), costumer1);
+        assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusMonths(6), subscriptionDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, subscriptionDao.getAll().get(0).getMyCostumer());
+        assertEquals(TypeOfSub.HALFYEARLY, subscriptionDao.getAll().get(0).getTypeOfSub());
 
-        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusMonths(6), typeOfAccessDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.HALFYEARLY, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        subscriptionDao.deleteAll();
 
-        typeOfAccessDao.deleteAll();
+        receptionistController.addAccessType("subscription", "annuale", 0, LocalDate.now(), costumer1);
 
-        receptionistController.addTypeOfAccess("subscription", "annuale", 0, LocalDate.now(), costumer1);
+        assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
+        assertEquals(LocalDate.now().plusMonths(12), subscriptionDao.getAll().get(0).getExpiration());
+        assertEquals(costumer1, subscriptionDao.getAll().get(0).getMyCostumer());
+        assertEquals(TypeOfSub.YEARLY, subscriptionDao.getAll().get(0).getTypeOfSub());
 
-        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
-        assertEquals(LocalDate.now().plusMonths(12), typeOfAccessDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertEquals(TypeOfSub.YEARLY, ((Subscription)typeOfAccessDao.getAll().get(0)).getType());
+        subscriptionDao.deleteAll();
 
-        typeOfAccessDao.deleteAll();
+        receptionistController.addAccessType("daily", "", 0, LocalDate.now(), costumer1);
 
-        receptionistController.addTypeOfAccess("daily", "", 0, LocalDate.now(), costumer1);
-
-        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getEmission());
-        assertEquals(LocalDate.now(), typeOfAccessDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, typeOfAccessDao.getAll().get(0).getCostumer());
-        assertTrue(typeOfAccessDao.getAll().get(0) instanceof Daily);
+        assertEquals(LocalDate.now(), dailyDao.getAll().get(0).getEmission());
+        assertEquals(costumer1, dailyDao.getAll().get(0).getMyCostumer());
     }
 
     @Test

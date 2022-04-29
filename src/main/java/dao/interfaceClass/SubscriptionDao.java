@@ -9,4 +9,5 @@ public interface SubscriptionDao {
     boolean add(Subscription sub);
     ArrayList<Subscription> getFromCostumer(Costumer costumer);
     ArrayList<Subscription> getAll();
+    void deleteAll();
 }

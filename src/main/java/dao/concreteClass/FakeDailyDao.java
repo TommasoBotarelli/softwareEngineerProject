@@ -44,4 +44,9 @@ public class FakeDailyDao implements DailyDao {
         }
         return dailyOfCostumer;
     }
+
+    @Override
+    public void deleteAll() {
+        dailySub.clear();
+    }
 }

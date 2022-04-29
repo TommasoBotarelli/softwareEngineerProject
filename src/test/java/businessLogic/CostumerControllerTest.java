@@ -23,15 +23,19 @@ class CostumerControllerTest {
     private static CostumerController costumerController = new CostumerController();
 
     private static CostumerDao costumerDao;
-    private static TypeOfAccessDao typeOfAccessDao;
     private static TrainingCardDao trainingCardDao;
     private static PersonalTrainerDao personalTrainerDao;
     private static EvaluationDao evaluationDao;
+    private static TrialSubscriptionDao trialSubscriptionDao;
+    private static SubscriptionDao subscriptionDao;
+    private static DailyDao dailyDao;
 
     @BeforeEach
     void beforeEach(){
+        trialSubscriptionDao.deleteAll();
+        subscriptionDao.deleteAll();
+        dailyDao.deleteAll();
         costumerDao.deleteAll();
-        typeOfAccessDao.deleteAll();
         trainingCardDao.deleteAll();
         personalTrainerDao.deleteAll();
         evaluationDao.deleteAll();
@@ -39,8 +43,10 @@ class CostumerControllerTest {
 
     @BeforeAll
     static void setUp(){
+        trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
+        subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
+        dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
         costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
-        typeOfAccessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTypeOfAccessDao();
         trainingCardDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrainingCardDao();
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
         evaluationDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getEvaluationDao();
@@ -65,21 +71,23 @@ class CostumerControllerTest {
 
         costumerController.setCurrentUser(costumer);
 
-        Subscription subscription1 = new Subscription(LocalDate.now(), TypeOfSub.TRIAL, costumer);
-        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer);
-        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer);
+        Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        ArrayList<TypeOfAccess> typeOfAccessOfCostumer = new ArrayList<>();
+        TrialSubscription trialSubscription1 = new TrialSubscription(costumer, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer, genericBill);
 
-        typeOfAccessOfCostumer.add(subscription1);
+        ArrayList<AccessType> typeOfAccessOfCostumer = new ArrayList<>();
+
+        typeOfAccessOfCostumer.add(trialSubscription1);
         typeOfAccessOfCostumer.add(subscription2);
         typeOfAccessOfCostumer.add(daily1);
 
-        typeOfAccessDao.addWithBill(subscription1, 0);
-        typeOfAccessDao.addWithBill(subscription2, 1);
-        typeOfAccessDao.addWithBill(daily1, 2);
+        trialSubscriptionDao.add(trialSubscription1);
+        subscriptionDao.add(subscription2);
+        dailyDao.addDaily(daily1);
 
-        ArrayList<TypeOfAccess> myTypeOfAccess = costumerController.getMyTypeOfAccess();
+        ArrayList<AccessType> myTypeOfAccess = costumerController.getMyAccessType();
         assertEquals(myTypeOfAccess, typeOfAccessOfCostumer);
     }
 

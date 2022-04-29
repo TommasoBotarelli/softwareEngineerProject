@@ -9,4 +9,5 @@ public interface TrialSubscriptionDao {
     boolean add(TrialSubscription sub);
     ArrayList<TrialSubscription> getAll();
     TrialSubscription getFromCostumer(Costumer costumer);
+    void deleteAll();
 }

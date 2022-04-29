@@ -44,4 +44,9 @@ public class FakeSubscriptionDao implements SubscriptionDao {
     public ArrayList<Subscription> getAll() {
         return this.subscriptions;
     }
+
+    @Override
+    public void deleteAll() {
+        subscriptions.clear();
+    }
 }
