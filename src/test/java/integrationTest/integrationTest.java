@@ -67,8 +67,6 @@ public class integrationTest {
         /*
         Then the costumer want to start immediately the trial subscription. The receptionist add this to the system.
          */
-
-        receptionistWindow.addTypeOfAccess();
     }
 
     @Test
@@ -82,7 +80,5 @@ public class integrationTest {
         if (gymManager == null)
             show error dialog
          */
-
-        gymManagerWindow.setThisGymManager(dafaultGymManager);
     }
 }

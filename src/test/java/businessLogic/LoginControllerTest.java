@@ -2,6 +2,7 @@ package businessLogic;
 
 import dao.factoryClass.DaoFactory;
 import dao.interfaceClass.CostumerDao;
+import dao.interfaceClass.GymManagerDao;
 import dao.interfaceClass.PersonalTrainerDao;
 import dao.interfaceClass.ReceptionistDao;
 import domainModel.Costumer;
@@ -22,6 +23,7 @@ class LoginControllerTest {
     private CostumerDao costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
     private ReceptionistDao receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
     private PersonalTrainerDao personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
+    private GymManagerDao gymManagerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getGymManagerDao();
 
     @BeforeEach
     void setUp(){
@@ -75,7 +77,7 @@ class LoginControllerTest {
 
     @Test
     void createGymManagerSession() {
-        GymManager gymManagerStandard = loginController.createGymManagerSession("Default", "GymManager", "123456789");
+        GymManager gymManagerStandard = loginController.createGymManagerSession("name", "surname", "");
         assertNotNull(gymManagerStandard);
 
         GymManager badGymManager = loginController.createGymManagerSession("Prova", "GymManager", "56753465768");

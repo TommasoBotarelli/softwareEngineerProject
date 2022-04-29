@@ -130,9 +130,9 @@ class ReceptionistControllerTest {
         ArrayList<AccessType> allSubscriptions = new ArrayList<>();
 
         allSubscriptions.add(trialSubscription1);
-        allSubscriptions.add(subscription2);
         allSubscriptions.add(daily1);
         allSubscriptions.add(daily2);
+        allSubscriptions.add(subscription2);
 
         trialSubscriptionDao.add(trialSubscription1);
         subscriptionDao.add(subscription2);
@@ -282,6 +282,8 @@ class ReceptionistControllerTest {
 
     @Test
     void addAccessForCostumer() {
+        LocalDateTime actualDatetime = LocalDateTime.now();
+
         Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
         Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
 
@@ -290,10 +292,10 @@ class ReceptionistControllerTest {
 
         Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
-        Subscription subscription2 = new Subscription(LocalDate.now(), TypeOfSub.MONTHLY, costumer2, genericBill);
-        Daily daily1 = new Daily(LocalDate.now().plusMonths(2), costumer1, genericBill);
-        Daily daily2 = new Daily(LocalDate.now().plusMonths(2), costumer2, genericBill);
+        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, actualDatetime.toLocalDate());
+        Subscription subscription2 = new Subscription(actualDatetime.toLocalDate(), TypeOfSub.MONTHLY, costumer2, genericBill);
+        Daily daily1 = new Daily(actualDatetime.toLocalDate().plusMonths(2), costumer1, genericBill);
+        Daily daily2 = new Daily(actualDatetime.toLocalDate().plusMonths(2), costumer2, genericBill);
 
         trialSubscriptionDao.add(trialSubscription1);
         subscriptionDao.add(subscription2);
@@ -304,8 +306,11 @@ class ReceptionistControllerTest {
         assertTrue(response1);
         assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
 
-        boolean response2 = receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(1));
-        assertFalse(response2);
+        boolean response2 = receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(2));
+        assertTrue(response2);
+
+        boolean response2Bis = receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(2));
+        assertFalse(response2Bis);
 
         boolean response3 = receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(14));
         assertTrue(response3);
@@ -326,13 +331,16 @@ class ReceptionistControllerTest {
         Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
         costumerDao.add(costumer1);
 
-        receptionistController.addAccessType("subscription", "prova", 0, LocalDate.now(), costumer1);
+        Bill genericBill = new Bill(20f, LocalDateTime.now());
+        long genericBillID = billDao.add(genericBill);
+
+        receptionistController.addAccessType("subscription", "trial", genericBillID, LocalDate.now(), costumer1);
 
         assertEquals(LocalDate.now(), trialSubscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusDays(14), trialSubscriptionDao.getAll().get(0).getExpiration());
         assertEquals(costumer1, trialSubscriptionDao.getAll().get(0).getCostumerTarget());
 
-        receptionistController.addAccessType("subscription", "monthly", 0, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "monthly", genericBillID, LocalDate.now(), costumer1);
 
         assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(1), subscriptionDao.getAll().get(0).getExpiration());
@@ -341,7 +349,7 @@ class ReceptionistControllerTest {
 
         subscriptionDao.deleteAll();
 
-        receptionistController.addAccessType("subscription", "quarterly", 0, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "quarterly", genericBillID, LocalDate.now(), costumer1);
 
         assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(3), subscriptionDao.getAll().get(0).getExpiration());
@@ -350,7 +358,7 @@ class ReceptionistControllerTest {
 
         subscriptionDao.deleteAll();
 
-        receptionistController.addAccessType("subscription", "halfyearly", 0, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "halfyearly", genericBillID, LocalDate.now(), costumer1);
 
         assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(6), subscriptionDao.getAll().get(0).getExpiration());
@@ -359,7 +367,7 @@ class ReceptionistControllerTest {
 
         subscriptionDao.deleteAll();
 
-        receptionistController.addAccessType("subscription", "annuale", 0, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "yearly", genericBillID, LocalDate.now(), costumer1);
 
         assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(12), subscriptionDao.getAll().get(0).getExpiration());
@@ -368,7 +376,7 @@ class ReceptionistControllerTest {
 
         subscriptionDao.deleteAll();
 
-        receptionistController.addAccessType("daily", "", 0, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("daily", "", genericBillID, LocalDate.now(), costumer1);
 
         assertEquals(LocalDate.now(), dailyDao.getAll().get(0).getEmission());
         assertEquals(costumer1, dailyDao.getAll().get(0).getMyCostumer());

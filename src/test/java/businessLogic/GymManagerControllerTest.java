@@ -200,12 +200,12 @@ class GymManagerControllerTest {
         ArrayList<AccessType> typeOfAccessOfCostumer = new ArrayList<>();
 
         typeOfAccessOfCostumer.add(trialSubscription1);
-        typeOfAccessOfCostumer.add(subscription2);
         typeOfAccessOfCostumer.add(daily1);
+        typeOfAccessOfCostumer.add(subscription2);
 
         trialSubscriptionDao.add(trialSubscription1);
-        subscriptionDao.add(subscription2);
         dailyDao.addDaily(daily1);
+        subscriptionDao.add(subscription2);
 
         assertEquals(typeOfAccessOfCostumer, gymManagerController.getSubOfCostumer(costumer1));
     }

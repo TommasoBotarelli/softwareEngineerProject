@@ -197,6 +197,7 @@ public class ReceptionistController {
         }
         else if (type.equalsIgnoreCase("DAILY")) {
             Daily dailySub = new Daily(date, costumer, billDao.getFromID(billID));
+            dailyDao.addDaily(dailySub);
         }
     }
 
