@@ -237,22 +237,29 @@ class ReceptionistControllerTest {
         dailyDao.addDaily(daily1);
         dailyDao.addDaily(daily2);
 
+        boolean result = false;
+
         try{
-            boolean response = receptionistController.addAccessForCostumerFromBadge(id1, LocalDateTime.now().plusDays(1));
-            assertTrue(response);
+            receptionistController.addAccessForCostumerFromBadge(id1, LocalDateTime.now().plusDays(1));
+            result = true;
             assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
         }
         catch (Exception e){
             System.out.println(e.getMessage() + " non dovrebbe essere stampato");
         }
 
+        assertTrue(result);
+        result = false;
+
         try{
-            boolean response = receptionistController.addAccessForCostumerFromBadge(id1, LocalDateTime.now().plusMonths(1));
-            assertFalse(response);
+            receptionistController.addAccessForCostumerFromBadge(id1, LocalDateTime.now().plusMonths(1));
+            result = true;
         }
         catch (Exception e){
-            System.out.println(e.getMessage() + " non dovrebbe essere stampato");
+            System.out.println(e.getMessage() + " (STAMPA OK)");
         }
+
+        assertFalse(result);
 
         try{
             receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusDays(1));
@@ -261,23 +268,28 @@ class ReceptionistControllerTest {
             assertEquals("A costumer with this id doesn't exist", e.getMessage());
         }
 
+        result = false;
         id2 = badgeDao.addBadge(new Badge(costumer2));
 
         try{
-            boolean response1 = receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusMonths(2));
-            assertTrue(response1);
+            receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusMonths(2));
+            result = true;
         }
         catch (Exception e){
             System.out.println(e.getMessage() + " non dovrebbe essere stampato");
         }
 
+        assertTrue(result);
+        result = false;
+
         try{
-            boolean response2 = receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusMonths(10));
-            assertFalse(response2);
+            receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusMonths(10));
+            result = true;
         }
         catch (Exception e){
-            System.out.println(e.getMessage() + " non dovrebbe essere stampato");
+            System.out.println(e.getMessage() + " (STAMPA OK)");
         }
+        assertFalse(result);
     }
 
     @Test
@@ -302,21 +314,60 @@ class ReceptionistControllerTest {
         dailyDao.addDaily(daily1);
         dailyDao.addDaily(daily2);
 
-        boolean response1 = receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(1));
-        assertTrue(response1);
+        boolean result = false;
+        try{
+            receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(1));
+            result = true;
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage() + " non dovrebbe essere stampato");
+        }
+
+        assertTrue(result);
         assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
 
-        boolean response2 = receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(2));
-        assertTrue(response2);
+        result = false;
 
-        boolean response2Bis = receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(2));
-        assertFalse(response2Bis);
+        try{
+            receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(2));
+            result = true;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        assertTrue(result);
 
-        boolean response3 = receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(14));
-        assertTrue(response3);
+        result = false;
+        try {
+            receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(2));
+            result = true;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage() + " (STAMPA OK)");
+        }
 
-        boolean response4 = receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now());
-        assertTrue(response4);
+        assertFalse(result);
+        result = false;
+
+        try{
+            receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(14));
+            result = true;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        assertTrue(result);
+        result = false;
+
+        try{
+            receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now());
+            result = true;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        assertTrue(result);
     }
 
     @Test

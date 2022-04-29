@@ -1,12 +1,16 @@
 package integrationTest;
 
-import businessLogic.GymManagerController;
-import businessLogic.LoginController;
-import businessLogic.ReceptionistController;
+import businessLogic.*;
 import domainModel.GymManager;
 import domainModel.Receptionist;
+import domainModel.TypeOfSub;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /*
 TODO
@@ -19,6 +23,8 @@ public class integrationTest {
     private static LoginController loginWindow = new LoginController();
     private static GymManagerController gymManagerWindow = new GymManagerController();
     private static ReceptionistController receptionistWindow = new ReceptionistController();
+    private static PersonalTrainerController personalTrainerWindow = new PersonalTrainerController();
+    private static CostumerController costumerWindow = new CostumerController();
 
     @BeforeAll
     static void createGym() {
@@ -67,6 +73,126 @@ public class integrationTest {
         /*
         Then the costumer want to start immediately the trial subscription. The receptionist add this to the system.
          */
+        receptionistWindow.addAccessType("subscription", "trial", 0, LocalDate.now(),
+                receptionistWindow.selectCostumer("Marco", "De Luca", "174676878"));
+
+        /*
+        The receptionist release a new badge to the costumer and register this into the system.
+         */
+
+        receptionistWindow.releaseBadge(receptionistWindow.selectCostumer("Marco", "De Luca", "174676878"));
+
+        /*
+        The costumer now can access to the gym and now uses the badge. In the after line of code we suppose that the sensor
+        recognize the id of the badge.
+         */
+
+        try{
+            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now());
+        }
+        catch(Exception e){
+            /*
+            The system show the error dialog if the badge is not registered into the database, or if
+            the costumer can't access to the gym
+             */
+            System.out.println(e.getMessage());
+        }
+
+        /*
+        Suppose that before the gym start his work the first personal trainer created some default trainingCard.
+        So the personal trainer login to his main window.
+         */
+
+        loginWindow.createPersonalTrainerSession("Elia", "Rossi", "345678909");
+
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 1);
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 2);
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 3);
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 4);
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 5);
+
+        /*
+        First of all the personal trainer do a first evaluation of the new costumer.
+         */
+
+        personalTrainerWindow.addEvaluation(
+                personalTrainerWindow.selectCostumer("Marco", "De Luca", "174676878"),
+                LocalDate.now().getYear(),
+                LocalDate.now().getMonthValue(),
+                LocalDate.now().getDayOfMonth(),
+                "Some comments about the measurement and an evaluation",
+                2,
+                1.80f,
+                70f,
+                62,
+                8
+        );
+
+        /*
+        The personal trainer set a default training card (progress level 2) to the costumer.
+         */
+
+        personalTrainerWindow.copyTrainingCard(
+                personalTrainerWindow.getCopyOfMyDefaultTrainingCard(2),
+                personalTrainerWindow.selectCostumer("Marco", "De Luca", "174676878"),
+                LocalDate.now(),
+                LocalDate.now().plusDays(14)
+                );
+
+        /*
+        The costumer can see the training card from his window, first of all the costumer login to the system.
+         */
+
+        loginWindow.createCostumerSession("Marco", "De Luca", "174676878");
+
+        costumerWindow.setCurrentUser("Marco", "De Luca", "174676878");
+
+        try {
+            costumerWindow.getMyCurrentTrainingCard(
+                    LocalDate.now().getDayOfMonth(),
+                    LocalDate.now().getMonthValue(),
+                    LocalDate.now().getYear()
+            );
+        }
+        catch(Exception e){
+            /*
+            If the system recognize that the costumer has no trainingCard show an error dialog.
+             */
+            System.out.println(e.getMessage());
+        }
+
+        /*
+        In the next days the costumer access to the gym.
+         */
+
+        try{
+            receptionistWindow.addAccessForCostumer(
+                    receptionistWindow.selectCostumer("Marco", "De Luca", "174676878"),
+                    LocalDateTime.now()
+            );
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now().plusDays(10));
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        /*
+        Then with the badge want to access to the gym for the 4th time but the system show an error dialog to the receptionist,
+        because he can't access to the gym.
+         */
+
+        try{
+            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now().plusDays(12));
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage() + " (STAMPA OK)");
+        }
     }
 
     @Test

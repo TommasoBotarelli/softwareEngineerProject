@@ -114,4 +114,19 @@ public class PersonalTrainerController {
         else
             throw new Exception("La scheda di allenamento selezionata non esiste");
     }
+
+    public Costumer selectCostumer(String name, String surname, String phoneNumber){
+        return costumerDao.getSelectedCostumer(name, surname, phoneNumber);
+    }
+
+    public TrainingCard getCopyOfMyDefaultTrainingCard(int progressLevel){
+        ArrayList<TrainingCard> defaultTrainingCard = trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer);
+
+        for (TrainingCard t : defaultTrainingCard){
+            if (t.isStandard() && t.getLevel()==progressLevel)
+                return t;
+        }
+
+        return null;
+    }
 }

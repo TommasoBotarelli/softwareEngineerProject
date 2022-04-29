@@ -108,15 +108,15 @@ public class ReceptionistController {
         return costumerDao.getSelectedCostumer(name, surname, phoneNumber);
     }
 
-    public boolean addAccessForCostumerFromBadge(long id, LocalDateTime dateTime) throws Exception{
+    public void addAccessForCostumerFromBadge(long id, LocalDateTime dateTime) throws Exception{
         Costumer costumer = badgeDao.searchCostumerFromId(id);
         if (costumer == null)
             throw new Exception("A costumer with this id doesn't exist");
-
-        return this.addAccessForCostumer(costumer, dateTime);
+        else
+            this.addAccessForCostumer(costumer, dateTime);
     }
 
-    public boolean addAccessForCostumer(Costumer costumer, LocalDateTime dateTime){
+    public void addAccessForCostumer(Costumer costumer, LocalDateTime dateTime) throws Exception{
 
         boolean canAccess = false;
 
@@ -155,8 +155,9 @@ public class ReceptionistController {
             Access newAccess = new Access(costumer, dateTime);
             accessDao.add(newAccess);
         }
-
-        return canAccess;
+        else{
+            throw new Exception("The costumer cannot access to the gym");
+        }
     }
 
     public Costumer scanBadgeForGetCostumer(long id) throws Exception{

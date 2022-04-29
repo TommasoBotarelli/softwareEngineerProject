@@ -26,6 +26,7 @@ public class TrainingCard {
     }
 
     public TrainingCard(TrainingCard trainingCard){
+        this.name = trainingCard.name;
         this.exercises = trainingCard.exercises;
         this.level = trainingCard.level;
         this.personalTrainer = trainingCard.personalTrainer;
@@ -77,5 +78,9 @@ public class TrainingCard {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }
