@@ -58,12 +58,12 @@ public class FakeCostumerDao implements CostumerDao {
 
     @Override
     public Costumer getSelectedCostumer(String name, String surname, String phoneNumber) {
-        Costumer costumerToFind = new Costumer(name, surname, phoneNumber);
-
-        if (costumers.contains(costumerToFind))
-            return costumers.stream().filter(costumer -> costumer.equals(costumerToFind)).collect(Collectors.toList()).get(0);
-        else
-            return null;
+        Costumer returnCostumer = null;
+        for (Costumer c : costumers){
+            if (c.getName().equals(name) && c.getSurname().equals(surname) && c.getPhoneNumber().equals(phoneNumber))
+                returnCostumer = c;
+        }
+        return returnCostumer;
     }
 
     @Override

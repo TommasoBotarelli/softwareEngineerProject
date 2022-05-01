@@ -36,6 +36,10 @@ public class TrainingCard {
         this.costumer = null;
     }
 
+    public void setStandard(boolean standard) {
+        this.standard = standard;
+    }
+
     public String getExercises() {
         return exercises;
     }

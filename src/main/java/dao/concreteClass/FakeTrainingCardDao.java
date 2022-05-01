@@ -30,8 +30,10 @@ public class FakeTrainingCardDao implements TrainingCardDao {
         ArrayList<TrainingCard> trainingCardsOfCostumer = new ArrayList<>();
 
         for(TrainingCard t : trainingCards){
-            if (t.getCostumer().equals(costumer)){
-                trainingCardsOfCostumer.add(t);
+            if (!t.isStandard()){
+                if (t.getCostumer().equals(costumer)){
+                    trainingCardsOfCostumer.add(t);
+                }
             }
         }
 

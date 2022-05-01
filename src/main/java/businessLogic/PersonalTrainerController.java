@@ -102,6 +102,7 @@ public class PersonalTrainerController {
         trainingCardCopied.setCostumer(costumer);
         trainingCardCopied.setEmission(emission);
         trainingCardCopied.setExpiration(expiration);
+        trainingCardCopied.setStandard(false);
         trainingCardDao.addTrainingCard(trainingCardCopied);
     }
 
@@ -119,7 +120,7 @@ public class PersonalTrainerController {
         return costumerDao.getSelectedCostumer(name, surname, phoneNumber);
     }
 
-    public TrainingCard getCopyOfMyDefaultTrainingCard(int progressLevel){
+    public TrainingCard getMyDefaultTrainingCard(int progressLevel){
         ArrayList<TrainingCard> defaultTrainingCard = trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer);
 
         for (TrainingCard t : defaultTrainingCard){

@@ -24,20 +24,47 @@ public class LoginController {
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
         gymManagerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getGymManagerDao();
     }
-
-    public Costumer createCostumerSession(String name, String surname, String phoneNumber){
-        return costumerDao.getSelectedCostumer(name, surname, phoneNumber);
+    public CostumerController createCostumerSession(String name, String surname, String phoneNumber) throws Exception{
+        Costumer user = costumerDao.getSelectedCostumer(name, surname, phoneNumber);
+        if (user != null) {
+            CostumerController controller = new CostumerController();
+            controller.setCurrentUser(user);
+            return controller;
+        }
+        else
+            throw new Exception("A costumer with this data doesn't exist");
     }
 
-    public Receptionist createReceptionistSession(String name, String surname, String phoneNumber){
-        return receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);
+    public ReceptionistController createReceptionistSession(String name, String surname, String phoneNumber) throws Exception{
+        Receptionist user = receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);
+        if (user != null){
+            ReceptionistController controller = new ReceptionistController();
+            controller.setCurrentReceptionist(user);
+            return controller;
+        }
+        else
+            throw new Exception("A receptionist with this data doesn't exist");
     }
 
-    public PersonalTrainer createPersonalTrainerSession(String name, String surname, String phoneNumber){
-        return personalTrainerDao.getPersonalTrainer(name, surname, phoneNumber);
+    public PersonalTrainerController createPersonalTrainerSession(String name, String surname, String phoneNumber) throws Exception{
+        PersonalTrainer user = personalTrainerDao.getPersonalTrainer(name, surname, phoneNumber);
+        if (user != null){
+            PersonalTrainerController controller = new PersonalTrainerController();
+            controller.setThisPersonalTrainer(user);
+            return controller;
+        }
+        else
+            throw new Exception("A personal trainer with this data doesn't exist");
     }
 
-    public GymManager createGymManagerSession(String name, String surname, String phoneNumber){
-        return gymManagerDao.getGymManager(name, surname, phoneNumber);
+    public GymManagerController createGymManagerSession(String name, String surname, String phoneNumber) throws Exception{
+        GymManager user = gymManagerDao.getGymManager(name, surname, phoneNumber);
+        if (user != null){
+            GymManagerController controller = new GymManagerController();
+            controller.setThisGymManager(user);
+            return controller;
+        }
+        else
+            throw new Exception("A gym manager with this data doesn't exist");
     }
 }

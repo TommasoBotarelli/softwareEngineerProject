@@ -50,37 +50,49 @@ class LoginControllerTest {
 
     @Test
     void createCostumerSession() {
-        Costumer goodCostumer = loginController.createCostumerSession("Tommaso", "Botarelli", "56751862798");
-        assertNotNull(goodCostumer);
-
-        Costumer badCostumer = loginController.createCostumerSession("Gianluca", "Rossi", "865736789");
-        assertNull(badCostumer);
+        try {
+            CostumerController goodCostumer = loginController.createCostumerSession("Tommaso", "Botarelli", "56751862798");
+            assertNotNull(goodCostumer);
+            CostumerController badCostumer = loginController.createCostumerSession("Gianluca", "Rossi", "865736789");
+        }
+        catch (Exception e){
+            assertEquals("A costumer with this data doesn't exist", e.getMessage());
+        }
     }
 
     @Test
     void createReceptionistSession() {
-        Receptionist goodReceptionist = loginController.createReceptionistSession("Gianluca", "Rossi", "865736789");
-        assertNotNull(goodReceptionist);
-
-        Receptionist badReceptionist = loginController.createReceptionistSession("Gianluca", "Biraghi", "67457687");
-        assertNull(badReceptionist);
+        try {
+            ReceptionistController goodReceptionist = loginController.createReceptionistSession("Gianluca", "Rossi", "865736789");
+            assertNotNull(goodReceptionist);
+            ReceptionistController badReceptionist = loginController.createReceptionistSession("Marco", "De Luca", "8935131");
+        }
+        catch (Exception e){
+            assertEquals("A receptionist with this data doesn't exist", e.getMessage());
+        }
     }
 
     @Test
     void createPersonalTrainerSession() {
-        PersonalTrainer goodPersonalTrainer = loginController.createPersonalTrainerSession("Tommaso", "Botarelli", "232453431");
-        assertNotNull(goodPersonalTrainer);
-
-        PersonalTrainer badPersonalTrainer = loginController.createPersonalTrainerSession("Gianluca", "Biraghi", "67457687");
-        assertNull(badPersonalTrainer);
+        try {
+            PersonalTrainerController goodPersonalTrainer = loginController.createPersonalTrainerSession("Tommaso", "Botarelli", "232453431");
+            assertNotNull(goodPersonalTrainer);
+            PersonalTrainerController badPersonalTrainer = loginController.createPersonalTrainerSession("Marco", "De Luca", "8935131");
+        }
+        catch (Exception e){
+            assertEquals("A personal trainer with this data doesn't exist", e.getMessage());
+        }
     }
 
     @Test
     void createGymManagerSession() {
-        GymManager gymManagerStandard = loginController.createGymManagerSession("name", "surname", "");
-        assertNotNull(gymManagerStandard);
-
-        GymManager badGymManager = loginController.createGymManagerSession("Prova", "GymManager", "56753465768");
-        assertNull(badGymManager);
+        try {
+            GymManagerController goodGymManager = loginController.createGymManagerSession("name", "surname", "");
+            assertNotNull(goodGymManager);
+            GymManagerController badGymManager = loginController.createGymManagerSession("Marco", "De Luca", "8935131");
+        }
+        catch (Exception e){
+            assertEquals("A gym manager with this data doesn't exist", e.getMessage());
+        }
     }
 }
