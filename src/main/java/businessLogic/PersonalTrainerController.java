@@ -45,19 +45,24 @@ public class PersonalTrainerController {
     }
 
     public void addCustomizeTrainingCard(Costumer costumer, String exercises, int level, int emissionDay, int emissionMonth, int
-                                emissionYear, int expirationDay, int expirationMonth, int expirationYear){
+                                emissionYear, int expirationDay, int expirationMonth, int expirationYear, String name){
 
         TrainingCard trainingCard = new TrainingCard(exercises, level,false, thisPersonalTrainer);
 
         trainingCard.setCostumer(costumer);
         trainingCard.setEmission(LocalDate.of(emissionYear, emissionMonth, emissionDay));
         trainingCard.setExpiration(LocalDate.of(expirationYear, expirationMonth, expirationDay));
+        if(!name.isEmpty())
+            trainingCard.setName(name);
 
         trainingCardDao.addTrainingCard(trainingCard);
     }
 
-    public void addStandardTrainingCard(String exercises, int level){
+    public void addStandardTrainingCard(String exercises, int level, String name){
         TrainingCard trainingCard = new TrainingCard(exercises, level, true, thisPersonalTrainer);
+
+        if(!name.isEmpty())
+            trainingCard.setName(name);
 
         trainingCardDao.addTrainingCard(trainingCard);
     }

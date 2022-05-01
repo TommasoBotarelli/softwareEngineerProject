@@ -87,4 +87,8 @@ public class TrainingCard {
     public int getLevel() {
         return level;
     }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -3,6 +3,7 @@ package integrationTest;
 import businessLogic.*;
 import domainModel.GymManager;
 import domainModel.Receptionist;
+import domainModel.TrainingCard;
 import domainModel.TypeOfSub;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -126,11 +127,11 @@ public class integrationTest {
             System.out.println(e.getMessage() + "NO STAMPA");
         }
 
-        personalTrainerWindow.addStandardTrainingCard("Some exercise", 1);
-        personalTrainerWindow.addStandardTrainingCard("Some exercise", 2);
-        personalTrainerWindow.addStandardTrainingCard("Some exercise", 3);
-        personalTrainerWindow.addStandardTrainingCard("Some exercise", 4);
-        personalTrainerWindow.addStandardTrainingCard("Some exercise", 5);
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 1, "Training Card");
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 2, "Training Card");
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 3, "Training Card");
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 4, "Training Card");
+        personalTrainerWindow.addStandardTrainingCard("Some exercise", 5, "Training Card");
 
         /*
         First of all the personal trainer do a first evaluation of the new costumer.
@@ -224,8 +225,8 @@ public class integrationTest {
 
         receptionistWindow.addAccessType("subscription",
                 "monthly",
-                receptionistWindow.addPayment(TypeOfSub.MONTHLY, LocalDateTime.now()),
-                LocalDate.now(),
+                receptionistWindow.addPayment(TypeOfSub.MONTHLY, LocalDateTime.now().plusMonths(1)),
+                LocalDate.now().plusMonths(1),
                 receptionistWindow.selectCostumer("Marco", "De Luca", "3456789087"));
 
         /*
@@ -233,7 +234,7 @@ public class integrationTest {
          */
 
         try {
-            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now());
+            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now().plusMonths(1));
         } catch (Exception e) {
             System.out.println(e.getMessage() + " (NO STAMPA)");
         }
@@ -246,12 +247,13 @@ public class integrationTest {
                 personalTrainerWindow.selectCostumer("Marco", "De Luca", "3456789087"),
                 "Exercises",
                 2,
-                LocalDate.now().getDayOfMonth(),
-                LocalDate.now().getMonthValue(),
-                LocalDate.now().getYear(),
                 LocalDate.now().plusMonths(1).getDayOfMonth(),
                 LocalDate.now().plusMonths(1).getMonthValue(),
-                LocalDate.now().plusMonths(1).getYear()
+                LocalDate.now().plusMonths(1).getYear(),
+                LocalDate.now().plusMonths(2).getDayOfMonth(),
+                LocalDate.now().plusMonths(2).getMonthValue(),
+                LocalDate.now().plusMonths(2).getYear(),
+                "Customize TrainingCard"
         );
 
         /*
@@ -259,11 +261,12 @@ public class integrationTest {
          */
 
         try {
-            costumerWindow.getMyCurrentTrainingCard(
-                    LocalDate.now().getDayOfMonth(),
-                    LocalDate.now().getMonthValue(),
-                    LocalDate.now().getYear()
-            );
+            TrainingCard trainingCard = costumerWindow.getMyCurrentTrainingCard(
+                    LocalDate.now().plusMonths(1).getDayOfMonth(),
+                    LocalDate.now().plusMonths(1).getMonthValue(),
+                    LocalDate.now().plusMonths(1).getYear()
+            ).get(0);
+            assertEquals("Customize TrainingCard", trainingCard.getName());
         } catch (Exception e) {
             System.out.println(e.getMessage() + " NO STAMPA");
         }

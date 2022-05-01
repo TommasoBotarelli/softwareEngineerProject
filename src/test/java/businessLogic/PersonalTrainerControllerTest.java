@@ -83,7 +83,7 @@ class PersonalTrainerControllerTest {
         personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         personalTrainerController.addCustomizeTrainingCard(costumer, "Exercise", 1,
-                22, 4, 2022, 22, 5, 2022);
+                22, 4, 2022, 22, 5, 2022, "TrainingCard");
 
         assertFalse(trainingCardDao.getTrainingCardFromCostumer(costumer).isEmpty());
     }
@@ -96,7 +96,7 @@ class PersonalTrainerControllerTest {
 
         personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
-        personalTrainerController.addStandardTrainingCard("Exercise", 1);
+        personalTrainerController.addStandardTrainingCard("Exercise", 1,"TrainingCard");
 
         ArrayList<TrainingCard> standardTrainingCard = new ArrayList<>();
 
