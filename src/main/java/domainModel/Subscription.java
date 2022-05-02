@@ -41,6 +41,7 @@ public class Subscription implements AccessType{
 
     @Override
     public boolean isValid(LocalDate date) {
-        return date.isEqual(this.emission) || date.isEqual(this.expiration) || date.isAfter(this.emission) && date.isBefore(this.expiration);
+        return date.isEqual(this.emission) || date.isEqual(this.expiration) ||
+                date.isAfter(this.emission) && date.isBefore(this.expiration);
     }
 }
