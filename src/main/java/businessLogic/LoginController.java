@@ -24,6 +24,7 @@ public class LoginController {
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
         gymManagerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getGymManagerDao();
     }
+
     public CostumerController createCostumerSession(String name, String surname, String phoneNumber) throws Exception{
         Costumer user = costumerDao.getSelectedCostumer(name, surname, phoneNumber);
         if (user != null) {
