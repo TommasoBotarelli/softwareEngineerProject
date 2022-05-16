@@ -96,18 +96,19 @@ public class PersonalTrainerController {
         return thisPersonalTrainer;
     }
 
-    //TODO testa questi metodi
-
     public ArrayList<TrainingCard> getMyTrainingCard(){
         return trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer);
     }
 
-    public void copyTrainingCard(TrainingCard trainingCard, Costumer costumer, LocalDate emission, LocalDate expiration){
+    public void copyTrainingCard(TrainingCard trainingCard, Costumer costumer, LocalDate emission, LocalDate expiration, String name){
         TrainingCard trainingCardCopied = new TrainingCard(trainingCard);
         trainingCardCopied.setCostumer(costumer);
         trainingCardCopied.setEmission(emission);
         trainingCardCopied.setExpiration(expiration);
         trainingCardCopied.setStandard(false);
+        if (name.isEmpty())
+            trainingCardCopied.setName(trainingCard.getName() + " (COPIED)");
+        trainingCardCopied.setName(name);
         trainingCardDao.addTrainingCard(trainingCardCopied);
     }
 

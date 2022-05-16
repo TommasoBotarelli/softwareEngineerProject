@@ -42,13 +42,6 @@ public class ReceptionistController {
         return thisReceptionist;
     }
 
-    public boolean setCurrentUser(String name, String surname, String phoneNumber){
-        Receptionist receptionist = receptionistDao.getReceptionistFromNameSurnamePhoneNumber(name, surname, phoneNumber);
-        if(receptionist != null)
-            this.thisReceptionist = receptionist;
-        return receptionist != null;
-    }
-
     public void addCostumer(String name, String surname, String phoneNumber) {
         Costumer newCostumer = new Costumer(name, surname, phoneNumber);
         costumerDao.add(newCostumer);

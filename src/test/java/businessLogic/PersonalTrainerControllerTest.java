@@ -74,7 +74,10 @@ class PersonalTrainerControllerTest {
 
     @Test
     void addCustomizeTrainingCard() {
-        PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
+        PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso",
+                "Botarelli",
+                "7576143571"
+        );
 
         personalTrainerDao.add(personalTrainer);
 
@@ -82,8 +85,11 @@ class PersonalTrainerControllerTest {
 
         personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
-        personalTrainerController.addCustomizeTrainingCard(costumer, "Exercise", 1,
-                22, 4, 2022, 22, 5, 2022, "TrainingCard");
+        personalTrainerController.addCustomizeTrainingCard(
+                costumer, "Exercise", 1,
+                22, 4, 2022, 22, 5, 2022,
+                "TrainingCard"
+        );
 
         assertFalse(trainingCardDao.getTrainingCardFromCostumer(costumer).isEmpty());
     }
@@ -184,5 +190,78 @@ class PersonalTrainerControllerTest {
         personalTrainerController.deleteEvaluation(evaluation3);
 
         assertEquals(0, evaluationDao.getAllEvaluation().size());
+    }
+
+    @Test
+    void copyTrainingCard(){
+        PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
+
+        personalTrainerDao.add(personalTrainer);
+
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
+
+        TrainingCard trainingCard = new TrainingCard(
+                "Some exercises",
+                1,
+                true,
+                personalTrainer
+        );
+
+        Costumer costumer1 = new Costumer("Sandro", "Giusti", "7862345");
+
+        personalTrainerController.copyTrainingCard(
+                trainingCard,
+                costumer1,
+                LocalDate.now(),
+                LocalDate.now().plusMonths(1),
+                "CopiedTrainingCard"
+                );
+
+        TrainingCard trainingCardCopied = new TrainingCard("Some exercises", 1, false, personalTrainer);
+        trainingCardCopied.setName("CopiedTrainingCard");
+        trainingCardCopied.setEmission(LocalDate.now());
+        trainingCardCopied.setExpiration(LocalDate.now().plusMonths(1));
+        trainingCardCopied.setCostumer(costumer1);
+
+        assertEquals(trainingCardCopied, trainingCardDao.getTrainingCardFromCostumer(costumer1).get(0));
+    }
+
+    @Test
+    void modifyExercises(){
+        PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
+
+        personalTrainerDao.add(personalTrainer);
+
+        personalTrainerController.setThisPersonalTrainer(personalTrainer);
+
+        TrainingCard trainingCard = new TrainingCard(
+                "Some exercises",
+                1,
+                false,
+                personalTrainer
+        );
+
+        Costumer costumer1 = new Costumer("Sandro", "Giusti", "7862345");
+
+        trainingCard.setCostumer(costumer1);
+
+        //Simulazione di una scheda che non si trova nel database
+
+        try{
+            personalTrainerController.modifyExercises("Some exercises", trainingCard);
+        }
+        catch (Exception e){
+            assertEquals("La scheda di allenamento selezionata non esiste", e.getMessage());
+        }
+
+        trainingCardDao.addTrainingCard(trainingCard);
+
+        try{
+            personalTrainerController.modifyExercises("Modified exercises", trainingCard);
+            assertEquals(trainingCard.getExercises(), trainingCardDao.getTrainingCardFromCostumer(costumer1).get(0).getExercises());
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

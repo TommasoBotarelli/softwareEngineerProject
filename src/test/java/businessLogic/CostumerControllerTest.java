@@ -1,15 +1,10 @@
 package businessLogic;
 
-import dao.concreteClass.*;
 import dao.factoryClass.DaoFactory;
 import dao.interfaceClass.*;
 import domainModel.*;
-import org.junit.jupiter.api.*;
-
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
@@ -54,8 +49,6 @@ class CostumerControllerTest {
 
     @Test
     void setCurrentUser() {
-        LocalDate firstDate = LocalDate.now();
-
         Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
         costumerDao.add(costumer);
 

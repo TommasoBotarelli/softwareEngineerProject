@@ -1,6 +1,7 @@
 package domainModel;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class TrainingCard {
 
@@ -90,5 +91,19 @@ public class TrainingCard {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        TrainingCard trainingCard = (TrainingCard) obj;
+
+        return Objects.equals(this.exercises, trainingCard.exercises) &&
+                Objects.equals(this.name, trainingCard.name) &&
+                this.level == trainingCard.level &&
+                this.emission.isEqual(trainingCard.emission) &&
+                this.expiration.isEqual(trainingCard.expiration) &&
+                this.personalTrainer.equals(trainingCard.personalTrainer) &&
+                this.costumer.equals(trainingCard.costumer) &&
+                this.standard == trainingCard.standard;
     }
 }

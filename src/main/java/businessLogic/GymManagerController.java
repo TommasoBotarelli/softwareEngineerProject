@@ -40,15 +40,6 @@ public class GymManagerController {
         return gymManagerDao.addGymManager(gymManager);
     }
 
-    public boolean setCurrentUser(String name, String surname, String phoneNumber){
-        GymManager gymManager = gymManagerDao.getGymManager(name, surname, phoneNumber);
-
-        if (gymManager != null)
-            this.thisGymManager = gymManager;
-
-        return gymManager != null;
-    }
-
     public void setThisGymManager(GymManager thisGymManager) {
         this.thisGymManager = thisGymManager;
     }

@@ -31,11 +31,11 @@ public class integrationTest {
     void testOfTheSystem() {
         /*
         For the moment there is only a default gymManager. He wants to create a new GymManager "account". He uses the
-        default gymManager account to create his own account. First step access to system with the default "login", with
-        the combobox on "Gym Manager".
+        default gymManager account to create his own account. First step access to system with the default "login".
          */
         try {
             gymManagerWindow = loginWindow.createGymManagerSession("name", "surname", "");
+            assertNotNull(gymManagerWindow);
         }
         catch(Exception e){
             System.out.println(e.getMessage() + " NO STAMPA");
@@ -158,7 +158,8 @@ public class integrationTest {
                 personalTrainerWindow.getMyDefaultTrainingCard(2),
                 personalTrainerWindow.selectCostumer("Marco", "De Luca", "3456789087"),
                 LocalDate.now(),
-                LocalDate.now().plusDays(14)
+                LocalDate.now().plusDays(14),
+                "TrainingCard copied"
         );
 
         /*
@@ -270,18 +271,5 @@ public class integrationTest {
         } catch (Exception e) {
             System.out.println(e.getMessage() + " NO STAMPA");
         }
-    }
-
-    @Test
-    void firstAccessOfCostumer() {
-        /*
-        The receptionist Marco Bianchi access to the system and want to register the new costumer.
-
-        Receptionist receptionist = loginWindow.createReceptionistSession("Marco", "Bianchi", "174676878");
-
-
-        if (gymManager == null)
-            show error dialog
-         */
     }
 }

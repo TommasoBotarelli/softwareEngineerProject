@@ -51,9 +51,15 @@ class LoginControllerTest {
     @Test
     void createCostumerSession() {
         try {
-            CostumerController goodCostumer = loginController.createCostumerSession("Tommaso", "Botarelli", "56751862798");
+            CostumerController goodCostumer = loginController.createCostumerSession("Tommaso",
+                    "Botarelli",
+                    "56751862798"
+            );
             assertNotNull(goodCostumer);
-            CostumerController badCostumer = loginController.createCostumerSession("Gianluca", "Rossi", "865736789");
+            CostumerController badCostumer = loginController.createCostumerSession("Gianluca",
+                    "Rossi",
+                    "865736789"
+            );
         }
         catch (Exception e){
             assertEquals("A costumer with this data doesn't exist", e.getMessage());

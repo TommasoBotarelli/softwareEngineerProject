@@ -378,7 +378,7 @@ class ReceptionistControllerTest {
     }
 
     @Test
-    void addTypeOfAccess() {
+    void addAccessType() {
         Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
         costumerDao.add(costumer1);
 

@@ -159,9 +159,19 @@ class GymManagerControllerTest {
         accessDao.add(access3);
         accessDao.add(access4);
 
-        assertEquals(2, gymManagerController.getAllAccessFromDate(actualDateTime.getYear(), actualDateTime.getMonthValue(), actualDateTime.getDayOfMonth()).size());
-        assertEquals(access1, gymManagerController.getAllAccessFromDate(actualDateTime.getYear(), actualDateTime.getMonthValue(), actualDateTime.getDayOfMonth()).get(0));
-        assertEquals(access2, gymManagerController.getAllAccessFromDate(actualDateTime.getYear(), actualDateTime.getMonthValue(), actualDateTime.getDayOfMonth()).get(1));
+        assertEquals(2,
+                gymManagerController.getAllAccessFromDate(actualDateTime.getYear(),
+                        actualDateTime.getMonthValue(), actualDateTime.getDayOfMonth()).size()
+        );
+        assertEquals(access1,
+                gymManagerController.getAllAccessFromDate(actualDateTime.getYear(),
+                        actualDateTime.getMonthValue(), actualDateTime.getDayOfMonth()).get(0)
+        );
+        assertEquals(access2,
+                gymManagerController.getAllAccessFromDate(
+                        actualDateTime.getYear(),
+                        actualDateTime.getMonthValue(), actualDateTime.getDayOfMonth()).get(1)
+        );
 
     }
 
