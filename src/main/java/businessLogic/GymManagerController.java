@@ -16,7 +16,7 @@ public class GymManagerController {
     private PersonalTrainerDao personalTrainerDao;
     private BillDao billDao;
     private AccessDao accessDao;
-    private CostumerDao costumerDao;
+    private CustomerDao customerDao;
     private ReceptionistDao receptionistDao;
     private GymManagerDao gymManagerDao;
     private TrialSubscriptionDao trialSubscriptionDao;
@@ -30,7 +30,7 @@ public class GymManagerController {
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
         billDao = FakeBillDao.getInstance();
         accessDao = FakeAccessDao.getInstance();
-        costumerDao = FakeCostumerDao.getInstance();
+        customerDao = FakeCustomerDao.getInstance();
         receptionistDao = FakeReceptionistDao.getInstance();
         gymManagerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getGymManagerDao();
     }
@@ -81,20 +81,20 @@ public class GymManagerController {
         return accessDao.getFromDate(LocalDate.of(year, month, day));
     }
 
-    public ArrayList<Costumer> getAllCostumers(){
-        return costumerDao.getAll();
+    public ArrayList<Customer> getAllCustomers(){
+        return customerDao.getAll();
     }
 
-    public ArrayList<Costumer> searchCostumerFromNameSurname(String name, String surname){
-        return costumerDao.getFromNameSurname(name, surname);
+    public ArrayList<Customer> searchCustomerFromNameSurname(String name, String surname){
+        return customerDao.getFromNameSurname(name, surname);
     }
 
-    public ArrayList<AccessType> getSubOfCostumer(Costumer costumer){
-        ArrayList<AccessType> allAccessTypeOfCostumer = new ArrayList<>();
-        allAccessTypeOfCostumer.add(trialSubscriptionDao.getFromCostumer(costumer));
-        allAccessTypeOfCostumer.addAll(dailyDao.getFromCostumer(costumer));
-        allAccessTypeOfCostumer.addAll(subscriptionDao.getFromCostumer(costumer));
-        return allAccessTypeOfCostumer;
+    public ArrayList<AccessType> getSubOfCustomer(Customer customer){
+        ArrayList<AccessType> allAccessTypeOfCustomer = new ArrayList<>();
+        allAccessTypeOfCustomer.add(trialSubscriptionDao.getFromCustomer(customer));
+        allAccessTypeOfCustomer.addAll(dailyDao.getFromCustomer(customer));
+        allAccessTypeOfCustomer.addAll(subscriptionDao.getFromCustomer(customer));
+        return allAccessTypeOfCustomer;
     }
 
     public ArrayList<Receptionist> getAllReceptionist(){

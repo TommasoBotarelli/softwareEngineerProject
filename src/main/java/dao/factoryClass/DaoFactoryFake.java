@@ -6,8 +6,8 @@ import dao.interfaceClass.*;
 public class DaoFactoryFake extends DaoFactory{
 
     @Override
-    public CostumerDao getCostumerDao() {
-        return FakeCostumerDao.getInstance();
+    public CustomerDao getCustomerDao() {
+        return FakeCustomerDao.getInstance();
     }
 
     @Override

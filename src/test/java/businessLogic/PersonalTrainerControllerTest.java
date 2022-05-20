@@ -33,6 +33,7 @@ class PersonalTrainerControllerTest {
     void setUp(){
         personalTrainerDao.deleteAll();
         trainingCardDao.deleteAll();
+        evaluationDao.deleteAll();
     }
 
     @Test
@@ -81,17 +82,17 @@ class PersonalTrainerControllerTest {
 
         personalTrainerDao.add(personalTrainer);
 
-        Costumer costumer = new Costumer("Sandro", "Giusti", "7862345");
+        Customer customer = new Customer("Sandro", "Giusti", "7862345");
 
         personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         personalTrainerController.addCustomizeTrainingCard(
-                costumer, "Exercise", 1,
+                customer, "Exercise", 1,
                 22, 4, 2022, 22, 5, 2022,
                 "TrainingCard"
         );
 
-        assertFalse(trainingCardDao.getTrainingCardFromCostumer(costumer).isEmpty());
+        assertFalse(trainingCardDao.getTrainingCardFromCustomer(customer).isEmpty());
     }
 
     @Test
@@ -120,46 +121,46 @@ class PersonalTrainerControllerTest {
 
         personalTrainerDao.add(personalTrainer);
 
-        Costumer costumer = new Costumer("Sandro", "Giusti", "7862345");
+        Customer customer = new Customer("Sandro", "Giusti", "7862345");
 
         personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
-        personalTrainerController.addEvaluation(costumer, 2022, 4, 22, "Everything is ok", 2,
+        personalTrainerController.addEvaluation(customer, 2022, 4, 22, "Everything is ok", 2,
                 1.80f, 80.0f, 70.0f, 10.0f);
 
-        assertFalse(evaluationDao.getEvaluationOfCostumer(costumer).isEmpty());
+        assertFalse(evaluationDao.getEvaluationOfCustomer(customer).isEmpty());
     }
 
     @Test
-    void getEvaluationOfCostumer() {
+    void getEvaluationOfCustomer() {
         PersonalTrainer personalTrainer = new PersonalTrainer("Tommaso", "Botarelli", "7576143571");
 
         personalTrainerDao.add(personalTrainer);
 
-        Costumer costumer1 = new Costumer("Sandro", "Giusti", "7862345");
-        Costumer costumer2 = new Costumer("Gianluca", "Righi", "4353241324");
-        Costumer costumer3 = new Costumer("Filippo", "Rossi", "5234312421");
+        Customer customer1 = new Customer("Sandro", "Giusti", "7862345");
+        Customer customer2 = new Customer("Gianluca", "Righi", "4353241324");
+        Customer customer3 = new Customer("Filippo", "Rossi", "5234312421");
 
         personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         Evaluation evaluation1 = new Evaluation(LocalDate.of(2022, 4, 22),
-                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer1);
+                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), customer1);
         Evaluation evaluation2 = new Evaluation(LocalDate.of(2022, 4, 22),
-                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer2);
+                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), customer2);
         Evaluation evaluation3 = new Evaluation(LocalDate.of(2022, 4, 22),
-                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer3);
+                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), customer3);
 
         evaluationDao.addEvaluation(evaluation1);
         evaluationDao.addEvaluation(evaluation2);
         evaluationDao.addEvaluation(evaluation3);
 
-        ArrayList<Evaluation> evaluationsOfCostumer1 = personalTrainerController.getEvaluationOfCostumer(costumer1);
-        ArrayList<Evaluation> evaluationsOfCostumer2 = personalTrainerController.getEvaluationOfCostumer(costumer2);
-        ArrayList<Evaluation> evaluationsOfCostumer3 = personalTrainerController.getEvaluationOfCostumer(costumer3);
+        ArrayList<Evaluation> evaluationsOfCustomer1 = personalTrainerController.getEvaluationOfCustomer(customer1);
+        ArrayList<Evaluation> evaluationsOfCustomer2 = personalTrainerController.getEvaluationOfCustomer(customer2);
+        ArrayList<Evaluation> evaluationsOfCustomer3 = personalTrainerController.getEvaluationOfCustomer(customer3);
 
-        assertEquals(evaluation1, evaluationsOfCostumer1.get(0));
-        assertEquals(evaluation2, evaluationsOfCostumer2.get(0));
-        assertEquals(evaluation3, evaluationsOfCostumer3.get(0));
+        assertEquals(evaluation1, evaluationsOfCustomer1.get(0));
+        assertEquals(evaluation2, evaluationsOfCustomer2.get(0));
+        assertEquals(evaluation3, evaluationsOfCustomer3.get(0));
     }
 
     @Test
@@ -168,18 +169,18 @@ class PersonalTrainerControllerTest {
 
         personalTrainerDao.add(personalTrainer);
 
-        Costumer costumer1 = new Costumer("Sandro", "Giusti", "7862345");
-        Costumer costumer2 = new Costumer("Gianluca", "Righi", "4353241324");
-        Costumer costumer3 = new Costumer("Filippo", "Rossi", "5234312421");
+        Customer customer1 = new Customer("Sandro", "Giusti", "7862345");
+        Customer customer2 = new Customer("Gianluca", "Righi", "4353241324");
+        Customer customer3 = new Customer("Filippo", "Rossi", "5234312421");
 
         personalTrainerController.setThisPersonalTrainer(personalTrainer);
 
         Evaluation evaluation1 = new Evaluation(LocalDate.of(2022, 4, 22),
-                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer1);
+                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), customer1);
         Evaluation evaluation2 = new Evaluation(LocalDate.of(2022, 4, 22),
-                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer2);
+                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), customer2);
         Evaluation evaluation3 = new Evaluation(LocalDate.of(2022, 4, 22),
-                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), costumer3);
+                new Measurement(1.80f, 80.0f, 70.0f, 10.0f), customer3);
 
         evaluationDao.addEvaluation(evaluation1);
         evaluationDao.addEvaluation(evaluation2);
@@ -207,11 +208,11 @@ class PersonalTrainerControllerTest {
                 personalTrainer
         );
 
-        Costumer costumer1 = new Costumer("Sandro", "Giusti", "7862345");
+        Customer customer1 = new Customer("Sandro", "Giusti", "7862345");
 
         personalTrainerController.copyTrainingCard(
                 trainingCard,
-                costumer1,
+                customer1,
                 LocalDate.now(),
                 LocalDate.now().plusMonths(1),
                 "CopiedTrainingCard"
@@ -221,9 +222,9 @@ class PersonalTrainerControllerTest {
         trainingCardCopied.setName("CopiedTrainingCard");
         trainingCardCopied.setEmission(LocalDate.now());
         trainingCardCopied.setExpiration(LocalDate.now().plusMonths(1));
-        trainingCardCopied.setCostumer(costumer1);
+        trainingCardCopied.setCustomer(customer1);
 
-        assertEquals(trainingCardCopied, trainingCardDao.getTrainingCardFromCostumer(costumer1).get(0));
+        assertEquals(trainingCardCopied, trainingCardDao.getTrainingCardFromCustomer(customer1).get(0));
     }
 
     @Test
@@ -241,9 +242,9 @@ class PersonalTrainerControllerTest {
                 personalTrainer
         );
 
-        Costumer costumer1 = new Costumer("Sandro", "Giusti", "7862345");
+        Customer customer1 = new Customer("Sandro", "Giusti", "7862345");
 
-        trainingCard.setCostumer(costumer1);
+        trainingCard.setCustomer(customer1);
 
         //Simulazione di una scheda che non si trova nel database
 
@@ -258,7 +259,7 @@ class PersonalTrainerControllerTest {
 
         try{
             personalTrainerController.modifyExercises("Modified exercises", trainingCard);
-            assertEquals(trainingCard.getExercises(), trainingCardDao.getTrainingCardFromCostumer(costumer1).get(0).getExercises());
+            assertEquals(trainingCard.getExercises(), trainingCardDao.getTrainingCardFromCustomer(customer1).get(0).getExercises());
         }
         catch (Exception e){
             System.out.println(e.getMessage());

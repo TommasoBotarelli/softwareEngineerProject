@@ -7,7 +7,7 @@ public abstract class DaoFactory {
 
     private static DaoFactoryFake instance = null;
 
-    public abstract CostumerDao getCostumerDao();
+    public abstract CustomerDao getCustomerDao();
     public abstract AccessDao getAccessDao();
     public abstract BadgeDao getBadgeDao();
     public abstract BillDao getBillDao();

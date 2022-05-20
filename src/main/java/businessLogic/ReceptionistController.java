@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class ReceptionistController {
 
-    private CostumerDao costumerDao;
+    private CustomerDao customerDao;
     private AccessDao accessDao;
     private BillDao billDao;
     private ReceptionistDao receptionistDao;
@@ -27,7 +27,7 @@ public class ReceptionistController {
         trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
         subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
         dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
-        costumerDao = FakeCostumerDao.getInstance();
+        customerDao = FakeCustomerDao.getInstance();
         accessDao = FakeAccessDao.getInstance();
         billDao = FakeBillDao.getInstance();
         receptionistDao = FakeReceptionistDao.getInstance();
@@ -42,25 +42,25 @@ public class ReceptionistController {
         return thisReceptionist;
     }
 
-    public void addCostumer(String name, String surname, String phoneNumber) {
-        Costumer newCostumer = new Costumer(name, surname, phoneNumber);
-        costumerDao.add(newCostumer);
+    public void addCustomer(String name, String surname, String phoneNumber) {
+        Customer newCustomer = new Customer(name, surname, phoneNumber);
+        customerDao.add(newCustomer);
     }
 
-    public boolean deleteCostumer(Costumer costumer){
-        return costumerDao.delete(costumer);
+    public boolean deleteCustomer(Customer customer){
+        return customerDao.delete(customer);
     }
 
-    public ArrayList<Costumer> visualizeAllCostumer(){
-        return costumerDao.getAll();
+    public ArrayList<Customer> visualizeAllCustomer(){
+        return customerDao.getAll();
     }
 
     public ArrayList<AccessType> getAllAccessType(){
-        ArrayList<AccessType> allAccessTypeOfCostumer = new ArrayList<>();
-        allAccessTypeOfCostumer.addAll(trialSubscriptionDao.getAll());
-        allAccessTypeOfCostumer.addAll(dailyDao.getAll());
-        allAccessTypeOfCostumer.addAll(subscriptionDao.getAll());
-        return allAccessTypeOfCostumer;
+        ArrayList<AccessType> allAccessTypeOfCustomer = new ArrayList<>();
+        allAccessTypeOfCustomer.addAll(trialSubscriptionDao.getAll());
+        allAccessTypeOfCustomer.addAll(dailyDao.getAll());
+        allAccessTypeOfCustomer.addAll(subscriptionDao.getAll());
+        return allAccessTypeOfCustomer;
     }
 
     public ArrayList<TrialSubscription> getAllTrialSubscriptions(){
@@ -75,45 +75,45 @@ public class ReceptionistController {
         return dailyDao.getAll();
     }
     
-    public ArrayList<AccessType> getAllAccessTypeFromCostumer(Costumer costumer){
-        ArrayList<AccessType> allAccessTypeOfCostumer = new ArrayList<>();
-        allAccessTypeOfCostumer.add(trialSubscriptionDao.getFromCostumer(costumer));
-        allAccessTypeOfCostumer.addAll(dailyDao.getFromCostumer(costumer));
-        allAccessTypeOfCostumer.addAll(subscriptionDao.getFromCostumer(costumer));
-        return allAccessTypeOfCostumer;
+    public ArrayList<AccessType> getAllAccessTypeFromCustomer(Customer customer){
+        ArrayList<AccessType> allAccessTypeOfCustomer = new ArrayList<>();
+        allAccessTypeOfCustomer.add(trialSubscriptionDao.getFromCustomer(customer));
+        allAccessTypeOfCustomer.addAll(dailyDao.getFromCustomer(customer));
+        allAccessTypeOfCustomer.addAll(subscriptionDao.getFromCustomer(customer));
+        return allAccessTypeOfCustomer;
     }
     
-    public ArrayList<Subscription> getSubscriptionsFromCostumer(Costumer costumer){
-        return subscriptionDao.getFromCostumer(costumer);
+    public ArrayList<Subscription> getSubscriptionsFromCustomer(Customer customer){
+        return subscriptionDao.getFromCustomer(customer);
     }
-    public ArrayList<Daily> getDailySubsFromCostumer(Costumer costumer){
-        return dailyDao.getFromCostumer(costumer);
+    public ArrayList<Daily> getDailySubsFromCustomer(Customer customer){
+        return dailyDao.getFromCustomer(customer);
     }
-    public ArrayList<Subscription> getTrialSubsFromCostumer(Costumer costumer){
-        return subscriptionDao.getFromCostumer(costumer);
-    }
-
-    public ArrayList<Costumer> findCostumer(String name, String surname){
-        return costumerDao.getFromNameSurname(name, surname);
+    public ArrayList<Subscription> getTrialSubsFromCustomer(Customer customer){
+        return subscriptionDao.getFromCustomer(customer);
     }
 
-    public Costumer selectCostumer(String name, String surname, String phoneNumber){
-        return costumerDao.getSelectedCostumer(name, surname, phoneNumber);
+    public ArrayList<Customer> findCustomer(String name, String surname){
+        return customerDao.getFromNameSurname(name, surname);
     }
 
-    public void addAccessForCostumerFromBadge(long id, LocalDateTime dateTime) throws Exception{
-        Costumer costumer = badgeDao.searchCostumerFromId(id);
-        if (costumer == null)
-            throw new Exception("A costumer with this id doesn't exist");
+    public Customer selectCustomer(String name, String surname, String phoneNumber){
+        return customerDao.getSelectedCustomer(name, surname, phoneNumber);
+    }
+
+    public void addAccessForCustomerFromBadge(long id, LocalDateTime dateTime) throws Exception{
+        Customer customer = badgeDao.searchCustomerFromId(id);
+        if (customer == null)
+            throw new Exception("A Customer with this id doesn't exist");
         else
-            this.addAccessForCostumer(costumer, dateTime);
+            this.addAccessForCustomer(customer, dateTime);
     }
 
-    public void addAccessForCostumer(Costumer costumer, LocalDateTime dateTime) throws Exception{
+    public void addAccessForCustomer(Customer customer, LocalDateTime dateTime) throws Exception{
 
         boolean canAccess = false;
 
-        TrialSubscription trialSubscription = trialSubscriptionDao.getFromCostumer(costumer);
+        TrialSubscription trialSubscription = trialSubscriptionDao.getFromCustomer(customer);
         if (trialSubscription != null){
             if (trialSubscription.isValid(dateTime.toLocalDate())){
                 trialSubscription.addAccess();
@@ -122,7 +122,7 @@ public class ReceptionistController {
         }
 
         if (!canAccess) {
-            ArrayList<Daily> dailies = dailyDao.getFromCostumer(costumer);
+            ArrayList<Daily> dailies = dailyDao.getFromCustomer(customer);
             if (!dailies.isEmpty()) {
                 for (Daily d : dailies) {
                     if (d.isValid(dateTime.toLocalDate())) {
@@ -134,7 +134,7 @@ public class ReceptionistController {
         }
 
         if (!canAccess) {
-            ArrayList<Subscription> subscriptions = subscriptionDao.getFromCostumer(costumer);
+            ArrayList<Subscription> subscriptions = subscriptionDao.getFromCustomer(customer);
             if (!subscriptions.isEmpty()) {
                 for (Subscription sub : subscriptions) {
                     if (sub.isValid(dateTime.toLocalDate())) {
@@ -145,19 +145,19 @@ public class ReceptionistController {
         }
 
         if (canAccess){
-            Access newAccess = new Access(costumer, dateTime);
+            Access newAccess = new Access(customer, dateTime);
             accessDao.add(newAccess);
         }
         else{
-            throw new Exception("The costumer cannot access to the gym");
+            throw new Exception("The Customer cannot access to the gym");
         }
     }
 
-    public Costumer scanBadgeForGetCostumer(long id) throws Exception{
-        Costumer costumer = badgeDao.searchCostumerFromId(id);
-        if(costumer == null)
-            throw new Exception("A costumer with this id doesn't exist");
-        return costumer;
+    public Customer scanBadgeForGetCustomer(long id) throws Exception{
+        Customer customer = badgeDao.searchCustomerFromId(id);
+        if(customer == null)
+            throw new Exception("A Customer with this id doesn't exist");
+        return customer;
     }
 
     public long addBill(float cost, LocalDateTime dateTime){
@@ -165,38 +165,38 @@ public class ReceptionistController {
         return billDao.add(newBill);
     }
 
-    public void addAccessType(String type, String subscriptionType, long billID, LocalDate date, Costumer costumer){
+    public void addAccessType(String type, String subscriptionType, long billID, LocalDate date, Customer customer){
 
         if (type.equalsIgnoreCase("SUBSCRIPTION")){
             if (subscriptionType.equalsIgnoreCase("TRIAL")){
-                TrialSubscription sub = new TrialSubscription(costumer, date);
+                TrialSubscription sub = new TrialSubscription(customer, date);
                 trialSubscriptionDao.add(sub);
             }
             else if (subscriptionType.equalsIgnoreCase("MONTHLY")){
-                Subscription subscription = new Subscription(date, TypeOfSub.MONTHLY, costumer, billDao.getFromID(billID));
+                Subscription subscription = new Subscription(date, TypeOfSub.MONTHLY, customer, billDao.getFromID(billID));
                 subscriptionDao.add(subscription);
             }
             else if (subscriptionType.equalsIgnoreCase("QUARTERLY")){
-                Subscription subscription = new Subscription(date, TypeOfSub.QUARTERLY, costumer, billDao.getFromID(billID));
+                Subscription subscription = new Subscription(date, TypeOfSub.QUARTERLY, customer, billDao.getFromID(billID));
                 subscriptionDao.add(subscription);
             }
             else if (subscriptionType.equalsIgnoreCase("HALFYEARLY")){
-                Subscription subscription = new Subscription(date, TypeOfSub.HALFYEARLY, costumer, billDao.getFromID(billID));
+                Subscription subscription = new Subscription(date, TypeOfSub.HALFYEARLY, customer, billDao.getFromID(billID));
                 subscriptionDao.add(subscription);
             }
             else if (subscriptionType.equalsIgnoreCase("YEARLY")){
-                Subscription subscription = new Subscription(date, TypeOfSub.YEARLY, costumer, billDao.getFromID(billID));
+                Subscription subscription = new Subscription(date, TypeOfSub.YEARLY, customer, billDao.getFromID(billID));
                 subscriptionDao.add(subscription);
             }
         }
         else if (type.equalsIgnoreCase("DAILY")) {
-            Daily dailySub = new Daily(date, costumer, billDao.getFromID(billID));
+            Daily dailySub = new Daily(date, customer, billDao.getFromID(billID));
             dailyDao.addDaily(dailySub);
         }
     }
 
-    public void releaseBadge(Costumer costumer){
-        Badge badge = new Badge(costumer);
+    public void releaseBadge(Customer customer){
+        Badge badge = new Badge(customer);
         badgeDao.addBadge(badge);
     }
 

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -22,7 +21,7 @@ class GymManagerControllerTest {
     private static TrialSubscriptionDao trialSubscriptionDao;
     private static SubscriptionDao subscriptionDao;
     private static DailyDao dailyDao;
-    private static CostumerDao costumerDao;
+    private static CustomerDao customerDao;
     private static ReceptionistDao receptionistDao;
     private static AccessDao accessDao;
     private static BillDao billDao;
@@ -34,7 +33,7 @@ class GymManagerControllerTest {
         trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
         subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
         dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
-        costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
+        customerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCustomerDao();
         receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
         accessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getAccessDao();
         billDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBillDao();
@@ -121,13 +120,13 @@ class GymManagerControllerTest {
     void getAllAccess() {
         LocalDateTime actualDateTime = LocalDateTime.now();
 
-        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
-        Costumer costumer2 = new Costumer("Ludovico", "Siciliani", "976425842");
+        Customer customer1 = new Customer("Prova", "Test", "863715361");
+        Customer customer2 = new Customer("Ludovico", "Siciliani", "976425842");
 
-        Access access1 = new Access(costumer1, actualDateTime);
-        Access access2 = new Access(costumer2, actualDateTime);
-        Access access3 = new Access(costumer2, actualDateTime.plusDays(2));
-        Access access4 = new Access(costumer2, actualDateTime.plusDays(1));
+        Access access1 = new Access(customer1, actualDateTime);
+        Access access2 = new Access(customer2, actualDateTime);
+        Access access3 = new Access(customer2, actualDateTime.plusDays(2));
+        Access access4 = new Access(customer2, actualDateTime.plusDays(1));
 
         accessDao.add(access1);
         accessDao.add(access2);
@@ -146,13 +145,13 @@ class GymManagerControllerTest {
     void getAllAccessFromDate() {
         LocalDateTime actualDateTime = LocalDateTime.now();
 
-        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
-        Costumer costumer2 = new Costumer("Ludovico", "Siciliani", "976425842");
+        Customer customer1 = new Customer("Prova", "Test", "863715361");
+        Customer customer2 = new Customer("Ludovico", "Siciliani", "976425842");
 
-        Access access1 = new Access(costumer1, actualDateTime);
-        Access access2 = new Access(costumer2, actualDateTime);
-        Access access3 = new Access(costumer2, actualDateTime.plusDays(2));
-        Access access4 = new Access(costumer2, actualDateTime.plusDays(1));
+        Access access1 = new Access(customer1, actualDateTime);
+        Access access2 = new Access(customer2, actualDateTime);
+        Access access3 = new Access(customer2, actualDateTime.plusDays(2));
+        Access access4 = new Access(customer2, actualDateTime.plusDays(1));
 
         accessDao.add(access1);
         accessDao.add(access2);
@@ -176,48 +175,48 @@ class GymManagerControllerTest {
     }
 
     @Test
-    void getAllCostumers() {
-        ArrayList<Costumer> costumersOfGym = new ArrayList<>();
+    void getAllCustomers() {
+        ArrayList<Customer> customersOfGym = new ArrayList<>();
 
-        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
-        Costumer costumer2 = new Costumer("Alessandro", "Siani", "976425842");
-        Costumer costumer3 = new Costumer("Lorenzo", "Massi", "4362545");
-        Costumer costumer4 = new Costumer("Francesco", "Corbini", "754752445");
+        Customer customer1 = new Customer("Prova", "Test", "863715361");
+        Customer customer2 = new Customer("Alessandro", "Siani", "976425842");
+        Customer customer3 = new Customer("Lorenzo", "Massi", "4362545");
+        Customer customer4 = new Customer("Francesco", "Corbini", "754752445");
 
-        costumersOfGym.add(costumer1);
-        costumersOfGym.add(costumer2);
-        costumersOfGym.add(costumer3);
-        costumersOfGym.add(costumer4);
+        customersOfGym.add(customer1);
+        customersOfGym.add(customer2);
+        customersOfGym.add(customer3);
+        customersOfGym.add(customer4);
 
-        costumerDao.add(costumer1);
-        costumerDao.add(costumer2);
-        costumerDao.add(costumer3);
-        costumerDao.add(costumer4);
+        customerDao.add(customer1);
+        customerDao.add(customer2);
+        customerDao.add(customer3);
+        customerDao.add(customer4);
 
-        assertEquals(costumersOfGym, gymManagerController.getAllCostumers());
+        assertEquals(customersOfGym, gymManagerController.getAllCustomers());
     }
 
     @Test
-    void getSubOfCostumer() {
-        Costumer costumer1 = new Costumer("Prova", "Test", "863715361");
+    void getSubOfCustomer() {
+        Customer customer1 = new Customer("Prova", "Test", "863715361");
 
         Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
-        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer1, genericBill);
-        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer1, genericBill);
+        TrialSubscription trialSubscription1 = new TrialSubscription(customer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, customer1, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), customer1, genericBill);
 
-        ArrayList<AccessType> typeOfAccessOfCostumer = new ArrayList<>();
+        ArrayList<AccessType> typeOfAccessOfCustomer = new ArrayList<>();
 
-        typeOfAccessOfCostumer.add(trialSubscription1);
-        typeOfAccessOfCostumer.add(daily1);
-        typeOfAccessOfCostumer.add(subscription2);
+        typeOfAccessOfCustomer.add(trialSubscription1);
+        typeOfAccessOfCustomer.add(daily1);
+        typeOfAccessOfCustomer.add(subscription2);
 
         trialSubscriptionDao.add(trialSubscription1);
         dailyDao.addDaily(daily1);
         subscriptionDao.add(subscription2);
 
-        assertEquals(typeOfAccessOfCostumer, gymManagerController.getSubOfCostumer(costumer1));
+        assertEquals(typeOfAccessOfCustomer, gymManagerController.getSubOfCustomer(customer1));
     }
 
     @Test

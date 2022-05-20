@@ -1,12 +1,11 @@
 package businessLogic;
 
 import dao.factoryClass.DaoFactory;
-import dao.interfaceClass.CostumerDao;
+import dao.interfaceClass.CustomerDao;
 import dao.interfaceClass.GymManagerDao;
 import dao.interfaceClass.PersonalTrainerDao;
 import dao.interfaceClass.ReceptionistDao;
-import domainModel.Costumer;
-import domainModel.GymManager;
+import domainModel.Customer;
 import domainModel.PersonalTrainer;
 import domainModel.Receptionist;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,20 +19,20 @@ class LoginControllerTest {
 
     private LoginController loginController = new LoginController();
 
-    private CostumerDao costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
+    private CustomerDao customerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCustomerDao();
     private ReceptionistDao receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
     private PersonalTrainerDao personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
     private GymManagerDao gymManagerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getGymManagerDao();
 
     @BeforeEach
     void setUp(){
-        Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "56751862798");
-        Costumer costumer2 = new Costumer("Marco", "De Luca", "8935131");
-        Costumer costumer3 = new Costumer("Luigi", "Bianchi", "8975574657689");
+        Customer customer1 = new Customer("Tommaso", "Botarelli", "56751862798");
+        Customer customer2 = new Customer("Marco", "De Luca", "8935131");
+        Customer customer3 = new Customer("Luigi", "Bianchi", "8975574657689");
 
-        costumerDao.add(costumer1);
-        costumerDao.add(costumer2);
-        costumerDao.add(costumer3);
+        customerDao.add(customer1);
+        customerDao.add(customer2);
+        customerDao.add(customer3);
 
         Receptionist receptionist1 = new Receptionist("Gianluca", "Rossi", "865736789");
         Receptionist receptionist2 = new Receptionist("Filippo", "Bianchi", "5234124124");
@@ -49,20 +48,20 @@ class LoginControllerTest {
     }
 
     @Test
-    void createCostumerSession() {
+    void createCustomerSession() {
         try {
-            CostumerController goodCostumer = loginController.createCostumerSession("Tommaso",
+            CustomerController goodCustomer = loginController.createCustomerSession("Tommaso",
                     "Botarelli",
                     "56751862798"
             );
-            assertNotNull(goodCostumer);
-            CostumerController badCostumer = loginController.createCostumerSession("Gianluca",
+            assertNotNull(goodCustomer);
+            CustomerController badCustomer = loginController.createCustomerSession("Gianluca",
                     "Rossi",
                     "865736789"
             );
         }
         catch (Exception e){
-            assertEquals("A costumer with this data doesn't exist", e.getMessage());
+            assertEquals("A Customer with this data doesn't exist", e.getMessage());
         }
     }
 

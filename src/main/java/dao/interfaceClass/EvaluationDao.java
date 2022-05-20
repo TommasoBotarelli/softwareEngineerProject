@@ -1,6 +1,6 @@
 package dao.interfaceClass;
 
-import domainModel.Costumer;
+import domainModel.Customer;
 import domainModel.Evaluation;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface EvaluationDao {
     void addEvaluation(Evaluation evaluation);
     void deleteEvaluation(Evaluation evaluation);
-    ArrayList<Evaluation> getEvaluationOfCostumer(Costumer costumer);
+    ArrayList<Evaluation> getEvaluationOfCustomer(Customer customer);
     ArrayList<Evaluation> getAllEvaluation();
     void deleteAll();
 }

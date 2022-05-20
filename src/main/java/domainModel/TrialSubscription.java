@@ -6,12 +6,12 @@ public class TrialSubscription implements AccessType{
     private LocalDate emission;
     private LocalDate expiration;
 
-    private Costumer costumerTarget;
+    private Customer customerTarget;
 
     private int nAccess;
 
-    public TrialSubscription(Costumer costumer, LocalDate date){
-        this.costumerTarget = costumer;
+    public TrialSubscription(Customer customer, LocalDate date){
+        this.customerTarget = customer;
         this.emission = date;
         this.expiration = date.plusDays(TypeOfSub.TRIAL.getnDay());
         this.nAccess = 0;
@@ -29,8 +29,8 @@ public class TrialSubscription implements AccessType{
         return nAccess;
     }
 
-    public Costumer getCostumerTarget() {
-        return costumerTarget;
+    public Customer getCustomerTarget() {
+        return customerTarget;
     }
 
     public void addAccess(){

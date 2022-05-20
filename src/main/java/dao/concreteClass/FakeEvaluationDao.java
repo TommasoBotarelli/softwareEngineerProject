@@ -1,7 +1,7 @@
 package dao.concreteClass;
 
 import dao.interfaceClass.EvaluationDao;
-import domainModel.Costumer;
+import domainModel.Customer;
 import domainModel.Evaluation;
 
 import java.util.ArrayList;
@@ -32,15 +32,15 @@ public class FakeEvaluationDao implements EvaluationDao {
     }
 
     @Override
-    public ArrayList<Evaluation> getEvaluationOfCostumer(Costumer costumer) {
-        ArrayList<Evaluation> evaluationOfCostumer = new ArrayList<>();
+    public ArrayList<Evaluation> getEvaluationOfCustomer(Customer customer) {
+        ArrayList<Evaluation> evaluationOfCustomer = new ArrayList<>();
 
         for(Evaluation e : evaluations){
-            if (e.getCostumer().equals(costumer))
-                evaluationOfCostumer.add(e);
+            if (e.getCustomer().equals(customer))
+                evaluationOfCustomer.add(e);
         }
 
-        return evaluationOfCostumer;
+        return evaluationOfCustomer;
     }
 
     @Override

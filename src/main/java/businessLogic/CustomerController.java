@@ -1,6 +1,6 @@
 package businessLogic;
 
-import dao.concreteClass.FakeCostumerDao;
+import dao.concreteClass.FakeCustomerDao;
 import dao.concreteClass.FakeEvaluationDao;
 import dao.concreteClass.FakeTrainingCardDao;
 import dao.factoryClass.DaoFactory;
@@ -12,66 +12,66 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class CostumerController {
-    private CostumerDao costumerDao;
+public class CustomerController {
+    private CustomerDao customerDao;
     private TrainingCardDao trainingCardDao;
     private EvaluationDao evaluationDao;
     private TrialSubscriptionDao trialSubscriptionDao;
     private SubscriptionDao subscriptionDao;
     private DailyDao dailyDao;
 
-    private Costumer thisCostumer;
+    private Customer thisCustomer;
 
-    public CostumerController(){
+    public CustomerController(){
         trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
         subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
         dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
-        costumerDao = FakeCostumerDao.getInstance();
+        customerDao = FakeCustomerDao.getInstance();
         trainingCardDao = FakeTrainingCardDao.getInstance();
         evaluationDao = FakeEvaluationDao.getInstance();
     }
 
-    public void setCurrentUser(Costumer costumer){
-        this.thisCostumer = costumer;
+    public void setCurrentUser(Customer customer){
+        this.thisCustomer = customer;
     }
 
-    public Costumer getThisCostumer(){
-        return thisCostumer;
+    public Customer getThisCustomer(){
+        return thisCustomer;
     }
 
     public String getName(){
-        return thisCostumer.getName();
+        return thisCustomer.getName();
     }
 
     public String getSurname(){
-        return thisCostumer.getSurname();
+        return thisCustomer.getSurname();
     }
 
     public String getPhoneNumber(){
-        return thisCostumer.getPhoneNumber();
+        return thisCustomer.getPhoneNumber();
     }
 
     public ArrayList<AccessType> getMyAccessType(){
-        ArrayList<AccessType> allAccessTypeOfCostumer = new ArrayList<>();
-        allAccessTypeOfCostumer.add(trialSubscriptionDao.getFromCostumer(thisCostumer));
-        allAccessTypeOfCostumer.addAll(dailyDao.getFromCostumer(thisCostumer));
-        allAccessTypeOfCostumer.addAll(subscriptionDao.getFromCostumer(thisCostumer));
-        return allAccessTypeOfCostumer;
+        ArrayList<AccessType> allAccessTypeOfCustomer = new ArrayList<>();
+        allAccessTypeOfCustomer.add(trialSubscriptionDao.getFromCustomer(thisCustomer));
+        allAccessTypeOfCustomer.addAll(dailyDao.getFromCustomer(thisCustomer));
+        allAccessTypeOfCustomer.addAll(subscriptionDao.getFromCustomer(thisCustomer));
+        return allAccessTypeOfCustomer;
     }
 
     public ArrayList<TrainingCard> getListOfMyTrainingCard(){
-        return trainingCardDao.getTrainingCardFromCostumer(thisCostumer);
+        return trainingCardDao.getTrainingCardFromCustomer(thisCustomer);
     }
 
     public ArrayList<Evaluation> getListOfMyEvaluation(){
-        return evaluationDao.getEvaluationOfCostumer(thisCostumer);
+        return evaluationDao.getEvaluationOfCustomer(thisCustomer);
     }
 
     public ArrayList<TrainingCard> getMyCurrentTrainingCard(int day, int month, int year) throws Exception {
         LocalDate actualDate = LocalDate.of(year, month, day);
 
-        if (!trainingCardDao.getTrainingCardFromCostumer(thisCostumer).isEmpty()){
-            ArrayList<TrainingCard> trainingCards = trainingCardDao.getTrainingCardFromCostumer(thisCostumer);
+        if (!trainingCardDao.getTrainingCardFromCustomer(thisCustomer).isEmpty()){
+            ArrayList<TrainingCard> trainingCards = trainingCardDao.getTrainingCardFromCustomer(thisCustomer);
 
             trainingCards.removeIf(t -> t.getEmission().isAfter(actualDate) || t.getExpiration().isBefore(actualDate));
 
@@ -84,7 +84,7 @@ public class CostumerController {
     public ArrayList<LocalDate> getXCoordinateForGraph(){
         ArrayList<LocalDate> xCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCustomer(thisCustomer)){
             xCoordinate.add(evaluation.getDate());
         }
 
@@ -94,7 +94,7 @@ public class CostumerController {
     public ArrayList<Float> getWeightForGraph(){
         ArrayList<Float> weightCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCustomer(thisCustomer)){
             weightCoordinate.add(evaluation.getMeasurement().getWeight());
         }
 
@@ -104,7 +104,7 @@ public class CostumerController {
     public ArrayList<Float> getHeightForGraph(){
         ArrayList<Float> heightCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCustomer(thisCustomer)){
             heightCoordinate.add(evaluation.getMeasurement().getHeight());
         }
 
@@ -114,7 +114,7 @@ public class CostumerController {
     public ArrayList<Float> getLeanMassForGraph(){
         ArrayList<Float> leanMassCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCustomer(thisCustomer)){
             leanMassCoordinate.add(evaluation.getMeasurement().getLeanMass());
         }
 
@@ -124,7 +124,7 @@ public class CostumerController {
     public ArrayList<Float> getFatMassForGraph(){
         ArrayList<Float> fatMassCoordinate = new ArrayList<>();
 
-        for (Evaluation evaluation : evaluationDao.getEvaluationOfCostumer(thisCostumer)){
+        for (Evaluation evaluation : evaluationDao.getEvaluationOfCustomer(thisCustomer)){
             fatMassCoordinate.add(evaluation.getMeasurement().getFatMass());
         }
 

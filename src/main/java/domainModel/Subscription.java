@@ -7,14 +7,14 @@ public class Subscription implements AccessType{
     private LocalDate emission;
     private LocalDate expiration;
     private TypeOfSub type;
-    private Costumer myCostumer;
+    private Customer myCustomer;
     private Bill bill;
 
 
-    public Subscription(LocalDate emission, TypeOfSub type, Costumer costumer, Bill bill){
+    public Subscription(LocalDate emission, TypeOfSub type, Customer customer, Bill bill){
         this.emission = emission;
         this.type = type;
-        this.myCostumer = costumer;
+        this.myCustomer = customer;
         this.expiration = emission.plusMonths(type.getnMonth());
         this.bill = bill;
     }
@@ -31,8 +31,8 @@ public class Subscription implements AccessType{
         return type;
     }
 
-    public Costumer getMyCostumer() {
-        return myCostumer;
+    public Customer getMyCustomer() {
+        return myCustomer;
     }
 
     public Bill getBill() {

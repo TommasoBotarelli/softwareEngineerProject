@@ -1,11 +1,11 @@
 package businessLogic;
 
 import dao.factoryClass.DaoFactory;
-import dao.interfaceClass.CostumerDao;
+import dao.interfaceClass.CustomerDao;
 import dao.interfaceClass.GymManagerDao;
 import dao.interfaceClass.PersonalTrainerDao;
 import dao.interfaceClass.ReceptionistDao;
-import domainModel.Costumer;
+import domainModel.Customer;
 import domainModel.GymManager;
 import domainModel.PersonalTrainer;
 import domainModel.Receptionist;
@@ -13,27 +13,27 @@ import domainModel.Receptionist;
 import java.util.Objects;
 
 public class LoginController {
-    private CostumerDao costumerDao;
+    private CustomerDao customerDao;
     private ReceptionistDao receptionistDao;
     private PersonalTrainerDao personalTrainerDao;
     private GymManagerDao gymManagerDao;
 
     public LoginController(){
-        costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
+        customerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCustomerDao();
         receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
         gymManagerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getGymManagerDao();
     }
 
-    public CostumerController createCostumerSession(String name, String surname, String phoneNumber) throws Exception{
-        Costumer user = costumerDao.getSelectedCostumer(name, surname, phoneNumber);
+    public CustomerController createCustomerSession(String name, String surname, String phoneNumber) throws Exception{
+        Customer user = customerDao.getSelectedCustomer(name, surname, phoneNumber);
         if (user != null) {
-            CostumerController controller = new CostumerController();
+            CustomerController controller = new CustomerController();
             controller.setCurrentUser(user);
             return controller;
         }
         else
-            throw new Exception("A costumer with this data doesn't exist");
+            throw new Exception("A Customer with this data doesn't exist");
     }
 
     public ReceptionistController createReceptionistSession(String name, String surname, String phoneNumber) throws Exception{

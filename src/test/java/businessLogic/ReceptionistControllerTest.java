@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReceptionistControllerTest {
 
     private ReceptionistController receptionistController = new ReceptionistController();
-    private static CostumerDao costumerDao;
+    private static CustomerDao customerDao;
     private static ReceptionistDao receptionistDao;
     private static BadgeDao badgeDao;
     private static AccessDao accessDao;
@@ -33,7 +33,7 @@ class ReceptionistControllerTest {
         trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
         subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
         dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
-        costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
+        customerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCustomerDao();
         receptionistDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getReceptionistDao();
         badgeDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getBadgeDao();
         accessDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getAccessDao();
@@ -45,18 +45,18 @@ class ReceptionistControllerTest {
         trialSubscriptionDao.deleteAll();
         subscriptionDao.deleteAll();
         dailyDao.deleteAll();
-        costumerDao.deleteAll();
+        customerDao.deleteAll();
         FakeBillDao.getInstance().deleteAll();
         FakeAccessDao.getInstance().deleteAll();
     }
 
     @Test
-    void addCostumer() {
-        Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "71638723");
+    void addCustomer() {
+        Customer customer1 = new Customer("Tommaso", "Botarelli", "71638723");
 
-        receptionistController.addCostumer("Tommaso", "Botarelli", "71638723");
+        receptionistController.addCustomer("Tommaso", "Botarelli", "71638723");
 
-        assertEquals(costumer1, costumerDao.getAll().get(0));
+        assertEquals(customer1, customerDao.getAll().get(0));
     }
 
     @Test
@@ -69,63 +69,63 @@ class ReceptionistControllerTest {
     }
 
     @Test
-    void deleteCostumer() {
-        Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
-        Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
-        Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
+    void deleteCustomer() {
+        Customer customer1 = new Customer("Giulio", "Cesare", "78254821");
+        Customer customer2 = new Customer("Cice", "Rone", "45235314");
+        Customer customer3 = new Customer("Giulio", "Camillo", "4214214214");
 
-        boolean firstDelete = receptionistController.deleteCostumer(costumer1);
+        boolean firstDelete = receptionistController.deleteCustomer(customer1);
 
         assertFalse(firstDelete);
 
-        costumerDao.add(costumer1);
-        costumerDao.add(costumer2);
-        costumerDao.add(costumer3);
+        customerDao.add(customer1);
+        customerDao.add(customer2);
+        customerDao.add(customer3);
 
-        boolean secondDelete = receptionistController.deleteCostumer(costumer1);
+        boolean secondDelete = receptionistController.deleteCustomer(customer1);
 
-        ArrayList<Costumer> costumers = new ArrayList<>();
+        ArrayList<Customer> customers = new ArrayList<>();
 
-        costumers.add(costumer2);
-        costumers.add(costumer3);
+        customers.add(customer2);
+        customers.add(customer3);
 
-        assertEquals(costumers, costumerDao.getAll());
+        assertEquals(customers, customerDao.getAll());
     }
 
     @Test
-    void visualizeAllCostumer() {
-        ArrayList<Costumer> allCostumers = new ArrayList<>();
+    void visualizeAllCustomer() {
+        ArrayList<Customer> allCustomers = new ArrayList<>();
 
-        Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
-        Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
-        Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
+        Customer customer1 = new Customer("Giulio", "Cesare", "78254821");
+        Customer customer2 = new Customer("Cice", "Rone", "45235314");
+        Customer customer3 = new Customer("Giulio", "Camillo", "4214214214");
 
-        allCostumers.add(costumer1);
-        allCostumers.add(costumer2);
-        allCostumers.add(costumer3);
+        allCustomers.add(customer1);
+        allCustomers.add(customer2);
+        allCustomers.add(customer3);
 
-        costumerDao.add(costumer1);
-        costumerDao.add(costumer2);
-        costumerDao.add(costumer3);
+        customerDao.add(customer1);
+        customerDao.add(customer2);
+        customerDao.add(customer3);
 
-        assertEquals(allCostumers, receptionistController.visualizeAllCostumer());
+        assertEquals(allCustomers, receptionistController.visualizeAllCustomer());
     }
 
     @Test
     void visualizeAllTypeOfAccess() {
         LocalDate actualDate = LocalDate.of(2022, 4, 21);
 
-        Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
-        Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
-        Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
-        Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
+        Customer customer1 = new Customer("Giulio", "Cesare", "78254821");
+        Customer customer2 = new Customer("Cice", "Rone", "45235314");
+        Customer customer3 = new Customer("Giulio", "Camillo", "4214214214");
+        Customer customer4 = new Customer("Tommaso", "Botarelli", "8723521631");
 
         Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
-        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer2, genericBill);
-        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer3, genericBill);
-        Daily daily2 = new Daily(LocalDate.now().plusMonths(3), costumer4, genericBill);
+        TrialSubscription trialSubscription1 = new TrialSubscription(customer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, customer2, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), customer3, genericBill);
+        Daily daily2 = new Daily(LocalDate.now().plusMonths(3), customer4, genericBill);
 
         ArrayList<AccessType> allSubscriptions = new ArrayList<>();
 
@@ -143,94 +143,94 @@ class ReceptionistControllerTest {
     }
 
     @Test
-    void visualizeTypeOfAccessFromCostumer() {
+    void visualizeTypeOfAccessFromCustomer() {
         LocalDate actualDate = LocalDate.of(2022, 4, 21);
 
-        Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
-        Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
-        Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
-        Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
+        Customer customer1 = new Customer("Giulio", "Cesare", "78254821");
+        Customer customer2 = new Customer("Cice", "Rone", "45235314");
+        Customer customer3 = new Customer("Giulio", "Camillo", "4214214214");
+        Customer customer4 = new Customer("Tommaso", "Botarelli", "8723521631");
 
         Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
-        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer2, genericBill);
-        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer3, genericBill);
-        Daily daily2 = new Daily(LocalDate.now().plusMonths(3), costumer4, genericBill);
+        TrialSubscription trialSubscription1 = new TrialSubscription(customer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, customer2, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), customer3, genericBill);
+        Daily daily2 = new Daily(LocalDate.now().plusMonths(3), customer4, genericBill);
 
-        ArrayList<AccessType> subscriptionOfCostumer1 = new ArrayList<>();
+        ArrayList<AccessType> subscriptionOfCustomer1 = new ArrayList<>();
 
-        subscriptionOfCostumer1.add(trialSubscription1);
+        subscriptionOfCustomer1.add(trialSubscription1);
 
         trialSubscriptionDao.add(trialSubscription1);
         subscriptionDao.add(subscription2);
         dailyDao.addDaily(daily1);
         dailyDao.addDaily(daily2);
 
-        assertEquals(subscriptionOfCostumer1, receptionistController.getAllAccessTypeFromCostumer(costumer1));
+        assertEquals(subscriptionOfCustomer1, receptionistController.getAllAccessTypeFromCustomer(customer1));
     }
 
     @Test
-    void findCostumer() {
-        Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
-        Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
-        Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
-        Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
-        Costumer costumer4bis = new Costumer("Tommaso", "Botarelli", "452341324214");
+    void findCustomer() {
+        Customer customer1 = new Customer("Giulio", "Cesare", "78254821");
+        Customer customer2 = new Customer("Cice", "Rone", "45235314");
+        Customer customer3 = new Customer("Giulio", "Camillo", "4214214214");
+        Customer customer4 = new Customer("Tommaso", "Botarelli", "8723521631");
+        Customer customer4Bis = new Customer("Tommaso", "Botarelli", "452341324214");
 
-        ArrayList<Costumer> costumersWithSameNameSurname = new ArrayList<>();
-        costumersWithSameNameSurname.add(costumer4);
-        costumersWithSameNameSurname.add(costumer4bis);
+        ArrayList<Customer> customersWithSameNameSurname = new ArrayList<>();
+        customersWithSameNameSurname.add(customer4);
+        customersWithSameNameSurname.add(customer4Bis);
 
-        costumerDao.add(costumer1);
-        costumerDao.add(costumer2);
-        costumerDao.add(costumer3);
-        costumerDao.add(costumer4);
-        costumerDao.add(costumer4bis);
+        customerDao.add(customer1);
+        customerDao.add(customer2);
+        customerDao.add(customer3);
+        customerDao.add(customer4);
+        customerDao.add(customer4Bis);
 
-        assertEquals(0, receptionistController.findCostumer("Giulio", "Giuli").size());
-        assertEquals(costumersWithSameNameSurname, receptionistController.findCostumer("Tommaso", "Botarelli"));
+        assertEquals(0, receptionistController.findCustomer("Giulio", "Giuli").size());
+        assertEquals(customersWithSameNameSurname, receptionistController.findCustomer("Tommaso", "Botarelli"));
     }
 
     @Test
-    void selectCostumer() {
-        Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
-        Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
-        Costumer costumer3 = new Costumer("Giulio", "Camillo", "4214214214");
-        Costumer costumer4 = new Costumer("Tommaso", "Botarelli", "8723521631");
-        Costumer costumer4bis = new Costumer("Tommaso", "Botarelli", "452341324214");
+    void selectCustomer() {
+        Customer customer1 = new Customer("Giulio", "Cesare", "78254821");
+        Customer customer2 = new Customer("Cice", "Rone", "45235314");
+        Customer customer3 = new Customer("Giulio", "Camillo", "4214214214");
+        Customer customer4 = new Customer("Tommaso", "Botarelli", "8723521631");
+        Customer customer4Bis = new Customer("Tommaso", "Botarelli", "452341324214");
 
-        costumerDao.add(costumer1);
-        costumerDao.add(costumer2);
-        costumerDao.add(costumer3);
-        costumerDao.add(costumer4);
-        costumerDao.add(costumer4bis);
+        customerDao.add(customer1);
+        customerDao.add(customer2);
+        customerDao.add(customer3);
+        customerDao.add(customer4);
+        customerDao.add(customer4Bis);
 
-        assertNull(receptionistController.selectCostumer("Gianluca", "Rossi", "65725181"));
-        assertEquals(costumer4bis, receptionistController.selectCostumer("Tommaso", "Botarelli", "452341324214"));
+        assertNull(receptionistController.selectCustomer("Gianluca", "Rossi", "65725181"));
+        assertEquals(customer4Bis, receptionistController.selectCustomer("Tommaso", "Botarelli", "452341324214"));
     }
 
     @Test
-    void addAccessForCostumerFromBadge() {
-        Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
-        Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
+    void addAccessForCustomerFromBadge() {
+        Customer customer1 = new Customer("Giulio", "Cesare", "78254821");
+        Customer customer2 = new Customer("Cice", "Rone", "45235314");
 
-        costumerDao.add(costumer1);
-        costumerDao.add(costumer2);
+        customerDao.add(customer1);
+        customerDao.add(customer2);
 
-        Badge badge1 = new Badge(costumer1);
-        Badge badge2 = new Badge(costumer2);
+        Badge badge1 = new Badge(customer1);
+        Badge badge2 = new Badge(customer2);
 
         long id1 = badgeDao.addBadge(badge1);
-        //Il badge di costumer 2 non esiste nel sistema.
+        //Il badge di Customer 2 non esiste nel sistema.
         long id2 = id1 + 1;
 
         Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, LocalDate.now());
-        Subscription subscription2 = new Subscription(LocalDate.now(), TypeOfSub.MONTHLY, costumer2, genericBill);
-        Daily daily1 = new Daily(LocalDate.now().plusMonths(2), costumer1, genericBill);
-        Daily daily2 = new Daily(LocalDate.now().plusMonths(2), costumer2, genericBill);
+        TrialSubscription trialSubscription1 = new TrialSubscription(customer1, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now(), TypeOfSub.MONTHLY, customer2, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(2), customer1, genericBill);
+        Daily daily2 = new Daily(LocalDate.now().plusMonths(2), customer2, genericBill);
 
         trialSubscriptionDao.add(trialSubscription1);
         subscriptionDao.add(subscription2);
@@ -240,9 +240,9 @@ class ReceptionistControllerTest {
         boolean result = false;
 
         try{
-            receptionistController.addAccessForCostumerFromBadge(id1, LocalDateTime.now().plusDays(1));
+            receptionistController.addAccessForCustomerFromBadge(id1, LocalDateTime.now().plusDays(1));
             result = true;
-            assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
+            assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCustomer(customer1).get(0).getAccessTime());
         }
         catch (Exception e){
             System.out.println(e.getMessage() + " non dovrebbe essere stampato");
@@ -252,7 +252,7 @@ class ReceptionistControllerTest {
         result = false;
 
         try{
-            receptionistController.addAccessForCostumerFromBadge(id1, LocalDateTime.now().plusMonths(1));
+            receptionistController.addAccessForCustomerFromBadge(id1, LocalDateTime.now().plusMonths(1));
             result = true;
         }
         catch (Exception e){
@@ -262,17 +262,17 @@ class ReceptionistControllerTest {
         assertFalse(result);
 
         try{
-            receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusDays(1));
+            receptionistController.addAccessForCustomerFromBadge(id2, LocalDateTime.now().plusDays(1));
         }
         catch(Exception e){
-            assertEquals("A costumer with this id doesn't exist", e.getMessage());
+            assertEquals("A Customer with this id doesn't exist", e.getMessage());
         }
 
         result = false;
-        id2 = badgeDao.addBadge(new Badge(costumer2));
+        id2 = badgeDao.addBadge(new Badge(customer2));
 
         try{
-            receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusMonths(2));
+            receptionistController.addAccessForCustomerFromBadge(id2, LocalDateTime.now().plusMonths(2));
             result = true;
         }
         catch (Exception e){
@@ -283,7 +283,7 @@ class ReceptionistControllerTest {
         result = false;
 
         try{
-            receptionistController.addAccessForCostumerFromBadge(id2, LocalDateTime.now().plusMonths(10));
+            receptionistController.addAccessForCustomerFromBadge(id2, LocalDateTime.now().plusMonths(10));
             result = true;
         }
         catch (Exception e){
@@ -293,21 +293,21 @@ class ReceptionistControllerTest {
     }
 
     @Test
-    void addAccessForCostumer() {
+    void addAccessForCustomer() {
         LocalDateTime actualDatetime = LocalDateTime.now();
 
-        Costumer costumer1 = new Costumer("Giulio", "Cesare", "78254821");
-        Costumer costumer2 = new Costumer("Cice", "Rone", "45235314");
+        Customer customer1 = new Customer("Giulio", "Cesare", "78254821");
+        Customer customer2 = new Customer("Cice", "Rone", "45235314");
 
-        costumerDao.add(costumer1);
-        costumerDao.add(costumer2);
+        customerDao.add(customer1);
+        customerDao.add(customer2);
 
         Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        TrialSubscription trialSubscription1 = new TrialSubscription(costumer1, actualDatetime.toLocalDate());
-        Subscription subscription2 = new Subscription(actualDatetime.toLocalDate(), TypeOfSub.MONTHLY, costumer2, genericBill);
-        Daily daily1 = new Daily(actualDatetime.toLocalDate().plusMonths(2), costumer1, genericBill);
-        Daily daily2 = new Daily(actualDatetime.toLocalDate().plusMonths(2), costumer2, genericBill);
+        TrialSubscription trialSubscription1 = new TrialSubscription(customer1, actualDatetime.toLocalDate());
+        Subscription subscription2 = new Subscription(actualDatetime.toLocalDate(), TypeOfSub.MONTHLY, customer2, genericBill);
+        Daily daily1 = new Daily(actualDatetime.toLocalDate().plusMonths(2), customer1, genericBill);
+        Daily daily2 = new Daily(actualDatetime.toLocalDate().plusMonths(2), customer2, genericBill);
 
         trialSubscriptionDao.add(trialSubscription1);
         subscriptionDao.add(subscription2);
@@ -316,7 +316,7 @@ class ReceptionistControllerTest {
 
         boolean result = false;
         try{
-            receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(1));
+            receptionistController.addAccessForCustomer(customer1, LocalDateTime.now().plusDays(1));
             result = true;
         }
         catch (Exception e){
@@ -324,12 +324,12 @@ class ReceptionistControllerTest {
         }
 
         assertTrue(result);
-        assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCostumer(costumer1).get(0).getAccessTime());
+        assertEquals(LocalDateTime.now().plusDays(1), accessDao.getFromCustomer(customer1).get(0).getAccessTime());
 
         result = false;
 
         try{
-            receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(2));
+            receptionistController.addAccessForCustomer(customer2, LocalDateTime.now().plusMonths(2));
             result = true;
         }
         catch(Exception e){
@@ -339,7 +339,7 @@ class ReceptionistControllerTest {
 
         result = false;
         try {
-            receptionistController.addAccessForCostumer(costumer2, LocalDateTime.now().plusMonths(2));
+            receptionistController.addAccessForCustomer(customer2, LocalDateTime.now().plusMonths(2));
             result = true;
         }
         catch(Exception e){
@@ -350,7 +350,7 @@ class ReceptionistControllerTest {
         result = false;
 
         try{
-            receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now().plusDays(14));
+            receptionistController.addAccessForCustomer(customer1, LocalDateTime.now().plusDays(14));
             result = true;
         }
         catch(Exception e){
@@ -361,7 +361,7 @@ class ReceptionistControllerTest {
         result = false;
 
         try{
-            receptionistController.addAccessForCostumer(costumer1, LocalDateTime.now());
+            receptionistController.addAccessForCustomer(customer1, LocalDateTime.now());
             result = true;
         }
         catch(Exception e){
@@ -379,94 +379,94 @@ class ReceptionistControllerTest {
 
     @Test
     void addAccessType() {
-        Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
-        costumerDao.add(costumer1);
+        Customer customer1 = new Customer("Tommaso", "Botarelli", "8926735");
+        customerDao.add(customer1);
 
         Bill genericBill = new Bill(20f, LocalDateTime.now());
         long genericBillID = billDao.add(genericBill);
 
-        receptionistController.addAccessType("subscription", "trial", genericBillID, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "trial", genericBillID, LocalDate.now(), customer1);
 
         assertEquals(LocalDate.now(), trialSubscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusDays(14), trialSubscriptionDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, trialSubscriptionDao.getAll().get(0).getCostumerTarget());
+        assertEquals(customer1, trialSubscriptionDao.getAll().get(0).getCustomerTarget());
 
-        receptionistController.addAccessType("subscription", "monthly", genericBillID, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "monthly", genericBillID, LocalDate.now(), customer1);
 
         assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(1), subscriptionDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, subscriptionDao.getAll().get(0).getMyCostumer());
+        assertEquals(customer1, subscriptionDao.getAll().get(0).getMyCustomer());
         assertEquals(TypeOfSub.MONTHLY, subscriptionDao.getAll().get(0).getTypeOfSub());
 
         subscriptionDao.deleteAll();
 
-        receptionistController.addAccessType("subscription", "quarterly", genericBillID, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "quarterly", genericBillID, LocalDate.now(), customer1);
 
         assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(3), subscriptionDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, subscriptionDao.getAll().get(0).getMyCostumer());
+        assertEquals(customer1, subscriptionDao.getAll().get(0).getMyCustomer());
         assertEquals(TypeOfSub.QUARTERLY, subscriptionDao.getAll().get(0).getTypeOfSub());
 
         subscriptionDao.deleteAll();
 
-        receptionistController.addAccessType("subscription", "halfyearly", genericBillID, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "halfyearly", genericBillID, LocalDate.now(), customer1);
 
         assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(6), subscriptionDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, subscriptionDao.getAll().get(0).getMyCostumer());
+        assertEquals(customer1, subscriptionDao.getAll().get(0).getMyCustomer());
         assertEquals(TypeOfSub.HALFYEARLY, subscriptionDao.getAll().get(0).getTypeOfSub());
 
         subscriptionDao.deleteAll();
 
-        receptionistController.addAccessType("subscription", "yearly", genericBillID, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("subscription", "yearly", genericBillID, LocalDate.now(), customer1);
 
         assertEquals(LocalDate.now(), subscriptionDao.getAll().get(0).getEmission());
         assertEquals(LocalDate.now().plusMonths(12), subscriptionDao.getAll().get(0).getExpiration());
-        assertEquals(costumer1, subscriptionDao.getAll().get(0).getMyCostumer());
+        assertEquals(customer1, subscriptionDao.getAll().get(0).getMyCustomer());
         assertEquals(TypeOfSub.YEARLY, subscriptionDao.getAll().get(0).getTypeOfSub());
 
         subscriptionDao.deleteAll();
 
-        receptionistController.addAccessType("daily", "", genericBillID, LocalDate.now(), costumer1);
+        receptionistController.addAccessType("daily", "", genericBillID, LocalDate.now(), customer1);
 
         assertEquals(LocalDate.now(), dailyDao.getAll().get(0).getEmission());
-        assertEquals(costumer1, dailyDao.getAll().get(0).getMyCostumer());
+        assertEquals(customer1, dailyDao.getAll().get(0).getMyCustomer());
     }
 
     @Test
     void releaseBadge(){
-        Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
-        costumerDao.add(costumer1);
+        Customer customer1 = new Customer("Tommaso", "Botarelli", "8926735");
+        customerDao.add(customer1);
 
-        receptionistController.releaseBadge(costumer1);
+        receptionistController.releaseBadge(customer1);
 
-        Badge badge = new Badge(costumer1);
+        Badge badge = new Badge(customer1);
         badge.setId(0);
 
-        assertEquals(badge, badgeDao.getFromCostumer(costumer1));
+        assertEquals(badge, badgeDao.getFromCustomer(customer1));
     }
 
     @Test
-    void scanBadgeForGetCostumer(){
-        Costumer costumer1 = new Costumer("Tommaso", "Botarelli", "8926735");
-        costumerDao.add(costumer1);
+    void scanBadgeForGetCustomer(){
+        Customer customer1 = new Customer("Tommaso", "Botarelli", "8926735");
+        customerDao.add(customer1);
 
-        Badge badge = new Badge(costumer1);
+        Badge badge = new Badge(customer1);
         long id = badgeDao.addBadge(badge);
 
         try{
-            Costumer costumer = receptionistController.scanBadgeForGetCostumer(id);
-            assertEquals(costumer1, costumer);
+            Customer customer = receptionistController.scanBadgeForGetCustomer(id);
+            assertEquals(customer1, customer);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
 
         try{
-            Costumer costumer = receptionistController.scanBadgeForGetCostumer(9);
+            Customer customer = receptionistController.scanBadgeForGetCustomer(9);
         }
         catch (Exception e){
-            assertEquals("A costumer with this id doesn't exist", e.getMessage());
+            assertEquals("A Customer with this id doesn't exist", e.getMessage());
         }
     }
 }

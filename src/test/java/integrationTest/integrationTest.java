@@ -1,11 +1,8 @@
 package integrationTest;
 
 import businessLogic.*;
-import domainModel.GymManager;
-import domainModel.Receptionist;
 import domainModel.TrainingCard;
 import domainModel.TypeOfSub;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -25,7 +22,7 @@ public class integrationTest {
     private GymManagerController gymManagerWindow;
     private ReceptionistController receptionistWindow;
     private PersonalTrainerController personalTrainerWindow;
-    private CostumerController costumerWindow;
+    private CustomerController customerWindow;
 
     @Test
     void testOfTheSystem() {
@@ -75,7 +72,7 @@ public class integrationTest {
         gymManagerWindow.addPersonalTrainer("Elia", "Rossi", "345678909");
 
         /*
-        A costumer come to the gym, the receptionist Marco "login" and add the costumer.
+        A customer come to the gym, the receptionist Marco "login" and add the customer.
          */
 
         try {
@@ -85,32 +82,32 @@ public class integrationTest {
             System.out.println(e.getMessage() + " NO STAMPA");
         }
 
-        receptionistWindow.addCostumer("Marco", "De Luca", "3456789087");
+        receptionistWindow.addCustomer("Marco", "De Luca", "3456789087");
 
         /*
-        Then the costumer want to start immediately the trial subscription. The receptionist add this to the system.
+        Then the customer want to start immediately the trial subscription. The receptionist add this to the system.
          */
         receptionistWindow.addAccessType("subscription", "trial", 0, LocalDate.now(),
-                receptionistWindow.selectCostumer("Marco", "De Luca", "3456789087"));
+                receptionistWindow.selectCustomer("Marco", "De Luca", "3456789087"));
 
         /*
-        The receptionist release a new badge to the costumer and register this into the system.
+        The receptionist release a new badge to the customer and register this into the system.
          */
 
-        receptionistWindow.releaseBadge(receptionistWindow.selectCostumer("Marco", "De Luca", "3456789087"));
+        receptionistWindow.releaseBadge(receptionistWindow.selectCustomer("Marco", "De Luca", "3456789087"));
 
         /*
-        The costumer now can access to the gym and now uses the badge. In the after line of code we suppose that the sensor
+        The customer now can access to the gym and now uses the badge. In the after line of code we suppose that the sensor
         recognize the id of the badge.
          */
 
         try{
-            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now());
+            receptionistWindow.addAccessForCustomerFromBadge(0, LocalDateTime.now());
         }
         catch(Exception e){
             /*
             The system show the error dialog if the badge is not registered into the database, or if
-            the costumer can't access to the gym
+            the customer can't access to the gym
              */
             System.out.println(e.getMessage() + " NON DEVE STAMPARE");
         }
@@ -134,11 +131,11 @@ public class integrationTest {
         personalTrainerWindow.addStandardTrainingCard("Some exercise", 5, "Training Card");
 
         /*
-        First of all the personal trainer do a first evaluation of the new costumer.
+        First of all the personal trainer do a first evaluation of the new customer.
          */
 
         personalTrainerWindow.addEvaluation(
-                personalTrainerWindow.selectCostumer("Marco", "De Luca", "3456789087"),
+                personalTrainerWindow.selectCustomer("Marco", "De Luca", "3456789087"),
                 LocalDate.now().getYear(),
                 LocalDate.now().getMonthValue(),
                 LocalDate.now().getDayOfMonth(),
@@ -151,30 +148,30 @@ public class integrationTest {
         );
 
         /*
-        The personal trainer set a default training card (progress level 2) to the costumer.
+        The personal trainer set a default training card (progress level 2) to the customer.
          */
 
         personalTrainerWindow.copyTrainingCard(
                 personalTrainerWindow.getMyDefaultTrainingCard(2),
-                personalTrainerWindow.selectCostumer("Marco", "De Luca", "3456789087"),
+                personalTrainerWindow.selectCustomer("Marco", "De Luca", "3456789087"),
                 LocalDate.now(),
                 LocalDate.now().plusDays(14),
                 "TrainingCard copied"
         );
 
         /*
-        The costumer can see the training card from his window, first of all the costumer login to the system.
+        The customer can see the training card from his window, first of all the customer login to the system.
          */
 
         try {
-            costumerWindow = loginWindow.createCostumerSession("Marco", "De Luca", "3456789087");
+            customerWindow = loginWindow.createCustomerSession("Marco", "De Luca", "3456789087");
         }
         catch(Exception e){
             System.out.println(e.getMessage() + " NO STAMPA");
         }
 
         try {
-            costumerWindow.getMyCurrentTrainingCard(
+            customerWindow.getMyCurrentTrainingCard(
                     LocalDate.now().getDayOfMonth(),
                     LocalDate.now().getMonthValue(),
                     LocalDate.now().getYear()
@@ -182,18 +179,18 @@ public class integrationTest {
         }
         catch(Exception e){
             /*
-            If the system recognize that the costumer has no trainingCard show an error dialog.
+            If the system recognize that the customer has no trainingCard show an error dialog.
              */
             System.out.println(e.getMessage() + " NO");
         }
 
         /*
-        In the next days the costumer access to the gym.
+        In the next days the customer access to the gym.
          */
 
         try{
-            receptionistWindow.addAccessForCostumer(
-                    receptionistWindow.selectCostumer("Marco", "De Luca", "3456789087"),
+            receptionistWindow.addAccessForCustomer(
+                    receptionistWindow.selectCustomer("Marco", "De Luca", "3456789087"),
                     LocalDateTime.now()
             );
         }
@@ -202,7 +199,7 @@ public class integrationTest {
         }
 
         try {
-            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now().plusDays(10));
+            receptionistWindow.addAccessForCustomerFromBadge(0, LocalDateTime.now().plusDays(10));
         }
         catch(Exception e){
             System.out.println(e.getMessage() + " NO");
@@ -214,38 +211,38 @@ public class integrationTest {
          */
 
         try{
-            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now().plusDays(12));
+            receptionistWindow.addAccessForCustomerFromBadge(0, LocalDateTime.now().plusDays(12));
         }
         catch(Exception e){
             System.out.println("PRIMA STAMPA: " + e.getMessage());
         }
 
         /*
-        The receptionist receive the payment and a new subscription for the costumer is added to the system.
+        The receptionist receive the payment and a new subscription for the customer is added to the system.
          */
 
         receptionistWindow.addAccessType("subscription",
                 "monthly",
                 receptionistWindow.addPayment(TypeOfSub.MONTHLY, LocalDateTime.now().plusMonths(1)),
                 LocalDate.now().plusMonths(1),
-                receptionistWindow.selectCostumer("Marco", "De Luca", "3456789087"));
+                receptionistWindow.selectCustomer("Marco", "De Luca", "3456789087"));
 
         /*
-        The costumer use the badge for the access. (suppose that the sensor recognize the badge id)
+        The customer use the badge for the access. (suppose that the sensor recognize the badge id)
          */
 
         try {
-            receptionistWindow.addAccessForCostumerFromBadge(0, LocalDateTime.now().plusMonths(1));
+            receptionistWindow.addAccessForCustomerFromBadge(0, LocalDateTime.now().plusMonths(1));
         } catch (Exception e) {
             System.out.println(e.getMessage() + " (NO STAMPA)");
         }
 
         /*
-        The personal trainer add a new customize training card for the costumer.
+        The personal trainer add a new customize training card for the customer.
          */
 
         personalTrainerWindow.addCustomizeTrainingCard(
-                personalTrainerWindow.selectCostumer("Marco", "De Luca", "3456789087"),
+                personalTrainerWindow.selectCustomer("Marco", "De Luca", "3456789087"),
                 "Exercises",
                 2,
                 LocalDate.now().plusMonths(1).getDayOfMonth(),
@@ -258,11 +255,11 @@ public class integrationTest {
         );
 
         /*
-        The costumer use the training card.
+        The customer use the training card.
          */
 
         try {
-            TrainingCard trainingCard = costumerWindow.getMyCurrentTrainingCard(
+            TrainingCard trainingCard = customerWindow.getMyCurrentTrainingCard(
                     LocalDate.now().plusMonths(1).getDayOfMonth(),
                     LocalDate.now().plusMonths(1).getMonthValue(),
                     LocalDate.now().plusMonths(1).getYear()

@@ -1,7 +1,7 @@
 package dao.concreteClass;
 
 import dao.interfaceClass.DailyDao;
-import domainModel.Costumer;
+import domainModel.Customer;
 import domainModel.Daily;
 
 import java.util.ArrayList;
@@ -36,13 +36,13 @@ public class FakeDailyDao implements DailyDao {
     }
 
     @Override
-    public ArrayList<Daily> getFromCostumer(Costumer costumer) {
-        ArrayList<Daily> dailyOfCostumer = new ArrayList<>();
+    public ArrayList<Daily> getFromCustomer(Customer customer) {
+        ArrayList<Daily> dailyOfCustomer = new ArrayList<>();
         for (Daily d : dailySub){
-            if (d.getMyCostumer().equals(costumer))
-                dailyOfCostumer.add(d);
+            if (d.getMyCustomer().equals(customer))
+                dailyOfCustomer.add(d);
         }
-        return dailyOfCostumer;
+        return dailyOfCustomer;
     }
 
     @Override

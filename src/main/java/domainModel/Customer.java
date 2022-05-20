@@ -1,14 +1,14 @@
 package domainModel;
 
 
-public class Costumer {
+public class Customer {
 
     private String name;
     private String surname;
     private String phoneNumber;
 
 
-    public Costumer(String name, String surname, String phoneNumber){
+    public Customer(String name, String surname, String phoneNumber){
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
@@ -40,8 +40,8 @@ public class Costumer {
 
     @Override
     public boolean equals(Object obj) {
-        return this.name.equalsIgnoreCase(((Costumer)obj).getName()) &&
-                this.surname.equalsIgnoreCase(((Costumer)obj).getSurname()) &&
-                this.phoneNumber.equalsIgnoreCase(((Costumer)obj).getPhoneNumber());
+        return this.name.equalsIgnoreCase(((Customer)obj).getName()) &&
+                this.surname.equalsIgnoreCase(((Customer)obj).getSurname()) &&
+                this.phoneNumber.equalsIgnoreCase(((Customer)obj).getPhoneNumber());
     }
 }

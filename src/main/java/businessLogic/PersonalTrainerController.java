@@ -1,10 +1,10 @@
 package businessLogic;
 
-import dao.concreteClass.FakeCostumerDao;
+import dao.concreteClass.FakeCustomerDao;
 import dao.concreteClass.FakeEvaluationDao;
 import dao.concreteClass.FakePersonalTrainerDao;
 import dao.concreteClass.FakeTrainingCardDao;
-import dao.interfaceClass.CostumerDao;
+import dao.interfaceClass.CustomerDao;
 import dao.interfaceClass.EvaluationDao;
 import dao.interfaceClass.PersonalTrainerDao;
 import dao.interfaceClass.TrainingCardDao;
@@ -18,13 +18,13 @@ public class PersonalTrainerController {
 
     private PersonalTrainerDao personalTrainerDao;
     private TrainingCardDao trainingCardDao;
-    private CostumerDao costumerDao;
+    private CustomerDao customerDao;
     private EvaluationDao evaluationDao;
 
     public PersonalTrainerController(){
         personalTrainerDao = FakePersonalTrainerDao.getInstance();
         trainingCardDao = FakeTrainingCardDao.getInstance();
-        costumerDao = FakeCostumerDao.getInstance();
+        customerDao = FakeCustomerDao.getInstance();
         evaluationDao = FakeEvaluationDao.getInstance();
     }
 
@@ -44,12 +44,12 @@ public class PersonalTrainerController {
         return standardTrainingCard;
     }
 
-    public void addCustomizeTrainingCard(Costumer costumer, String exercises, int level, int emissionDay, int emissionMonth, int
+    public void addCustomizeTrainingCard(Customer customer, String exercises, int level, int emissionDay, int emissionMonth, int
                                 emissionYear, int expirationDay, int expirationMonth, int expirationYear, String name){
 
         TrainingCard trainingCard = new TrainingCard(exercises, level,false, thisPersonalTrainer);
 
-        trainingCard.setCostumer(costumer);
+        trainingCard.setCustomer(customer);
         trainingCard.setEmission(LocalDate.of(emissionYear, emissionMonth, emissionDay));
         trainingCard.setExpiration(LocalDate.of(expirationYear, expirationMonth, expirationDay));
         if(!name.isEmpty())
@@ -67,25 +67,25 @@ public class PersonalTrainerController {
         trainingCardDao.addTrainingCard(trainingCard);
     }
 
-    public ArrayList<Costumer> getAllCostumer(){
-        return costumerDao.getAll();
+    public ArrayList<Customer> getAllCustomer(){
+        return customerDao.getAll();
     }
 
-    public ArrayList<Costumer> findCostumer(String name, String surname){
-        return costumerDao.getFromNameSurname(name, surname);
+    public ArrayList<Customer> findCustomer(String name, String surname){
+        return customerDao.getFromNameSurname(name, surname);
     }
 
-    public void addEvaluation(Costumer costumer, int year, int month, int day, String comments, int progressLevel, float height,
+    public void addEvaluation(Customer customer, int year, int month, int day, String comments, int progressLevel, float height,
                               float weight, float leanMass, float fatMass){
         LocalDate date = LocalDate.of(year, month, day);
         Measurement measurement = new Measurement(height, weight, leanMass, fatMass);
-        Evaluation evaluation = new Evaluation(date, measurement, costumer);
+        Evaluation evaluation = new Evaluation(date, measurement, customer);
         evaluation.setPersonalTrainer(thisPersonalTrainer);
         evaluationDao.addEvaluation(evaluation);
     }
 
-    public ArrayList<Evaluation> getEvaluationOfCostumer(Costumer costumer){
-        return evaluationDao.getEvaluationOfCostumer(costumer);
+    public ArrayList<Evaluation> getEvaluationOfCustomer(Customer customer){
+        return evaluationDao.getEvaluationOfCustomer(customer);
     }
 
     public void deleteEvaluation(Evaluation evaluation){
@@ -100,9 +100,9 @@ public class PersonalTrainerController {
         return trainingCardDao.getTrainingCardFromPersonalTrainer(thisPersonalTrainer);
     }
 
-    public void copyTrainingCard(TrainingCard trainingCard, Costumer costumer, LocalDate emission, LocalDate expiration, String name){
+    public void copyTrainingCard(TrainingCard trainingCard, Customer customer, LocalDate emission, LocalDate expiration, String name){
         TrainingCard trainingCardCopied = new TrainingCard(trainingCard);
-        trainingCardCopied.setCostumer(costumer);
+        trainingCardCopied.setCustomer(customer);
         trainingCardCopied.setEmission(emission);
         trainingCardCopied.setExpiration(expiration);
         trainingCardCopied.setStandard(false);
@@ -122,8 +122,8 @@ public class PersonalTrainerController {
             throw new Exception("La scheda di allenamento selezionata non esiste");
     }
 
-    public Costumer selectCostumer(String name, String surname, String phoneNumber){
-        return costumerDao.getSelectedCostumer(name, surname, phoneNumber);
+    public Customer selectCustomer(String name, String surname, String phoneNumber){
+        return customerDao.getSelectedCustomer(name, surname, phoneNumber);
     }
 
     public TrainingCard getMyDefaultTrainingCard(int progressLevel){

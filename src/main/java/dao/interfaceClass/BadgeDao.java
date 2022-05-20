@@ -1,11 +1,11 @@
 package dao.interfaceClass;
 
 import domainModel.Badge;
-import domainModel.Costumer;
+import domainModel.Customer;
 
 public interface BadgeDao {
     long addBadge(Badge badge);
     void deleteBadge(Badge badge);
-    Costumer searchCostumerFromId(long id);
-    Badge getFromCostumer(Costumer costumer);
+    Customer searchCustomerFromId(long id);
+    Badge getFromCustomer(Customer customer);
 }

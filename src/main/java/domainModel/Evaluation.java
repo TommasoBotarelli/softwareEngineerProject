@@ -8,14 +8,14 @@ public class Evaluation {
     private final Measurement measurement;
     private String comments;
     private int progressLevel;
-    private Costumer costumer;
+    private Customer customer;
     private PersonalTrainer personalTrainer;
 
 
-    public Evaluation(LocalDate date, Measurement measurement, Costumer costumer) {
+    public Evaluation(LocalDate date, Measurement measurement, Customer customer) {
         this.date = date;
         this.measurement = measurement;
-        this.costumer = costumer;
+        this.customer = customer;
         this.progressLevel = 0;
         this.comments = "";
     }
@@ -48,12 +48,12 @@ public class Evaluation {
         return progressLevel;
     }
 
-    public Costumer getCostumer() {
-        return costumer;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCostumer(Costumer costumer) {
-        this.costumer = costumer;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Evaluation {
         Evaluation otherEvaluation = (Evaluation) obj;
         return this.measurement.equals(otherEvaluation.getMeasurement()) &&
                 this.date.isEqual(otherEvaluation.getDate()) &&
-                this.costumer.equals(otherEvaluation.getCostumer()) &&
+                this.customer.equals(otherEvaluation.getCustomer()) &&
                 this.comments.equals(otherEvaluation.getComments()) &&
                 this.progressLevel == otherEvaluation.getProgressLevel();
     }

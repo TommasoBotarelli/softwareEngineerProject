@@ -4,17 +4,17 @@ import java.time.LocalDateTime;
 
 public class Access {
 
-    private Costumer costumer;
+    private Customer customer;
     private LocalDateTime accessTime;
 
 
-    public Access(Costumer costumer, LocalDateTime actualDate) {
-        this.costumer = costumer;
+    public Access(Customer customer, LocalDateTime actualDate) {
+        this.customer = customer;
         this.accessTime = actualDate;
     }
 
-    public Costumer getCostumer() {
-        return costumer;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public LocalDateTime getAccessTime() {

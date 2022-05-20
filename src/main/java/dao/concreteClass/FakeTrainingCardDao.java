@@ -26,18 +26,18 @@ public class FakeTrainingCardDao implements TrainingCardDao {
     }
 
     @Override
-    public ArrayList<TrainingCard> getTrainingCardFromCostumer(Costumer costumer) {
-        ArrayList<TrainingCard> trainingCardsOfCostumer = new ArrayList<>();
+    public ArrayList<TrainingCard> getTrainingCardFromCustomer(Customer customer) {
+        ArrayList<TrainingCard> trainingCardsOfCustomer = new ArrayList<>();
 
         for(TrainingCard t : trainingCards){
             if (!t.isStandard()){
-                if (t.getCostumer().equals(costumer)){
-                    trainingCardsOfCostumer.add(t);
+                if (t.getCustomer().equals(customer)){
+                    trainingCardsOfCustomer.add(t);
                 }
             }
         }
 
-        return trainingCardsOfCostumer;
+        return trainingCardsOfCustomer;
     }
 
     @Override

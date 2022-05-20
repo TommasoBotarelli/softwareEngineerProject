@@ -2,7 +2,7 @@ package dao.concreteClass;
 
 import dao.interfaceClass.BadgeDao;
 import domainModel.Badge;
-import domainModel.Costumer;
+import domainModel.Customer;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -43,18 +43,18 @@ public class FakeBadgeDao implements BadgeDao {
     }
 
     @Override
-    public Costumer searchCostumerFromId(long id){
+    public Customer searchCustomerFromId(long id){
         if (badges.stream().anyMatch(badge -> badge.getId() == id)){
-            return badges.stream().filter(badge -> badge.getId() == id).collect(Collectors.toList()).get(0).getCostumer();
+            return badges.stream().filter(badge -> badge.getId() == id).collect(Collectors.toList()).get(0).getCustomer();
         }
         else
             return null;
     }
 
     @Override
-    public Badge getFromCostumer(Costumer costumer) {
-        if (badges.stream().anyMatch(badge -> badge.getCostumer().equals(costumer))){
-            return badges.stream().filter(badge -> badge.getCostumer().equals(costumer)).collect(Collectors.toList()).get(0);
+    public Badge getFromCustomer(Customer customer) {
+        if (badges.stream().anyMatch(badge -> badge.getCustomer().equals(customer))){
+            return badges.stream().filter(badge -> badge.getCustomer().equals(customer)).collect(Collectors.toList()).get(0);
         }
         else{
             return null;

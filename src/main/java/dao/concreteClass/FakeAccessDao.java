@@ -2,7 +2,7 @@ package dao.concreteClass;
 
 import dao.interfaceClass.AccessDao;
 import domainModel.Access;
-import domainModel.Costumer;
+import domainModel.Customer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,15 +39,15 @@ public class FakeAccessDao implements AccessDao {
     }
 
     @Override
-    public ArrayList<Access> getFromCostumer(Costumer costumer) {
-        ArrayList<Access> costumerAccess = new ArrayList<>();
+    public ArrayList<Access> getFromCustomer(Customer customer) {
+        ArrayList<Access> customerAccess = new ArrayList<>();
 
         for (Access access : acceses){
-            if (access.getCostumer() == costumer)
-                costumerAccess.add(access);
+            if (access.getCustomer() == customer)
+                customerAccess.add(access);
         }
 
-        return costumerAccess;
+        return customerAccess;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package dao.concreteClass;
 
 import dao.interfaceClass.SubscriptionDao;
-import domainModel.Costumer;
+import domainModel.Customer;
 import domainModel.Subscription;
 
 import java.util.ArrayList;
@@ -31,13 +31,13 @@ public class FakeSubscriptionDao implements SubscriptionDao {
     }
 
     @Override
-    public ArrayList<Subscription> getFromCostumer(Costumer costumer) {
-        ArrayList<Subscription> subOfCostumer = new ArrayList<>();
+    public ArrayList<Subscription> getFromCustomer(Customer customer) {
+        ArrayList<Subscription> subOfCustomer = new ArrayList<>();
         for(Subscription sub : this.subscriptions){
-            if (sub.getMyCostumer().equals(costumer))
-                subOfCostumer.add(sub);
+            if (sub.getMyCustomer().equals(customer))
+                subOfCustomer.add(sub);
         }
-        return subOfCostumer;
+        return subOfCustomer;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package dao.concreteClass;
 
 import dao.interfaceClass.TrialSubscriptionDao;
-import domainModel.Costumer;
+import domainModel.Customer;
 import domainModel.TrialSubscription;
 
 import java.util.ArrayList;
@@ -37,9 +37,9 @@ public class FakeTrialSubscriptionDao implements TrialSubscriptionDao {
     }
 
     @Override
-    public TrialSubscription getFromCostumer(Costumer costumer) {
-        if (trialSubscriptions.stream().anyMatch(trialSubscription -> trialSubscription.getCostumerTarget().equals(costumer))){
-            return trialSubscriptions.stream().filter(trialSubscription -> trialSubscription.getCostumerTarget().equals(costumer)).collect(Collectors.toList()).get(0);
+    public TrialSubscription getFromCustomer(Customer customer) {
+        if (trialSubscriptions.stream().anyMatch(trialSubscription -> trialSubscription.getCustomerTarget().equals(customer))){
+            return trialSubscriptions.stream().filter(trialSubscription -> trialSubscription.getCustomerTarget().equals(customer)).collect(Collectors.toList()).get(0);
         }
         return null;
     }

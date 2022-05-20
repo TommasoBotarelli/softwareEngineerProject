@@ -11,7 +11,7 @@ public class TrainingCard {
     private LocalDate emission;
     private LocalDate expiration;
     private PersonalTrainer personalTrainer;
-    private Costumer costumer;
+    private Customer customer;
     private boolean standard;
 
 
@@ -23,7 +23,7 @@ public class TrainingCard {
         this.standard = standard;
         this.emission = LocalDate.MIN;
         this.expiration = LocalDate.MAX;
-        this.costumer = null;
+        this.customer = null;
     }
 
     public TrainingCard(TrainingCard trainingCard){
@@ -34,7 +34,7 @@ public class TrainingCard {
         this.standard = trainingCard.standard;
         this.emission = trainingCard.emission;
         this.expiration = trainingCard.expiration;
-        this.costumer = null;
+        this.customer = null;
     }
 
     public void setStandard(boolean standard) {
@@ -45,12 +45,12 @@ public class TrainingCard {
         return exercises;
     }
 
-    public Costumer getCostumer() {
-        return costumer;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCostumer(Costumer costumer) {
-        this.costumer = costumer;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public void setEmission(LocalDate emission) {
@@ -103,7 +103,7 @@ public class TrainingCard {
                 this.emission.isEqual(trainingCard.emission) &&
                 this.expiration.isEqual(trainingCard.expiration) &&
                 this.personalTrainer.equals(trainingCard.personalTrainer) &&
-                this.costumer.equals(trainingCard.costumer) &&
+                this.customer.equals(trainingCard.customer) &&
                 this.standard == trainingCard.standard;
     }
 }

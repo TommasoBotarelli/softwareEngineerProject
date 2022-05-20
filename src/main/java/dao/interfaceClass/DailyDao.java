@@ -1,6 +1,6 @@
 package dao.interfaceClass;
 
-import domainModel.Costumer;
+import domainModel.Customer;
 import domainModel.Daily;
 
 import java.util.ArrayList;
@@ -8,6 +8,6 @@ import java.util.ArrayList;
 public interface DailyDao {
     boolean addDaily(Daily daily);
     ArrayList<Daily> getAll();
-    ArrayList<Daily> getFromCostumer(Costumer costumer);
+    ArrayList<Daily> getFromCustomer(Customer customer);
     void deleteAll();
 }

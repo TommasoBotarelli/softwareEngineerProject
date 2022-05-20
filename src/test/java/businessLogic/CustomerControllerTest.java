@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CostumerControllerTest {
+class CustomerControllerTest {
 
-    private static CostumerController costumerController = new CostumerController();
+    private static CustomerController customerController = new CustomerController();
 
-    private static CostumerDao costumerDao;
+    private static CustomerDao customerDao;
     private static TrainingCardDao trainingCardDao;
     private static PersonalTrainerDao personalTrainerDao;
     private static EvaluationDao evaluationDao;
@@ -30,7 +30,7 @@ class CostumerControllerTest {
         trialSubscriptionDao.deleteAll();
         subscriptionDao.deleteAll();
         dailyDao.deleteAll();
-        costumerDao.deleteAll();
+        customerDao.deleteAll();
         trainingCardDao.deleteAll();
         personalTrainerDao.deleteAll();
         evaluationDao.deleteAll();
@@ -41,7 +41,7 @@ class CostumerControllerTest {
         trialSubscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrialSubscriptionDao();
         subscriptionDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getSubscriptionDao();
         dailyDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getDailyDao();
-        costumerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCostumerDao();
+        customerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getCustomerDao();
         trainingCardDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getTrainingCardDao();
         personalTrainerDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getPersonalTrainerDao();
         evaluationDao = Objects.requireNonNull(DaoFactory.getDaoFactory(1)).getEvaluationDao();
@@ -49,55 +49,55 @@ class CostumerControllerTest {
 
     @Test
     void setCurrentUser() {
-        Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
-        costumerDao.add(costumer);
+        Customer customer = new Customer("Tommaso", "Botarelli", "123456789");
+        customerDao.add(customer);
 
-        costumerController.setCurrentUser(costumer);
+        customerController.setCurrentUser(customer);
 
-        assertEquals(costumer, costumerController.getThisCostumer());
+        assertEquals(customer, customerController.getThisCustomer());
     }
 
     @Test
     void getMyTypeOfAccess() {
-        Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
-        costumerDao.add(costumer);
+        Customer customer = new Customer("Tommaso", "Botarelli", "123456789");
+        customerDao.add(customer);
 
-        costumerController.setCurrentUser(costumer);
+        customerController.setCurrentUser(customer);
 
         Bill genericBill = new Bill(20f, LocalDateTime.now());
 
-        TrialSubscription trialSubscription1 = new TrialSubscription(costumer, LocalDate.now());
-        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, costumer, genericBill);
-        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), costumer, genericBill);
+        TrialSubscription trialSubscription1 = new TrialSubscription(customer, LocalDate.now());
+        Subscription subscription2 = new Subscription(LocalDate.now().plusMonths(1), TypeOfSub.MONTHLY, customer, genericBill);
+        Daily daily1 = new Daily(LocalDate.now().plusMonths(3), customer, genericBill);
 
-        ArrayList<AccessType> typeOfAccessOfCostumer = new ArrayList<>();
+        ArrayList<AccessType> typeOfAccessOfCustomer = new ArrayList<>();
 
-        typeOfAccessOfCostumer.add(trialSubscription1);
-        typeOfAccessOfCostumer.add(daily1);
-        typeOfAccessOfCostumer.add(subscription2);
+        typeOfAccessOfCustomer.add(trialSubscription1);
+        typeOfAccessOfCustomer.add(daily1);
+        typeOfAccessOfCustomer.add(subscription2);
 
         trialSubscriptionDao.add(trialSubscription1);
         subscriptionDao.add(subscription2);
         dailyDao.addDaily(daily1);
 
-        ArrayList<AccessType> myTypeOfAccess = costumerController.getMyAccessType();
-        assertEquals(myTypeOfAccess, typeOfAccessOfCostumer);
+        ArrayList<AccessType> myTypeOfAccess = customerController.getMyAccessType();
+        assertEquals(myTypeOfAccess, typeOfAccessOfCustomer);
     }
 
     @Test
     void getListOfMyTrainingCard() {
-        Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
-        costumerDao.add(costumer);
+        Customer customer = new Customer("Tommaso", "Botarelli", "123456789");
+        customerDao.add(customer);
 
-        costumerController.setCurrentUser(costumer);
+        customerController.setCurrentUser(customer);
 
         PersonalTrainer personalTrainer = new PersonalTrainer("Sandro", "Giusti", "763581610");
         personalTrainerDao.add(personalTrainer);
 
         TrainingCard trainingCard1 = new TrainingCard("Some exercises", 2, false, personalTrainer);
         TrainingCard trainingCard2 = new TrainingCard("Some exercises", 5, false, personalTrainer);
-        trainingCard1.setCostumer(costumer);
-        trainingCard2.setCostumer(costumer);
+        trainingCard1.setCustomer(customer);
+        trainingCard2.setCustomer(customer);
 
         trainingCardDao.addTrainingCard(trainingCard1);
         trainingCardDao.addTrainingCard(trainingCard2);
@@ -107,22 +107,22 @@ class CostumerControllerTest {
         trainingCards.add(trainingCard1);
         trainingCards.add(trainingCard2);
 
-        assertEquals(trainingCards, costumerController.getListOfMyTrainingCard());
+        assertEquals(trainingCards, customerController.getListOfMyTrainingCard());
     }
 
     @Test
     void getListOfMyEvaluation() {
-        Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
-        costumerDao.add(costumer);
+        Customer customer = new Customer("Tommaso", "Botarelli", "123456789");
+        customerDao.add(customer);
 
-        costumerController.setCurrentUser(costumer);
+        customerController.setCurrentUser(customer);
 
         PersonalTrainer personalTrainer = new PersonalTrainer("Sandro", "Giusti", "763581610");
         personalTrainerDao.add(personalTrainer);
 
         Measurement measurement = new Measurement(1.8f, 80f, 70f, 10f);
-        Evaluation evaluation1 = new Evaluation(LocalDate.now(), measurement, costumer);
-        Evaluation evaluation2 = new Evaluation(LocalDate.now().plusMonths(1), measurement, costumer);
+        Evaluation evaluation1 = new Evaluation(LocalDate.now(), measurement, customer);
+        Evaluation evaluation2 = new Evaluation(LocalDate.now().plusMonths(1), measurement, customer);
 
         evaluationDao.addEvaluation(evaluation1);
         evaluationDao.addEvaluation(evaluation2);
@@ -131,7 +131,7 @@ class CostumerControllerTest {
         evaluations.add(evaluation1);
         evaluations.add(evaluation2);
 
-        ArrayList<Evaluation> myEvaluations = costumerController.getListOfMyEvaluation();
+        ArrayList<Evaluation> myEvaluations = customerController.getListOfMyEvaluation();
         assertEquals(evaluations, myEvaluations);
     }
 
@@ -139,10 +139,10 @@ class CostumerControllerTest {
     void getMyCurrentTrainingCard(){
         LocalDate date = LocalDate.now();
 
-        Costumer costumer = new Costumer("Tommaso", "Botarelli", "123456789");
-        costumerDao.add(costumer);
+        Customer customer = new Customer("Tommaso", "Botarelli", "123456789");
+        customerDao.add(customer);
 
-        costumerController.setCurrentUser(costumer);
+        customerController.setCurrentUser(customer);
 
         PersonalTrainer personalTrainer = new PersonalTrainer("Sandro", "Giusti", "763581610");
         personalTrainerDao.add(personalTrainer);
@@ -150,11 +150,11 @@ class CostumerControllerTest {
         TrainingCard trainingCard1 = new TrainingCard("Some exercises", 2, false, personalTrainer);
         TrainingCard trainingCard2 = new TrainingCard("Some exercises", 5, false, personalTrainer);
 
-        trainingCard1.setCostumer(costumer);
+        trainingCard1.setCustomer(customer);
         trainingCard1.setEmission(LocalDate.now());
         trainingCard1.setExpiration(LocalDate.now().plusMonths(1));
 
-        trainingCard2.setCostumer(costumer);
+        trainingCard2.setCustomer(customer);
         trainingCard2.setEmission(LocalDate.now().plusMonths(2));
         trainingCard2.setExpiration(LocalDate.now().plusMonths(3));
 
@@ -162,7 +162,7 @@ class CostumerControllerTest {
         trainingCardDao.addTrainingCard(trainingCard2);
 
         try{
-            assertEquals(trainingCard1, costumerController.getMyCurrentTrainingCard(date.getDayOfMonth(), date.getMonthValue(), date.getYear()).get(0));
+            assertEquals(trainingCard1, customerController.getMyCurrentTrainingCard(date.getDayOfMonth(), date.getMonthValue(), date.getYear()).get(0));
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -170,7 +170,7 @@ class CostumerControllerTest {
 
         try{
             LocalDate secondDate = date.plusDays(35);
-            assertEquals(0, costumerController.getMyCurrentTrainingCard(secondDate.getDayOfMonth(), secondDate.getMonthValue(), secondDate.getYear()).size());
+            assertEquals(0, customerController.getMyCurrentTrainingCard(secondDate.getDayOfMonth(), secondDate.getMonthValue(), secondDate.getYear()).size());
         }
         catch (Exception e){
             assertEquals("Nessuna scheda da visualizzare", e.getMessage());

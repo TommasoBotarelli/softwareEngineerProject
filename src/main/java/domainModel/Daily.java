@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class Daily implements AccessType{
     private LocalDate emission;
-    private Costumer myCostumer;
+    private Customer myCustomer;
     private boolean used;
     private Bill bill;
 
-    public Daily(LocalDate emission, Costumer costumer, Bill bill){
+    public Daily(LocalDate emission, Customer customer, Bill bill){
         this.emission = emission;
         this.used = false;
-        this.myCostumer = costumer;
+        this.myCustomer = customer;
         this.bill = bill;
     }
 
@@ -19,8 +19,8 @@ public class Daily implements AccessType{
         return emission;
     }
 
-    public Costumer getMyCostumer() {
-        return myCostumer;
+    public Customer getMyCustomer() {
+        return myCustomer;
     }
 
     public boolean isUsed() {
