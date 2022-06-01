@@ -10,12 +10,6 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/*
-TODO
-    the login page uses the other controllers not a special one, so you must remove the loginController and
-    when a user want to access the loginWindow uses directly the controller of the type of user!!!
- */
-
 public class integrationTest {
 
     private LoginController loginWindow = new LoginController();
@@ -35,7 +29,7 @@ public class integrationTest {
             assertNotNull(gymManagerWindow);
         }
         catch(Exception e){
-            System.out.println(e.getMessage() + " NO STAMPA");
+            System.out.println(e.getMessage());
         }
 
         /*
@@ -61,7 +55,7 @@ public class integrationTest {
             gymManagerWindow = loginWindow.createGymManagerSession("name", "surname", "");
         }
         catch(Exception e){
-            System.out.println(e.getMessage() + " NO STAMPA");
+            System.out.println(e.getMessage());
         }
 
         /*
@@ -109,7 +103,7 @@ public class integrationTest {
             The system show the error dialog if the badge is not registered into the database, or if
             the customer can't access to the gym
              */
-            System.out.println(e.getMessage() + " NON DEVE STAMPARE");
+            System.out.println(e.getMessage());
         }
 
         /*
@@ -121,7 +115,7 @@ public class integrationTest {
             personalTrainerWindow = loginWindow.createPersonalTrainerSession("Elia", "Rossi", "345678909");
         }
         catch(Exception e){
-            System.out.println(e.getMessage() + "NO STAMPA");
+            System.out.println(e.getMessage());
         }
 
         personalTrainerWindow.addStandardTrainingCard("Some exercise", 1, "Training Card");
@@ -139,7 +133,7 @@ public class integrationTest {
                 LocalDate.now().getYear(),
                 LocalDate.now().getMonthValue(),
                 LocalDate.now().getDayOfMonth(),
-                "Some comments about the measurement and an evaluation",
+                "Some comments about measurements and evaluation",
                 2,
                 1.80f,
                 70f,
@@ -167,7 +161,7 @@ public class integrationTest {
             customerWindow = loginWindow.createCustomerSession("Marco", "De Luca", "3456789087");
         }
         catch(Exception e){
-            System.out.println(e.getMessage() + " NO STAMPA");
+            System.out.println(e.getMessage());
         }
 
         try {
@@ -181,7 +175,7 @@ public class integrationTest {
             /*
             If the system recognize that the customer has no trainingCard show an error dialog.
              */
-            System.out.println(e.getMessage() + " NO");
+            System.out.println(e.getMessage());
         }
 
         /*
@@ -191,7 +185,7 @@ public class integrationTest {
         try{
             receptionistWindow.addAccessForCustomer(
                     receptionistWindow.selectCustomer("Marco", "De Luca", "3456789087"),
-                    LocalDateTime.now()
+                    LocalDateTime.now().plusDays(2)
             );
         }
         catch(Exception e){
@@ -202,7 +196,7 @@ public class integrationTest {
             receptionistWindow.addAccessForCustomerFromBadge(0, LocalDateTime.now().plusDays(10));
         }
         catch(Exception e){
-            System.out.println(e.getMessage() + " NO");
+            System.out.println(e.getMessage());
         }
 
         /*
@@ -234,7 +228,7 @@ public class integrationTest {
         try {
             receptionistWindow.addAccessForCustomerFromBadge(0, LocalDateTime.now().plusMonths(1));
         } catch (Exception e) {
-            System.out.println(e.getMessage() + " (NO STAMPA)");
+            System.out.println(e.getMessage());
         }
 
         /*
@@ -266,7 +260,7 @@ public class integrationTest {
             ).get(0);
             assertEquals("Customize TrainingCard", trainingCard.getName());
         } catch (Exception e) {
-            System.out.println(e.getMessage() + " NO STAMPA");
+            System.out.println(e.getMessage());
         }
     }
 }
