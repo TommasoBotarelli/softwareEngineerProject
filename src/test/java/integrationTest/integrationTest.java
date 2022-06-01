@@ -112,7 +112,8 @@ public class integrationTest {
          */
 
         try {
-            personalTrainerWindow = loginWindow.createPersonalTrainerSession("Elia", "Rossi", "345678909");
+            personalTrainerWindow = loginWindow.createPersonalTrainerSession("Elia", "Rossi",
+                    "345678909");
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -200,8 +201,8 @@ public class integrationTest {
         }
 
         /*
-        Then with the badge want to access to the gym for the 4th time but the system show an error dialog to the receptionist,
-        because he can't access to the gym.
+        Then with the badge want to access to the gym for the 4th time but the system show an error dialog to the
+        receptionist, because he can't access to the gym.
          */
 
         try{
